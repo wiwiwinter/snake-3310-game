@@ -1,0 +1,39 @@
+# Godot 4+ specific ignores
+.godot/
+.godot_export/
+
+# Exported builds & Android build artifacts
+*.apk
+*.aab
+*.ipa
+*.exe
+*.pck
+android/build/
+build/
+dist/
+
+# Signing keys & secrets (NEVER commit these)
+*.keystore
+*.jks
+*.p12
+*.pem
+*.key
+export_presets.cfg
+local.properties
+.env
+.env.*
+
+# Godot-specific Mono / C# / editor temporary files
+.mono/
+data_*/
+mono_crash.*.json
+*.tmp
+*.log
+
+# OS & IDE files
+.DS_Store
+Thumbs.db
+Desktop.ini
+*.swp
+*.swo
+*~
