@@ -107,9 +107,23 @@ func _test_screen_navigation_and_tap_targets(main_node: Main) -> void:
 	_assert_true(main_node.game_scene.session.state == SnakeGameSession.State.READY, "New game should start in READY state")
 	_assert_true(main_node.game_scene.ready_overlay.visible, "ReadyOverlay should be visible in READY state")
 
-	# First directional input transitions READY -> PLAYING
-	_assert_true(main_node.game_scene.request_direction(Vector2i.UP), "Directional input should start game from READY")
-	_assert_true(main_node.game_scene.session.state == SnakeGameSession.State.PLAYING, "Game should transition to PLAYING")
+	# Verify real Android InputEventScreenTouch + InputEventScreenDrag swipe starts READY -> PLAYING and turns snake.
+	var touch_down := InputEventScreenTouch.new()
+	touch_down.pressed = true
+	touch_down.position = Vector2(180, 260)
+	main_node.game_scene._input(touch_down)
+
+	var touch_drag := InputEventScreenDrag.new()
+	touch_drag.position = Vector2(180, 210) # Swipe UP (50px)
+	main_node.game_scene._input(touch_drag)
+
+	var touch_up := InputEventScreenTouch.new()
+	touch_up.pressed = false
+	touch_up.position = Vector2(180, 210)
+	main_node.game_scene._input(touch_up)
+
+	_assert_true(main_node.game_scene.session.state == SnakeGameSession.State.PLAYING, "Touch swipe should transition READY -> PLAYING")
+	_assert_true(main_node.game_scene.session.snake.get_next_direction() == Vector2i.UP, "Touch swipe UP should queue UP direction")
 	_assert_true(not main_node.game_scene.ready_overlay.visible, "ReadyOverlay should hide when PLAYING")
 
 	# Pause & resume

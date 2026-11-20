@@ -26,8 +26,8 @@ func _process(delta: float) -> void:
 		_complete()
 
 
-func _unhandled_input(event: InputEvent) -> void:
-	if _done:
+func _input(event: InputEvent) -> void:
+	if not visible or _done:
 		return
 	if event is InputEventScreenTouch and event.pressed:
 		_complete()

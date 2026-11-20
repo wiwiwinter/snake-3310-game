@@ -4,6 +4,9 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+### Fixed
+- Fixed Android touch/swipe gestures and Splash tap-to-skip being swallowed by `Control` panels (`_unhandled_input` -> `_input`), filtered multi-touch to primary finger (`index == 0`), prevented duplicate `emulate_mouse_from_touch` drag events on Android, and tightened swipe threshold to `22px`.
+
 ### Added
 - **Phase 9: Android Packaging & Modern-Retro UI Polish**
   - Enabled `textures/vram_compression/import_etc2_astc=true` in `project.godot` for Android export compatibility and bumped version to `1.0.0`.

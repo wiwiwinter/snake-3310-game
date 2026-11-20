@@ -116,6 +116,16 @@ func _notification(what: int) -> void:
 			toggle_pause()
 
 
+func _input(event: InputEvent) -> void:
+	if not visible or session == null:
+		return
+	if session.state == SnakeGameSession.State.PAUSED or session.state == SnakeGameSession.State.GAME_OVER:
+		_swipe_detector.end_drag()
+		return
+	# Handle touch/pointer swipes in _input so Control panels/labels cannot swallow drag events.
+	_handle_swipe_input(event)
+
+
 func _unhandled_input(event: InputEvent) -> void:
 	if not visible or session == null:
 		return
@@ -143,8 +153,6 @@ func _unhandled_input(event: InputEvent) -> void:
 		request_direction(Vector2i.LEFT)
 	elif event.is_action_pressed("move_right"):
 		request_direction(Vector2i.RIGHT)
-	else:
-		_handle_swipe_input(event)
 
 
 func _process(delta: float) -> void:
@@ -181,23 +189,29 @@ func _process(delta: float) -> void:
 
 func _handle_swipe_input(event: InputEvent) -> void:
 	if event is InputEventScreenTouch:
+		if event.index != 0:
+			return
 		if event.pressed:
 			_swipe_detector.begin_drag(event.position)
 		else:
 			_swipe_detector.end_drag()
 	elif event is InputEventScreenDrag:
+		if event.index != 0:
+			return
 		var dir: Vector2i = _swipe_detector.update_drag(event.position)
 		if dir != Vector2i.ZERO:
 			request_direction(dir)
-	elif event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
-		if event.pressed:
-			_swipe_detector.begin_drag(event.position)
-		else:
-			_swipe_detector.end_drag()
-	elif event is InputEventMouseMotion and (event.button_mask & MOUSE_BUTTON_MASK_LEFT) != 0:
-		var dir: Vector2i = _swipe_detector.update_drag(event.position)
-		if dir != Vector2i.ZERO:
-			request_direction(dir)
+	elif not OS.has_feature("android"):
+		# Desktop mouse-drag fallback (skipped on Android to avoid duplicate emulate_mouse_from_touch events).
+		if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
+			if event.pressed:
+				_swipe_detector.begin_drag(event.position)
+			else:
+				_swipe_detector.end_drag()
+		elif event is InputEventMouseMotion and (event.button_mask & MOUSE_BUTTON_MASK_LEFT) != 0:
+			var dir: Vector2i = _swipe_detector.update_drag(event.position)
+			if dir != Vector2i.ZERO:
+				request_direction(dir)
 
 
 func _connect_controls() -> void:

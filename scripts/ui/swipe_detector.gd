@@ -2,7 +2,7 @@ class_name SwipeDetector
 extends RefCounted
 ## Converts touch/pointer drags into cardinal directions once movement exceeds a deadzone.
 
-const DEFAULT_THRESHOLD_PX: float = 28.0
+const DEFAULT_THRESHOLD_PX: float = 22.0
 
 var threshold_px: float
 var _tracking: bool = false
