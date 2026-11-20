@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene load_steps=4 format=3]
 
 [ext_resource type="Script" path="res://scripts/gameplay/game_scene.gd" id="1_game_scene"]
 [ext_resource type="Script" path="res://scripts/gameplay/board_renderer.gd" id="2_board_renderer"]
+[ext_resource type="Script" path="res://scripts/ui/circular_dpad.gd" id="3_circular_dpad"]
 
 [node name="GameScene" type="Control"]
 layout_mode = 3
@@ -240,64 +241,11 @@ alignment = 1
 [node name="DpadCenter" type="CenterContainer" parent="SafeMargin/MainColumn/KeypadDeck"]
 layout_mode = 2
 
-[node name="DpadGrid" type="GridContainer" parent="SafeMargin/MainColumn/KeypadDeck/DpadCenter"]
-layout_mode = 2
-theme_override_constants/h_separation = 8
-theme_override_constants/v_separation = 6
-columns = 3
-
-[node name="PadTL" type="Control" parent="SafeMargin/MainColumn/KeypadDeck/DpadCenter/DpadGrid"]
-custom_minimum_size = Vector2(74, 52)
-layout_mode = 2
-
-[node name="UpButton" type="Button" parent="SafeMargin/MainColumn/KeypadDeck/DpadCenter/DpadGrid"]
+[node name="CircularDpad" type="Control" parent="SafeMargin/MainColumn/KeypadDeck/DpadCenter"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(74, 52)
+custom_minimum_size = Vector2(164, 164)
 layout_mode = 2
-theme_override_font_sizes/font_size = 26
-text = "▲"
-
-[node name="PadTR" type="Control" parent="SafeMargin/MainColumn/KeypadDeck/DpadCenter/DpadGrid"]
-custom_minimum_size = Vector2(74, 52)
-layout_mode = 2
-
-[node name="LeftButton" type="Button" parent="SafeMargin/MainColumn/KeypadDeck/DpadCenter/DpadGrid"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(74, 52)
-layout_mode = 2
-theme_override_font_sizes/font_size = 26
-text = "◀"
-
-[node name="PadCenter" type="CenterContainer" parent="SafeMargin/MainColumn/KeypadDeck/DpadCenter/DpadGrid"]
-custom_minimum_size = Vector2(74, 52)
-layout_mode = 2
-
-[node name="Pivot" type="ColorRect" parent="SafeMargin/MainColumn/KeypadDeck/DpadCenter/DpadGrid/PadCenter"]
-custom_minimum_size = Vector2(24, 24)
-layout_mode = 2
-color = Color(0.0588235, 0.219608, 0.0588235, 1)
-
-[node name="RightButton" type="Button" parent="SafeMargin/MainColumn/KeypadDeck/DpadCenter/DpadGrid"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(74, 52)
-layout_mode = 2
-theme_override_font_sizes/font_size = 26
-text = "▶"
-
-[node name="PadBL" type="Control" parent="SafeMargin/MainColumn/KeypadDeck/DpadCenter/DpadGrid"]
-custom_minimum_size = Vector2(74, 52)
-layout_mode = 2
-
-[node name="DownButton" type="Button" parent="SafeMargin/MainColumn/KeypadDeck/DpadCenter/DpadGrid"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(74, 52)
-layout_mode = 2
-theme_override_font_sizes/font_size = 26
-text = "▼"
-
-[node name="PadBR" type="Control" parent="SafeMargin/MainColumn/KeypadDeck/DpadCenter/DpadGrid"]
-custom_minimum_size = Vector2(74, 52)
-layout_mode = 2
+script = ExtResource("3_circular_dpad")
 
 [node name="ActionRow" type="HBoxContainer" parent="SafeMargin/MainColumn/KeypadDeck"]
 layout_mode = 2

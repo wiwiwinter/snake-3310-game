@@ -5,6 +5,7 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 
 ### Fixed
+- Replaced separate D-pad buttons with a unified monochrome `CircularDpad` (`scripts/ui/circular_dpad.gd`, `164x164`) supporting continuous 360-degree hold-and-roll thumb motion across all 4 quadrants with live wedge highlighting.
 - Fixed Android touch/swipe gestures and Splash tap-to-skip being swallowed by `Control` panels (`_unhandled_input` -> `_input`), filtered multi-touch to primary finger (`index == 0`), prevented duplicate `emulate_mouse_from_touch` drag events on Android, and tightened swipe threshold to `22px`.
 
 ### Added

@@ -135,6 +135,38 @@ func _test_screen_navigation_and_tap_targets(main_node: Main) -> void:
 	_assert_true(main_node.game_scene.session.state == SnakeGameSession.State.PLAYING, "toggle_pause should resume PLAYING")
 	_assert_true(not main_node.game_scene.pause_overlay.visible, "PauseOverlay should hide on resume")
 
+	# Verify CircularDpad continuous 360-degree hold-and-roll motion emits all 4 directions without releasing.
+	var dpad: CircularDpad = main_node.game_scene.circular_dpad
+	_assert_true(dpad != null and dpad.custom_minimum_size.x >= 150.0, "CircularDpad must exist with >=150px diameter")
+	dpad.size = dpad.custom_minimum_size
+	var recorded_dirs: Array[Vector2i] = []
+	var cb := func(d: Vector2i) -> void: recorded_dirs.append(d)
+	dpad.direction_changed.connect(cb)
+
+	var d_down := InputEventScreenTouch.new()
+	d_down.index = 0
+	d_down.pressed = true
+	d_down.position = Vector2(82, 20) # UP
+	dpad._gui_input(d_down)
+
+	for drag_pt in [Vector2(144, 82), Vector2(82, 144), Vector2(20, 82), Vector2(82, 20)]:
+		var d_drag := InputEventScreenDrag.new()
+		d_drag.index = 0
+		d_drag.position = drag_pt
+		dpad._gui_input(d_drag)
+
+	var d_up := InputEventScreenTouch.new()
+	d_up.index = 0
+	d_up.pressed = false
+	d_up.position = Vector2(82, 20)
+	dpad._gui_input(d_up)
+	dpad.direction_changed.disconnect(cb)
+
+	_assert_true(
+		recorded_dirs == [Vector2i.UP, Vector2i.RIGHT, Vector2i.DOWN, Vector2i.LEFT, Vector2i.UP],
+		"Circular D-pad hold-and-roll must emit UP->RIGHT->DOWN->LEFT->UP continuously"
+	)
+
 	# Verify minimum 44px tap target height on all interactive buttons across screens.
 	var buttons_to_check: Array[Button] = [
 		main_node.main_menu.play_button,
@@ -146,10 +178,6 @@ func _test_screen_navigation_and_tap_targets(main_node: Main) -> void:
 		main_node.settings_screen.music_button,
 		main_node.settings_screen.back_button,
 		main_node.high_score_screen.back_button,
-		main_node.game_scene.up_button,
-		main_node.game_scene.down_button,
-		main_node.game_scene.left_button,
-		main_node.game_scene.right_button,
 		main_node.game_scene.resume_button,
 		main_node.game_scene.pause_restart_button,
 		main_node.game_scene.pause_menu_button,

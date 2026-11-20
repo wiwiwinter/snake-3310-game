@@ -24,10 +24,7 @@ signal menu_requested
 
 @onready var pause_button: Button = %PauseButton
 @onready var restart_button: Button = %RestartButton
-@onready var up_button: Button = %UpButton
-@onready var down_button: Button = %DownButton
-@onready var left_button: Button = %LeftButton
-@onready var right_button: Button = %RightButton
+@onready var circular_dpad: CircularDpad = %CircularDpad
 
 var grid: GridSystem
 var session: SnakeGameSession
@@ -122,7 +119,10 @@ func _input(event: InputEvent) -> void:
 	if session.state == SnakeGameSession.State.PAUSED or session.state == SnakeGameSession.State.GAME_OVER:
 		_swipe_detector.end_drag()
 		return
-	# Handle touch/pointer swipes in _input so Control panels/labels cannot swallow drag events.
+	# Skip board swipe tracking when the touch is handled by the circular D-pad.
+	if circular_dpad != null and (event is InputEventScreenTouch or event is InputEventScreenDrag or event is InputEventMouseButton or event is InputEventMouseMotion):
+		if circular_dpad.get_global_rect().has_point(event.position):
+			return
 	_handle_swipe_input(event)
 
 
@@ -215,10 +215,7 @@ func _handle_swipe_input(event: InputEvent) -> void:
 
 
 func _connect_controls() -> void:
-	up_button.button_down.connect(func() -> void: request_direction(Vector2i.UP))
-	down_button.button_down.connect(func() -> void: request_direction(Vector2i.DOWN))
-	left_button.button_down.connect(func() -> void: request_direction(Vector2i.LEFT))
-	right_button.button_down.connect(func() -> void: request_direction(Vector2i.RIGHT))
+	circular_dpad.direction_changed.connect(request_direction)
 
 	pause_button.pressed.connect(toggle_pause)
 	restart_button.pressed.connect(restart_game)
@@ -232,8 +229,6 @@ func _connect_controls() -> void:
 
 
 func _style_keypad() -> void:
-	for btn in [up_button, down_button, left_button, right_button]:
-		LcdTheme.apply_pixel_button(btn, LcdTheme.ButtonVariant.CYAN)
 	LcdTheme.apply_pixel_button(pause_button, LcdTheme.ButtonVariant.AMBER)
 	LcdTheme.apply_pixel_button(restart_button, LcdTheme.ButtonVariant.RED)
 	LcdTheme.apply_pixel_button(resume_button, LcdTheme.ButtonVariant.GREEN)
