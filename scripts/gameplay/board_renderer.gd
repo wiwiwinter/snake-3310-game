@@ -8,10 +8,30 @@ var _grid: GridSystem = GridSystem.new()
 var _snake_cells: Array[Vector2i] = []
 var _snake_direction: Vector2i = GameConfig.INITIAL_DIRECTION
 var _food_cell: Vector2i = Vector2i(-1, -1)
+var _flash_timer: float = 0.0
+var _flash_is_collision: bool = false
 
 
 func _ready() -> void:
 	_update_board_size()
+	queue_redraw()
+
+
+func _process(delta: float) -> void:
+	if _flash_timer > 0.0:
+		_flash_timer = maxf(0.0, _flash_timer - delta)
+		queue_redraw()
+
+
+func trigger_eat_flash() -> void:
+	_flash_is_collision = false
+	_flash_timer = 0.12
+	queue_redraw()
+
+
+func trigger_collision_flash() -> void:
+	_flash_is_collision = true
+	_flash_timer = 0.24
 	queue_redraw()
 
 
@@ -46,8 +66,14 @@ func _draw() -> void:
 
 	var board_size: Vector2 = _grid.get_board_pixel_size()
 
-	# 1. LCD playfield background
-	draw_rect(Rect2(Vector2.ZERO, board_size), GameConfig.COLOR_LCD_BG, true)
+	# 1. LCD playfield background (briefly inverted/tinted on collision or eat feedback)
+	var bg_color: Color = GameConfig.COLOR_LCD_BG
+	if _flash_timer > 0.0:
+		if _flash_is_collision and int(_flash_timer * 25.0) % 2 == 0:
+			bg_color = GameConfig.COLOR_LCD_DARK
+		elif not _flash_is_collision:
+			bg_color = GameConfig.COLOR_LCD_LIGHT
+	draw_rect(Rect2(Vector2.ZERO, board_size), bg_color, true)
 
 	# 2. Subtle pixel grid lines
 	if show_grid_lines:

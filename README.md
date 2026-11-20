@@ -4,8 +4,8 @@ A lightweight, offline-first Android mobile game inspired by the classic Nokia 3
 
 ## Project Status
 
-- **Current Phase:** Phase 6 Complete, next: Phase 7 (Audio and Polish)
-- **Version:** `0.1.0` (Phase 6: UI/UX & Touch Controls Complete)
+- **Current Phase:** Phase 7 Complete, next: Phase 8 (Testing and Optimization)
+- **Version:** `0.1.0` (Phase 7: Audio and Polish Complete)
 
 ## Planned Features
 

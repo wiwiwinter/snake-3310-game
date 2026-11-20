@@ -3,6 +3,7 @@ extends Control
 ## Settings screen for difficulty, wall behavior, SFX, and music toggles.
 
 signal back_requested
+signal audio_settings_changed
 
 @onready var difficulty_button: Button = %DifficultyButton
 @onready var walls_button: Button = %WallsButton
@@ -54,6 +55,7 @@ func _on_toggle_sfx() -> void:
 		return
 	_score_manager.set_sfx_enabled(not _score_manager.sfx_enabled)
 	_update_labels()
+	audio_settings_changed.emit()
 
 
 func _on_toggle_music() -> void:
@@ -61,6 +63,7 @@ func _on_toggle_music() -> void:
 		return
 	_score_manager.set_music_enabled(not _score_manager.music_enabled)
 	_update_labels()
+	audio_settings_changed.emit()
 
 
 func _update_labels() -> void:

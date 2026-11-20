@@ -5,6 +5,11 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 
 ### Added
+- **Phase 7: Audio and Polish**
+  - Added `scripts/managers/audio_manager.gd` synthesizing original 16-bit PCM `AudioStreamWAV` piezo SFX (`eat`, `click`, `game_over`, `win`) and an optional looping chiptune background melody.
+  - Wired live `SFX` and `MUSIC` settings toggles from `SettingsScreen` to `AudioManager`.
+  - Added eat/collision LCD flash feedback to `scripts/gameplay/board_renderer.gd` and subtle 120ms screen transitions to `scripts/core/main.gd`.
+  - Added `tests/test_phase7_audio.gd` automated audio and visual feedback test suite.
 - **Phase 6: UI/UX Implementation**
   - Added shared monochrome LCD theme (`scripts/ui/lcd_theme.gd`) and cardinal swipe detector (`scripts/ui/swipe_detector.gd`).
   - Added Splash Screen (`scenes/menu/splash_screen.tscn`), Main Menu (`scenes/menu/main_menu.tscn`), Settings Screen (`scenes/settings/settings_screen.tscn`), and High Score Screen (`scenes/menu/high_score_screen.tscn`).

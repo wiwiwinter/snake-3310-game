@@ -2,8 +2,8 @@
 
 ## Current Status
 
-- **Active Phase:** Phase 6 Complete, ready for Phase 7 (Audio and Polish)
-- **Overall Progress:** 6 / 9 Phases Complete
+- **Active Phase:** Phase 7 Complete, ready for Phase 8 (Testing and Optimization)
+- **Overall Progress:** 7 / 9 Phases Complete
 
 ---
 
@@ -60,10 +60,10 @@
 - [x] Optimize portrait layout, monochrome LCD theme (`scripts/ui/lcd_theme.gd`), and Android focus-loss auto-pause
 
 ### Phase 7: Audio and Polish
-- [ ] Add original retro-inspired sound effects (eat, turn/UI click, game over)
-- [ ] Add optional retro background music
-- [ ] Add sound/music toggles in Settings
-- [ ] Add subtle transitions and visual feedback
+- [x] Add original retro-inspired sound effects (`scripts/managers/audio_manager.gd`: eat, click, game over, win)
+- [x] Add optional retro background music (procedural 8-bit chiptune loop)
+- [x] Add sound/music toggles in Settings (live `audio_settings_changed` hook)
+- [x] Add subtle transitions (`Main` 120ms LCD fade) and visual feedback (`BoardRenderer` eat/collision flash)
 
 ### Phase 8: Testing and Optimization
 - [ ] Test gameplay mechanics and edge cases

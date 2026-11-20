@@ -75,6 +75,7 @@ Restart your terminal or VS Code window once after installation so the updated u
   godot_console --path "d:\CODE\ANDROID GAME - SNAKE" --headless --script res://tests/test_phase4_gameplay.gd
   godot_console --path "d:\CODE\ANDROID GAME - SNAKE" --headless --script res://tests/test_phase5_scoring.gd
   godot_console --path "d:\CODE\ANDROID GAME - SNAKE" --headless --script res://tests/test_phase6_ui.gd
+  godot_console --path "d:\CODE\ANDROID GAME - SNAKE" --headless --script res://tests/test_phase7_audio.gd
   ```
 - **Visual / Manual Inspection:** Open the project in Godot 4.7.2 and press `F5` (or run `godot --path "d:\CODE\ANDROID GAME - SNAKE"`). Navigate menus via touch/click or keyboard (`Tab`/`Enter`/`Esc`), play using Arrow keys, WASD, on-screen D-pad, or mouse/touch swipes, and pause with `P` / `Esc` / `PAUSE`.
 
@@ -99,8 +100,9 @@ Restart your terminal or VS Code window once after installation so the updated u
 - `scripts/gameplay/snake_controller.gd`: Snake segment state, cardinal direction validation, 2-step turn queue, and grid stepping.
 - `scripts/gameplay/snake_game_session.gd`: Core Snake gameplay rules (random valid food spawning, growth, solid-wall/wraparound collision, self-collision, Game Over, and restart).
 - `scripts/managers/score_manager.gd`: Current score tracking, persistent local high scores (overall and per-difficulty via `ConfigFile`), and saved game settings (`difficulty`, `wrap_walls`, `sfx_enabled`, `music_enabled`).
-- `scripts/gameplay/board_renderer.gd`: Custom `_draw()` monochrome pixel renderer for the playfield grid, snake, and retro diamond food.
-- `tests/test_phase2_rendering.gd` through `tests/test_phase6_ui.gd`: Headless automated verification across rendering, movement, gameplay, scoring, and UI/navigation.
+- `scripts/managers/audio_manager.gd`: Procedural 16-bit mono `AudioStreamWAV` synthesizer for Nokia-inspired piezo SFX and optional looping chiptune background music.
+- `scripts/gameplay/board_renderer.gd`: Custom `_draw()` monochrome pixel renderer for the playfield grid, snake, retro diamond food, and eat/collision flash feedback.
+- `tests/test_phase2_rendering.gd` through `tests/test_phase7_audio.gd`: Headless automated verification across rendering, movement, gameplay, scoring, UI/navigation, and audio/polish.
 
 ---
 

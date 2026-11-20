@@ -32,6 +32,7 @@ signal menu_requested
 var grid: GridSystem
 var session: SnakeGameSession
 var score_manager: ScoreManager
+var audio_manager: AudioManager
 var move_interval: float = GameConfig.DEFAULT_MOVE_INTERVAL
 
 var _swipe_detector: SwipeDetector = SwipeDetector.new()
@@ -55,8 +56,9 @@ func _ready() -> void:
 	start_new_game(false)
 
 
-func configure(p_score_manager: ScoreManager) -> void:
+func configure(p_score_manager: ScoreManager, p_audio_manager: AudioManager = null) -> void:
 	score_manager = p_score_manager
+	audio_manager = p_audio_manager
 	move_interval = score_manager.get_move_interval()
 
 
@@ -154,9 +156,22 @@ func _process(delta: float) -> void:
 	while _move_accumulator >= move_interval:
 		_move_accumulator -= move_interval
 		var result: SnakeGameSession.TickResult = session.tick()
-		if result == SnakeGameSession.TickResult.ATE_FOOD or result == SnakeGameSession.TickResult.BOARD_CLEARED:
+		if result == SnakeGameSession.TickResult.ATE_FOOD:
 			if score_manager.add_points():
 				_achieved_new_record = true
+			board_renderer.trigger_eat_flash()
+			if audio_manager != null:
+				audio_manager.play_eat()
+		elif result == SnakeGameSession.TickResult.BOARD_CLEARED:
+			if score_manager.add_points():
+				_achieved_new_record = true
+			board_renderer.trigger_eat_flash()
+			if audio_manager != null:
+				audio_manager.play_win()
+		elif result == SnakeGameSession.TickResult.GAME_OVER_WALL or result == SnakeGameSession.TickResult.GAME_OVER_SELF:
+			board_renderer.trigger_collision_flash()
+			if audio_manager != null:
+				audio_manager.play_game_over()
 		_sync_view(result)
 		if session.state != SnakeGameSession.State.PLAYING:
 			if play_again_button != null and is_visible_in_tree():
