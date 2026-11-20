@@ -98,6 +98,7 @@ func configure(p_score_manager: ScoreManager, p_audio_manager: AudioManager = nu
 func start_new_game(start_immediately: bool = false) -> void:
 	if score_manager == null or session == null:
 		return
+	_apply_dpad_preferences()
 	_adapt_grid_to_stage(false)
 	_move_accumulator = 0.0
 	_achieved_new_record = false
@@ -106,6 +107,16 @@ func start_new_game(start_immediately: bool = false) -> void:
 	move_interval = score_manager.get_move_interval()
 	session.reset(score_manager.wrap_walls, start_immediately)
 	_sync_view()
+
+
+func _apply_dpad_preferences() -> void:
+	if score_manager == null or circular_dpad == null:
+		return
+	var pad_px: int = GameConfig.get_dpad_pixels(score_manager.dpad_size)
+	circular_dpad.custom_minimum_size = Vector2(pad_px, pad_px)
+	if keypad_deck != null:
+		keypad_deck.custom_minimum_size = Vector2(0, pad_px + 8)
+	circular_dpad.set_classic_style(score_manager.classic_dpad)
 
 
 func restart_game() -> void:
@@ -313,12 +324,7 @@ func _sync_view(last_result: SnakeGameSession.TickResult = SnakeGameSession.Tick
 	score_label.text = "SCR %04d" % score_manager.current_score
 	high_score_label.text = "HI %04d" % score_manager.high_score
 	difficulty_label.text = GameConfig.get_difficulty_name(score_manager.difficulty)
-	if circular_dpad != null:
-		var pad_px: int = GameConfig.get_dpad_pixels(score_manager.dpad_size)
-		circular_dpad.custom_minimum_size = Vector2(pad_px, pad_px)
-		if keypad_deck != null:
-			keypad_deck.custom_minimum_size = Vector2(0, pad_px + 8)
-		circular_dpad.set_classic_style(score_manager.classic_dpad)
+	_apply_dpad_preferences()
 
 	ready_overlay.visible = (session.state == SnakeGameSession.State.READY)
 	pause_overlay.visible = (session.state == SnakeGameSession.State.PAUSED)

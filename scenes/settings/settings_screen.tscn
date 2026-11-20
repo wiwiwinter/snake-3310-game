@@ -28,90 +28,96 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/margin_left = 18
-theme_override_constants/margin_top = 36
+theme_override_constants/margin_top = 24
 theme_override_constants/margin_right = 18
-theme_override_constants/margin_bottom = 36
+theme_override_constants/margin_bottom = 24
 
 [node name="LcdFrame" type="PanelContainer" parent="Margin"]
 layout_mode = 2
 
 [node name="InnerMargin" type="MarginContainer" parent="Margin/LcdFrame"]
 layout_mode = 2
-theme_override_constants/margin_left = 20
-theme_override_constants/margin_top = 24
-theme_override_constants/margin_right = 20
-theme_override_constants/margin_bottom = 24
+theme_override_constants/margin_left = 18
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 18
+theme_override_constants/margin_bottom = 16
 
-[node name="Layout" type="VBoxContainer" parent="Margin/LcdFrame/InnerMargin"]
+[node name="Scroll" type="ScrollContainer" parent="Margin/LcdFrame/InnerMargin"]
 layout_mode = 2
+horizontal_scroll_mode = 0
+
+[node name="Layout" type="VBoxContainer" parent="Margin/LcdFrame/InnerMargin/Scroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
 theme_override_constants/separation = 10
 alignment = 1
 
-[node name="Title" type="Label" parent="Margin/LcdFrame/InnerMargin/Layout"]
+[node name="Title" type="Label" parent="Margin/LcdFrame/InnerMargin/Scroll/Layout"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "SETTINGS"
 horizontal_alignment = 1
 
-[node name="Divider" type="ColorRect" parent="Margin/LcdFrame/InnerMargin/Layout"]
+[node name="Divider" type="ColorRect" parent="Margin/LcdFrame/InnerMargin/Scroll/Layout"]
 custom_minimum_size = Vector2(0, 2)
 layout_mode = 2
 color = Color(0.0588235, 0.219608, 0.0588235, 1)
 
-[node name="DifficultyButton" type="Button" parent="Margin/LcdFrame/InnerMargin/Layout"]
+[node name="DifficultyButton" type="Button" parent="Margin/LcdFrame/InnerMargin/Scroll/Layout"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 44)
 layout_mode = 2
 theme_override_font_sizes/font_size = 15
 text = "SPEED: NORMAL"
 
-[node name="WallsButton" type="Button" parent="Margin/LcdFrame/InnerMargin/Layout"]
+[node name="WallsButton" type="Button" parent="Margin/LcdFrame/InnerMargin/Scroll/Layout"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 44)
 layout_mode = 2
 theme_override_font_sizes/font_size = 15
 text = "WALLS: SOLID"
 
-[node name="DpadButton" type="Button" parent="Margin/LcdFrame/InnerMargin/Layout"]
+[node name="DpadButton" type="Button" parent="Margin/LcdFrame/InnerMargin/Scroll/Layout"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 44)
 layout_mode = 2
 theme_override_font_sizes/font_size = 15
 text = "D-PAD: CIRCLE"
 
-[node name="DpadSizeButton" type="Button" parent="Margin/LcdFrame/InnerMargin/Layout"]
+[node name="DpadSizeButton" type="Button" parent="Margin/LcdFrame/InnerMargin/Scroll/Layout"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 44)
 layout_mode = 2
 theme_override_font_sizes/font_size = 15
 text = "PAD SIZE: MEDIUM"
 
-[node name="ThemeButton" type="Button" parent="Margin/LcdFrame/InnerMargin/Layout"]
+[node name="ThemeButton" type="Button" parent="Margin/LcdFrame/InnerMargin/Scroll/Layout"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 44)
 layout_mode = 2
 theme_override_font_sizes/font_size = 15
 text = "THEME: NOKIA GREEN"
 
-[node name="SfxButton" type="Button" parent="Margin/LcdFrame/InnerMargin/Layout"]
+[node name="SfxButton" type="Button" parent="Margin/LcdFrame/InnerMargin/Scroll/Layout"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 44)
 layout_mode = 2
 theme_override_font_sizes/font_size = 15
 text = "SFX: ON"
 
-[node name="MusicButton" type="Button" parent="Margin/LcdFrame/InnerMargin/Layout"]
+[node name="MusicButton" type="Button" parent="Margin/LcdFrame/InnerMargin/Scroll/Layout"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 44)
 layout_mode = 2
 theme_override_font_sizes/font_size = 15
 text = "MUSIC: ON"
 
-[node name="Spacer" type="Control" parent="Margin/LcdFrame/InnerMargin/Layout"]
+[node name="Spacer" type="Control" parent="Margin/LcdFrame/InnerMargin/Scroll/Layout"]
 custom_minimum_size = Vector2(0, 4)
 layout_mode = 2
 
-[node name="BackButton" type="Button" parent="Margin/LcdFrame/InnerMargin/Layout"]
+[node name="BackButton" type="Button" parent="Margin/LcdFrame/InnerMargin/Scroll/Layout"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 44)
 layout_mode = 2

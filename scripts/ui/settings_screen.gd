@@ -43,7 +43,7 @@ func refresh_theme() -> void:
 	var bezel: ColorRect = get_node_or_null("OuterBezel") as ColorRect
 	if bezel != null:
 		bezel.color = GameConfig.color_lcd_dark
-	var divider: ColorRect = get_node_or_null("Margin/LcdFrame/InnerMargin/Layout/Divider") as ColorRect
+	var divider: ColorRect = get_node_or_null("Margin/LcdFrame/InnerMargin/Scroll/Layout/Divider") as ColorRect
 	if divider != null:
 		divider.color = GameConfig.color_lcd_deep
 

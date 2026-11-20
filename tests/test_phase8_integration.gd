@@ -74,6 +74,13 @@ func _test_portrait_resolutions(main_node: Main) -> void:
 			_assert_true(min_sz.y <= vp.y, "GameScene min height %.1f must fit viewport height %.1f (pad=%d)" % [min_sz.y, vp.y, pad_sz])
 	main_node.score_manager.set_dpad_size(GameConfig.DpadSize.MEDIUM)
 
+	# Verify SettingsScreen also fits compact 360x640 without clipping (ScrollContainer enabled).
+	main_node.show_settings()
+	main_node.size = Vector2(360, 640)
+	main_node.settings_screen.size = Vector2(360, 640)
+	var settings_min: Vector2 = main_node.settings_screen.get_combined_minimum_size()
+	_assert_true(settings_min.x <= 360.0 and settings_min.y <= 640.0, "SettingsScreen min size %.1fx%.1f must fit 360x640" % [settings_min.x, settings_min.y])
+
 
 func _test_adaptive_grid_sizing() -> void:
 	# Standard 16:9 stage (~316x360) vs tall 20:9 Nothing 3a Lite stage (~316x490)
@@ -95,6 +102,9 @@ func _test_android_safe_area_inset() -> void:
 	# Android reporting 135px status/cutout on 2400px screen (~45px at 800px viewport)
 	var android_cutout: int = Main.compute_top_safe_inset(Rect2i(0, 135, 1080, 2200), Vector2i(1080, 2400), 800.0, true)
 	_assert_true(android_cutout >= 45, "Android reported cutout inset must scale accurately to viewport")
+	# Android reporting 90px bottom gesture bar on 2400px screen (~30px at 800px viewport)
+	var bottom_inset: int = Main.compute_bottom_safe_inset(Rect2i(0, 135, 1080, 2175), Vector2i(1080, 2400), 800.0)
+	_assert_true(bottom_inset == 30, "Android bottom nav inset must scale accurately to 30px (got %d)" % bottom_inset)
 
 
 func _test_android_lifecycle_and_back_button(main_node: Main) -> void:

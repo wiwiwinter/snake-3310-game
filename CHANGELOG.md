@@ -5,6 +5,8 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 
 ### Fixed
+- Wrapped `SettingsScreen` in a vertical `ScrollContainer` for compact 16:9 phones, added Android bottom navigation bar safe-area insets in `scripts/core/main.gd`, and applied `PAD SIZE` before adaptive grid sizing to prevent a 1-frame board jump.
+- Added adjustable `PAD SIZE` (`SMALL` `148px`, `MEDIUM` `184px`, `LARGE` `216px`) in Settings with automatic LCD playfield resize.
 - Fixed Pause button (`toggle_pause`) being unresponsive immediately after Restart (`READY` state), so players can now pause and return to Main Menu at any time (resuming returns to `READY` if paused from `READY`).
 - Added 4 selectable retro handheld monochrome colorway themes (`NOKIA GREEN`, `POCKET GRAY`, `AMBER LCD`, `ICE BLUE`) in Settings with live full-UI refresh and local persistence.
 - Applied all 6 `/ponytail-audit` optimizations: adaptive LCD playfield sizing (auto-expands rows and cell size to fill tall screens with zero empty band), playfield-only swipe bounds (prevents Pause/Restart slip turns), stopped hidden-screen redraws (`BoardRenderer`/`SplashScreen`), Android app-background music pause/resume, deduplicated `LcdTheme` to 3 monochrome variants (`LCD_PRIMARY`, `LCD_SECONDARY`, `HANDHELD_DARK`), removed per-draw food array allocation, and made music WAV synthesis lazy.
