@@ -232,26 +232,26 @@ func _process(delta: float) -> void:
 			board_renderer.trigger_eat_flash()
 			if audio_manager != null:
 				audio_manager.play_eat()
-			_vibrate_if_mobile(25, 0.5)
+			_vibrate_if_mobile(45)
 		elif result == SnakeGameSession.TickResult.ATE_BONUS:
 			if score_manager.add_points(GameConfig.BONUS_FOOD_POINTS):
 				_achieved_new_record = true
 			board_renderer.trigger_eat_flash()
 			if audio_manager != null:
 				audio_manager.play_win()
-			_vibrate_if_mobile(40, 0.7)
+			_vibrate_if_mobile(75)
 		elif result == SnakeGameSession.TickResult.BOARD_CLEARED:
 			if score_manager.add_points(GameConfig.POINTS_PER_FOOD):
 				_achieved_new_record = true
 			board_renderer.trigger_eat_flash()
 			if audio_manager != null:
 				audio_manager.play_win()
-			_vibrate_if_mobile(60, 0.8)
+			_vibrate_if_mobile(100)
 		elif result == SnakeGameSession.TickResult.GAME_OVER_WALL or result == SnakeGameSession.TickResult.GAME_OVER_SELF:
 			board_renderer.trigger_collision_flash()
 			if audio_manager != null:
 				audio_manager.play_game_over()
-			_vibrate_if_mobile(75, 0.9)
+			_vibrate_if_mobile(140)
 		_sync_view(result)
 		if session.state != SnakeGameSession.State.PLAYING:
 			if play_again_button != null and is_visible_in_tree():
@@ -324,9 +324,10 @@ func _style_keypad() -> void:
 	LcdTheme.apply_pixel_button(game_over_menu_button, LcdTheme.ButtonVariant.LCD_SECONDARY)
 
 
-func _vibrate_if_mobile(duration_ms: int, amplitude: float = -1.0) -> void:
+func _vibrate_if_mobile(duration_ms: int) -> void:
+	# Use default amplitude (-1.0) so Android motors without custom amplitude control always vibrate.
 	if OS.has_feature("android"):
-		Input.vibrate_handheld(duration_ms, amplitude)
+		Input.vibrate_handheld(duration_ms)
 
 
 func _sync_view(last_result: SnakeGameSession.TickResult = SnakeGameSession.TickResult.NONE) -> void:
