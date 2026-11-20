@@ -93,12 +93,12 @@ func _draw() -> void:
 		return
 
 	# 3D bottom drop shadow and outer deep-green ring
-	draw_circle(center + Vector2(0, 4.0), radius, GameConfig.COLOR_LCD_DEEP)
-	draw_circle(center, radius, GameConfig.COLOR_LCD_DEEP)
-	draw_circle(center, radius - 3.0, GameConfig.COLOR_LCD_DARK)
+	draw_circle(center + Vector2(0, 4.0), radius, GameConfig.color_lcd_deep)
+	draw_circle(center, radius, GameConfig.color_lcd_deep)
+	draw_circle(center, radius - 3.0, GameConfig.color_lcd_dark)
 
 	# Subtle top rim specular arc
-	draw_arc(center, radius - 4.5, PI * 1.12, PI * 1.88, 24, GameConfig.COLOR_LCD_LIGHT, 2.0)
+	draw_arc(center, radius - 4.5, PI * 1.12, PI * 1.88, 24, GameConfig.color_lcd_light, 2.0)
 
 	# Highlight active directional wedge when held/rolled
 	if active_direction != Vector2i.ZERO:
@@ -106,8 +106,8 @@ func _draw() -> void:
 
 	# Subtle diagonal quadrant dividers
 	var diag: float = (radius - 6.0) * 0.7071
-	draw_line(center + Vector2(-diag, -diag), center + Vector2(diag, diag), GameConfig.COLOR_LCD_DEEP, 2.0)
-	draw_line(center + Vector2(diag, -diag), center + Vector2(-diag, diag), GameConfig.COLOR_LCD_DEEP, 2.0)
+	draw_line(center + Vector2(-diag, -diag), center + Vector2(diag, diag), GameConfig.color_lcd_deep, 2.0)
+	draw_line(center + Vector2(diag, -diag), center + Vector2(-diag, diag), GameConfig.color_lcd_deep, 2.0)
 
 	# Four directional arrows
 	var arrow_dist: float = radius * 0.62
@@ -119,8 +119,8 @@ func _draw() -> void:
 
 	# Center recessed pivot dimple
 	var pivot_r: float = radius * 0.22
-	draw_circle(center, pivot_r, GameConfig.COLOR_LCD_DEEP)
-	draw_circle(center, pivot_r - 3.0, GameConfig.COLOR_LCD_DARK)
+	draw_circle(center, pivot_r, GameConfig.color_lcd_deep)
+	draw_circle(center, pivot_r - 3.0, GameConfig.color_lcd_dark)
 
 
 func _draw_classic_cross(center: Vector2, radius: float) -> void:
@@ -133,27 +133,27 @@ func _draw_classic_cross(center: Vector2, radius: float) -> void:
 	var h_rect := Rect2(center.x - half_span, center.y - half_arm, span, arm_w)
 
 	# 3D bottom drop shadow & deep-green outer outline
-	draw_rect(Rect2(v_rect.position + Vector2(-3, -3), v_rect.size + Vector2(6, 10)), GameConfig.COLOR_LCD_DEEP, true)
-	draw_rect(Rect2(h_rect.position + Vector2(-3, -3), h_rect.size + Vector2(6, 10)), GameConfig.COLOR_LCD_DEEP, true)
+	draw_rect(Rect2(v_rect.position + Vector2(-3, -3), v_rect.size + Vector2(6, 10)), GameConfig.color_lcd_deep, true)
+	draw_rect(Rect2(h_rect.position + Vector2(-3, -3), h_rect.size + Vector2(6, 10)), GameConfig.color_lcd_deep, true)
 
 	# Main dark-green cross body
-	draw_rect(v_rect, GameConfig.COLOR_LCD_DARK, true)
-	draw_rect(h_rect, GameConfig.COLOR_LCD_DARK, true)
+	draw_rect(v_rect, GameConfig.color_lcd_dark, true)
+	draw_rect(h_rect, GameConfig.color_lcd_dark, true)
 
 	# Crisp top highlight strips on horizontal & top arm
-	draw_rect(Rect2(v_rect.position + Vector2(2, 2), Vector2(arm_w - 4, 3)), GameConfig.COLOR_LCD_LIGHT, true)
-	draw_rect(Rect2(h_rect.position + Vector2(2, 2), Vector2(half_span - half_arm - 2, 3)), GameConfig.COLOR_LCD_LIGHT, true)
-	draw_rect(Rect2(Vector2(center.x + half_arm, h_rect.position.y + 2), Vector2(half_span - half_arm - 2, 3)), GameConfig.COLOR_LCD_LIGHT, true)
+	draw_rect(Rect2(v_rect.position + Vector2(2, 2), Vector2(arm_w - 4, 3)), GameConfig.color_lcd_light, true)
+	draw_rect(Rect2(h_rect.position + Vector2(2, 2), Vector2(half_span - half_arm - 2, 3)), GameConfig.color_lcd_light, true)
+	draw_rect(Rect2(Vector2(center.x + half_arm, h_rect.position.y + 2), Vector2(half_span - half_arm - 2, 3)), GameConfig.color_lcd_light, true)
 
 	# Highlight active pressed/rolled arm
 	if active_direction == Vector2i.UP:
-		draw_rect(Rect2(center.x - half_arm + 2, center.y - half_span + 2, arm_w - 4, half_span - half_arm - 2), GameConfig.COLOR_LCD_BG, true)
+		draw_rect(Rect2(center.x - half_arm + 2, center.y - half_span + 2, arm_w - 4, half_span - half_arm - 2), GameConfig.color_lcd_bg, true)
 	elif active_direction == Vector2i.DOWN:
-		draw_rect(Rect2(center.x - half_arm + 2, center.y + half_arm, arm_w - 4, half_span - half_arm - 2), GameConfig.COLOR_LCD_BG, true)
+		draw_rect(Rect2(center.x - half_arm + 2, center.y + half_arm, arm_w - 4, half_span - half_arm - 2), GameConfig.color_lcd_bg, true)
 	elif active_direction == Vector2i.LEFT:
-		draw_rect(Rect2(center.x - half_span + 2, center.y - half_arm + 2, half_span - half_arm - 2, arm_w - 4), GameConfig.COLOR_LCD_BG, true)
+		draw_rect(Rect2(center.x - half_span + 2, center.y - half_arm + 2, half_span - half_arm - 2, arm_w - 4), GameConfig.color_lcd_bg, true)
 	elif active_direction == Vector2i.RIGHT:
-		draw_rect(Rect2(center.x + half_arm, center.y - half_arm + 2, half_span - half_arm - 2, arm_w - 4), GameConfig.COLOR_LCD_BG, true)
+		draw_rect(Rect2(center.x + half_arm, center.y - half_arm + 2, half_span - half_arm - 2, arm_w - 4), GameConfig.color_lcd_bg, true)
 
 	# Directional arrows & center recessed dimple
 	var arrow_dist: float = radius * 0.64
@@ -164,8 +164,8 @@ func _draw_classic_cross(center: Vector2, radius: float) -> void:
 	_draw_arrow(center + Vector2(arrow_dist, 0), Vector2i.RIGHT, arrow_r)
 
 	var pivot_r: float = radius * 0.18
-	draw_circle(center, pivot_r, GameConfig.COLOR_LCD_DEEP)
-	draw_circle(center, pivot_r - 2.5, GameConfig.COLOR_LCD_DARK)
+	draw_circle(center, pivot_r, GameConfig.color_lcd_deep)
+	draw_circle(center, pivot_r - 2.5, GameConfig.color_lcd_dark)
 
 
 func _draw_active_wedge(center: Vector2, r: float, dir: Vector2i) -> void:
@@ -186,11 +186,11 @@ func _draw_active_wedge(center: Vector2, r: float, dir: Vector2i) -> void:
 	for i in range(steps + 1):
 		var a: float = lerpf(start_a, end_a, float(i) / float(steps))
 		pts.append(center + Vector2(cos(a), sin(a)) * r)
-	draw_colored_polygon(pts, GameConfig.COLOR_LCD_BG)
+	draw_colored_polygon(pts, GameConfig.color_lcd_bg)
 
 
 func _draw_arrow(pos: Vector2, dir: Vector2i, r: float) -> void:
-	var ink: Color = GameConfig.COLOR_LCD_DEEP if active_direction == dir else GameConfig.COLOR_LCD_BG
+	var ink: Color = GameConfig.color_lcd_deep if active_direction == dir else GameConfig.color_lcd_bg
 	var pts: PackedVector2Array
 	if dir == Vector2i.UP:
 		pts = PackedVector2Array([pos + Vector2(0, -r), pos + Vector2(-r, r * 0.7), pos + Vector2(r, r * 0.7)])

@@ -8,42 +8,44 @@ enum ButtonVariant {
 	HANDHELD_DARK,
 }
 
-# Original 4-shade monochrome LCD palette: bright LCD buttons on screen, dark handheld keys on deck.
-const PALETTES: Dictionary = {
-	ButtonVariant.LCD_PRIMARY: {
-		"fill": Color("#9BBC0F"),
-		"highlight": Color("#B8D926"),
-		"shadow": Color("#8BAC0F"),
-		"hover": Color("#AED01A"),
-		"outline": Color("#0F380F"),
-		"ink": Color("#0F380F"),
-	},
-	ButtonVariant.LCD_SECONDARY: {
-		"fill": Color("#8BAC0F"),
-		"highlight": Color("#9BBC0F"),
-		"shadow": Color("#306230"),
-		"hover": Color("#9BBC0F"),
-		"outline": Color("#0F380F"),
-		"ink": Color("#0F380F"),
-	},
-	ButtonVariant.HANDHELD_DARK: {
-		"fill": Color("#306230"),
-		"highlight": Color("#8BAC0F"),
-		"shadow": Color("#0F380F"),
-		"hover": Color("#3E7A3E"),
-		"outline": Color("#0F380F"),
-		"ink": Color("#9BBC0F"),
-	},
-}
-
 static var _cached_styleboxes: Dictionary = {}
 
 
+static func _get_palette(variant: ButtonVariant) -> Dictionary:
+	if variant == ButtonVariant.LCD_PRIMARY:
+		return {
+			"fill": GameConfig.color_lcd_bg,
+			"highlight": GameConfig.color_lcd_hi,
+			"shadow": GameConfig.color_lcd_light,
+			"hover": GameConfig.color_lcd_hi.lerp(GameConfig.color_lcd_bg, 0.4),
+			"outline": GameConfig.color_lcd_deep,
+			"ink": GameConfig.color_lcd_deep,
+		}
+	elif variant == ButtonVariant.LCD_SECONDARY:
+		return {
+			"fill": GameConfig.color_lcd_light,
+			"highlight": GameConfig.color_lcd_bg,
+			"shadow": GameConfig.color_lcd_dark,
+			"hover": GameConfig.color_lcd_bg,
+			"outline": GameConfig.color_lcd_deep,
+			"ink": GameConfig.color_lcd_deep,
+		}
+	return {
+		"fill": GameConfig.color_lcd_dark,
+		"highlight": GameConfig.color_lcd_light,
+		"shadow": GameConfig.color_lcd_deep,
+		"hover": GameConfig.color_lcd_dark.lerp(GameConfig.color_lcd_light, 0.25),
+		"outline": GameConfig.color_lcd_deep,
+		"ink": GameConfig.color_lcd_bg,
+	}
+
+
 static func create_theme() -> Theme:
+	_cached_styleboxes.clear()
 	var theme := Theme.new()
 
 	var primary_boxes: Dictionary = _get_variant_boxes(ButtonVariant.LCD_PRIMARY)
-	var primary_ink: Color = PALETTES[ButtonVariant.LCD_PRIMARY]["ink"]
+	var primary_ink: Color = _get_palette(ButtonVariant.LCD_PRIMARY)["ink"]
 
 	theme.set_stylebox("normal", "Button", primary_boxes["normal"])
 	theme.set_stylebox("hover", "Button", primary_boxes["hover"])
@@ -54,8 +56,8 @@ static func create_theme() -> Theme:
 	theme.set_color("font_hover_color", "Button", primary_ink)
 	theme.set_color("font_focus_color", "Button", primary_ink)
 	theme.set_color("font_pressed_color", "Button", primary_ink)
-	theme.set_color("font_color", "Label", GameConfig.COLOR_LCD_DEEP)
-	theme.set_color("font_shadow_color", "Label", GameConfig.COLOR_LCD_LIGHT)
+	theme.set_color("font_color", "Label", GameConfig.color_lcd_deep)
+	theme.set_color("font_shadow_color", "Label", GameConfig.color_lcd_light)
 	theme.set_constant("shadow_offset_x", "Label", 1)
 	theme.set_constant("shadow_offset_y", "Label", 1)
 
@@ -67,7 +69,7 @@ static func apply_pixel_button(button: Button, variant: ButtonVariant) -> void:
 	if button == null:
 		return
 	var boxes: Dictionary = _get_variant_boxes(variant)
-	var ink: Color = PALETTES[variant]["ink"]
+	var ink: Color = _get_palette(variant)["ink"]
 
 	button.add_theme_stylebox_override("normal", boxes["normal"])
 	button.add_theme_stylebox_override("hover", boxes["hover"])
@@ -149,13 +151,13 @@ static func _build_pixel_icon(rows: Array[String]) -> ImageTexture:
 		var line: String = rows[y]
 		for x in range(mini(16, line.length())):
 			if line[x] == "#":
-				img.set_pixel(x, y, GameConfig.COLOR_LCD_BG)
+				img.set_pixel(x, y, GameConfig.color_lcd_bg)
 	return ImageTexture.create_from_image(img)
 
 
 static func _make_lcd_frame_stylebox() -> StyleBoxTexture:
 	var img := Image.create(16, 16, false, Image.FORMAT_RGBA8)
-	img.fill(GameConfig.COLOR_LCD_BG)
+	img.fill(GameConfig.color_lcd_bg)
 
 	for y in range(16):
 		for x in range(16):
@@ -163,11 +165,11 @@ static func _make_lcd_frame_stylebox() -> StyleBoxTexture:
 			if is_corner:
 				img.set_pixel(x, y, Color(0, 0, 0, 0))
 			elif x == 0 or x == 15 or y == 0 or y == 15:
-				img.set_pixel(x, y, GameConfig.COLOR_LCD_DEEP)
+				img.set_pixel(x, y, GameConfig.color_lcd_deep)
 			elif x == 1 or x == 14 or y == 1 or y == 14:
-				img.set_pixel(x, y, GameConfig.COLOR_LCD_DARK if (y == 1 or x == 1) else GameConfig.COLOR_LCD_LIGHT)
+				img.set_pixel(x, y, GameConfig.color_lcd_dark if (y == 1 or x == 1) else GameConfig.color_lcd_light)
 			elif y == 2 or x == 2:
-				img.set_pixel(x, y, GameConfig.COLOR_LCD_LIGHT)
+				img.set_pixel(x, y, GameConfig.color_lcd_light)
 
 	var tex := ImageTexture.create_from_image(img)
 	var box := StyleBoxTexture.new()
@@ -183,7 +185,7 @@ static func _get_variant_boxes(variant: ButtonVariant) -> Dictionary:
 	if _cached_styleboxes.has(variant):
 		return _cached_styleboxes[variant]
 
-	var p: Dictionary = PALETTES[variant]
+	var p: Dictionary = _get_palette(variant)
 	var boxes: Dictionary = {
 		"normal": _make_pixel_stylebox(p["fill"], p["highlight"], p["shadow"], p["outline"], false, false),
 		"hover": _make_pixel_stylebox(p["hover"], p["highlight"], p["shadow"], p["outline"], false, false),

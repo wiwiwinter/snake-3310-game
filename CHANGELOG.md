@@ -5,6 +5,8 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 
 ### Fixed
+- Fixed Pause button (`toggle_pause`) being unresponsive immediately after Restart (`READY` state), so players can now pause and return to Main Menu at any time (resuming returns to `READY` if paused from `READY`).
+- Added 4 selectable retro handheld monochrome colorway themes (`NOKIA GREEN`, `POCKET GRAY`, `AMBER LCD`, `ICE BLUE`) in Settings with live full-UI refresh and local persistence.
 - Applied all 6 `/ponytail-audit` optimizations: adaptive LCD playfield sizing (auto-expands rows and cell size to fill tall screens with zero empty band), playfield-only swipe bounds (prevents Pause/Restart slip turns), stopped hidden-screen redraws (`BoardRenderer`/`SplashScreen`), Android app-background music pause/resume, deduplicated `LcdTheme` to 3 monochrome variants (`LCD_PRIMARY`, `LCD_SECONDARY`, `HANDHELD_DARK`), removed per-draw food array allocation, and made music WAV synthesis lazy.
 - Replaced separate D-pad buttons with a unified monochrome `CircularDpad` (`scripts/ui/circular_dpad.gd`, `184x184`) flanked by pixel-icon Pause/Restart buttons supporting continuous 360-degree hold-and-roll thumb motion across all 4 quadrants with live wedge highlighting.
 - Fixed Android touch/swipe gestures and Splash tap-to-skip being swallowed by `Control` panels (`_unhandled_input` -> `_input`), filtered multi-touch to primary finger (`index == 0`), prevented duplicate `emulate_mouse_from_touch` drag events on Android, and tightened swipe threshold to `22px`.

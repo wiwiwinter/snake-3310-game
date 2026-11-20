@@ -13,7 +13,17 @@ signal back_requested
 
 func _ready() -> void:
 	back_button.pressed.connect(func() -> void: back_requested.emit())
+	refresh_theme()
+
+
+func refresh_theme() -> void:
 	LcdTheme.apply_pixel_button(back_button, LcdTheme.ButtonVariant.LCD_SECONDARY)
+	var bezel: ColorRect = get_node_or_null("OuterBezel") as ColorRect
+	if bezel != null:
+		bezel.color = GameConfig.color_lcd_dark
+	var divider: ColorRect = get_node_or_null("Margin/LcdFrame/InnerMargin/Layout/Divider") as ColorRect
+	if divider != null:
+		divider.color = GameConfig.color_lcd_deep
 
 
 func _unhandled_input(event: InputEvent) -> void:

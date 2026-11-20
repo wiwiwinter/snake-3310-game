@@ -13,6 +13,20 @@ var _elapsed: float = 0.0
 var _done: bool = false
 
 
+func refresh_theme() -> void:
+	var bezel: ColorRect = get_node_or_null("OuterBezel") as ColorRect
+	if bezel != null:
+		bezel.color = GameConfig.color_lcd_dark
+	var track: ColorRect = get_node_or_null("Margin/LcdFrame/Inner/Box/LoadingTrack") as ColorRect
+	if track != null:
+		track.color = GameConfig.color_lcd_light
+	if progress_fill != null:
+		progress_fill.color = GameConfig.color_lcd_deep
+	var banner: Control = get_node_or_null("Margin/LcdFrame/Inner/Box/SnakeBanner") as Control
+	if banner != null:
+		banner.queue_redraw()
+
+
 func _process(delta: float) -> void:
 	if _done or not visible:
 		return

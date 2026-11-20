@@ -23,7 +23,6 @@ var _screen_tween: Tween
 
 
 func _ready() -> void:
-	theme = LcdTheme.create_theme()
 	score_manager = ScoreManager.new()
 
 	audio_manager = AudioManager.new()
@@ -38,13 +37,27 @@ func _ready() -> void:
 	main_menu.settings_requested.connect(_on_settings_requested)
 	settings_screen.back_requested.connect(_on_back_to_menu)
 	settings_screen.audio_settings_changed.connect(_on_audio_settings_changed)
+	settings_screen.color_theme_changed.connect(_on_theme_changed)
 	high_score_screen.back_requested.connect(_on_back_to_menu)
 	game_scene.menu_requested.connect(_on_back_to_menu)
 
+	apply_color_theme()
 	show_splash()
 	_apply_display_safe_area()
 	get_viewport().size_changed.connect(_apply_display_safe_area)
 	print("Snake 3310 initialized (Phase 7: Audio & Polish).")
+
+
+func apply_color_theme() -> void:
+	if score_manager != null:
+		GameConfig.apply_color_theme(score_manager.color_theme)
+	theme = LcdTheme.create_theme()
+	RenderingServer.set_default_clear_color(GameConfig.color_lcd_dark)
+	splash_screen.refresh_theme()
+	main_menu.refresh_theme()
+	game_scene.refresh_theme()
+	settings_screen.refresh_theme()
+	high_score_screen.refresh_theme()
 
 
 static func compute_top_safe_inset(safe_rect: Rect2i, window_size: Vector2i, viewport_height: float, is_android: bool) -> int:
@@ -130,6 +143,11 @@ func _on_back_to_menu() -> void:
 
 func _on_audio_settings_changed() -> void:
 	audio_manager.apply_settings(score_manager.sfx_enabled, score_manager.music_enabled)
+	audio_manager.play_click()
+
+
+func _on_theme_changed() -> void:
+	apply_color_theme()
 	audio_manager.play_click()
 
 

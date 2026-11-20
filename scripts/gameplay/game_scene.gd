@@ -36,6 +36,7 @@ var move_interval: float = GameConfig.DEFAULT_MOVE_INTERVAL
 var _swipe_detector: SwipeDetector = SwipeDetector.new()
 var _move_accumulator: float = 0.0
 var _achieved_new_record: bool = false
+var _paused_from_ready: bool = false
 var _icon_pause: Texture2D
 var _icon_play: Texture2D
 var _icon_restart: Texture2D
@@ -99,6 +100,7 @@ func start_new_game(start_immediately: bool = false) -> void:
 	_adapt_grid_to_stage(false)
 	_move_accumulator = 0.0
 	_achieved_new_record = false
+	_paused_from_ready = false
 	score_manager.reset_score()
 	move_interval = score_manager.get_move_interval()
 	session.reset(score_manager.wrap_walls, start_immediately)
@@ -112,14 +114,31 @@ func restart_game() -> void:
 func toggle_pause() -> void:
 	if session == null:
 		return
-	if session.state == SnakeGameSession.State.PLAYING:
+	if session.state == SnakeGameSession.State.PLAYING or session.state == SnakeGameSession.State.READY:
+		_paused_from_ready = (session.state == SnakeGameSession.State.READY)
 		session.state = SnakeGameSession.State.PAUSED
 		_sync_view()
 		if resume_button != null and is_visible_in_tree():
 			resume_button.grab_focus()
 	elif session.state == SnakeGameSession.State.PAUSED:
-		session.state = SnakeGameSession.State.PLAYING
+		session.state = SnakeGameSession.State.READY if _paused_from_ready else SnakeGameSession.State.PLAYING
+		_paused_from_ready = false
 		_sync_view()
+
+
+func refresh_theme() -> void:
+	_style_keypad()
+	var bezel: ColorRect = get_node_or_null("OuterBezel") as ColorRect
+	if bezel != null:
+		bezel.color = GameConfig.color_lcd_dark
+	var divider: ColorRect = get_node_or_null("SafeMargin/MainColumn/LcdFrame/LcdPadding/LcdLayout/HudDivider") as ColorRect
+	if divider != null:
+		divider.color = GameConfig.color_lcd_deep
+	if board_renderer != null:
+		board_renderer.queue_redraw()
+	if circular_dpad != null:
+		circular_dpad.queue_redraw()
+	_sync_view()
 
 
 func set_difficulty(new_difficulty: GameConfig.Difficulty) -> void:
@@ -162,7 +181,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		return
 
 	if event.is_action_pressed("pause_game"):
-		if session.state == SnakeGameSession.State.PLAYING or session.state == SnakeGameSession.State.PAUSED:
+		if session.state != SnakeGameSession.State.GAME_OVER:
 			toggle_pause()
 			get_viewport().set_input_as_handled()
 		return

@@ -80,12 +80,14 @@ func _test_settings_persistence() -> void:
 	mgr.set_sfx_enabled(false)
 	mgr.set_music_enabled(false)
 	mgr.set_classic_dpad(true)
+	mgr.set_color_theme(GameConfig.ColorTheme.AMBER_LCD)
 
 	var reloaded := ScoreManager.new(TEST_SAVE_PATH)
 	_assert_true(reloaded.wrap_walls == true, "wrap_walls=true must persist")
 	_assert_true(reloaded.sfx_enabled == false, "sfx_enabled=false must persist")
 	_assert_true(reloaded.music_enabled == false, "music_enabled=false must persist")
 	_assert_true(reloaded.classic_dpad == true, "classic_dpad=true must persist")
+	_assert_true(reloaded.color_theme == GameConfig.ColorTheme.AMBER_LCD, "color_theme=AMBER_LCD must persist")
 
 
 func _test_screen_navigation_and_tap_targets(main_node: Main) -> void:
@@ -137,6 +139,22 @@ func _test_screen_navigation_and_tap_targets(main_node: Main) -> void:
 	_assert_true(main_node.game_scene.session.state == SnakeGameSession.State.PLAYING, "toggle_pause should resume PLAYING")
 	_assert_true(not main_node.game_scene.pause_overlay.visible, "PauseOverlay should hide on resume")
 
+	# Regression test: Restart -> Pause must open PauseOverlay (so player can reach Main Menu), and Resume returns to READY.
+	main_node.game_scene.restart_game()
+	_assert_true(main_node.game_scene.session.state == SnakeGameSession.State.READY, "restart_game must enter READY")
+	main_node.game_scene.toggle_pause()
+	_assert_true(main_node.game_scene.session.state == SnakeGameSession.State.PAUSED, "Pause must work immediately after Restart (READY state)")
+	_assert_true(main_node.game_scene.pause_overlay.visible, "PauseOverlay must open when paused from READY")
+	main_node.game_scene.toggle_pause()
+	_assert_true(main_node.game_scene.session.state == SnakeGameSession.State.READY, "Resuming from READY-pause must return to READY")
+
+	# Verify live color theme switching updates active palette without errors.
+	main_node.score_manager.set_color_theme(GameConfig.ColorTheme.ICE_BLUE)
+	main_node.apply_color_theme()
+	_assert_true(GameConfig.active_theme == GameConfig.ColorTheme.ICE_BLUE, "Active theme must switch to ICE_BLUE")
+	main_node.score_manager.set_color_theme(GameConfig.ColorTheme.NOKIA_GREEN)
+	main_node.apply_color_theme()
+
 	# Verify CircularDpad continuous 360-degree hold-and-roll motion emits all 4 directions without releasing.
 	var dpad: CircularDpad = main_node.game_scene.circular_dpad
 	_assert_true(dpad != null and dpad.custom_minimum_size.x >= 150.0, "CircularDpad must exist with >=150px diameter")
@@ -177,6 +195,7 @@ func _test_screen_navigation_and_tap_targets(main_node: Main) -> void:
 		main_node.settings_screen.difficulty_button,
 		main_node.settings_screen.walls_button,
 		main_node.settings_screen.dpad_button,
+		main_node.settings_screen.theme_button,
 		main_node.settings_screen.sfx_button,
 		main_node.settings_screen.music_button,
 		main_node.settings_screen.back_button,

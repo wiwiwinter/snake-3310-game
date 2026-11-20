@@ -79,6 +79,13 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 16
 text = "D-PAD: CIRCLE"
 
+[node name="ThemeButton" type="Button" parent="Margin/LcdFrame/InnerMargin/Layout"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "THEME: NOKIA GREEN"
+
 [node name="SfxButton" type="Button" parent="Margin/LcdFrame/InnerMargin/Layout"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 48)
