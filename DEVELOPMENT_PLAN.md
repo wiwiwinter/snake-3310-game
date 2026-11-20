@@ -2,8 +2,8 @@
 
 ## Current Status
 
-- **Active Phase:** Phase 5 Complete, ready for Phase 6 (UI/UX Implementation)
-- **Overall Progress:** 5 / 9 Phases Complete
+- **Active Phase:** Phase 6 Complete, ready for Phase 7 (Audio and Polish)
+- **Overall Progress:** 6 / 9 Phases Complete
 
 ---
 
@@ -49,15 +49,15 @@
 - [x] Display score, high score, and difficulty in HUD (`scenes/game/game_scene.tscn`)
 
 ### Phase 6: UI/UX Implementation
-- [ ] Create Splash Screen
-- [ ] Create Main Menu
-- [ ] Create Pause Screen
-- [ ] Create Game Over Screen
-- [ ] Create Settings Screen (difficulty, wall mode, audio toggles)
-- [ ] Create High Score Screen
-- [ ] Implement structured game-state navigation (`Main Menu`, `Ready`, `Playing`, `Paused`, `Game Over`)
-- [ ] Implement on-screen directional buttons and swipe gestures
-- [ ] Optimize portrait layout for varying Android aspect ratios
+- [x] Create Splash Screen (`scenes/menu/splash_screen.tscn`)
+- [x] Create Main Menu (`scenes/menu/main_menu.tscn`)
+- [x] Create Pause Screen (`PauseOverlay` in `scenes/game/game_scene.tscn`)
+- [x] Create Game Over Screen (`GameOverOverlay` in `scenes/game/game_scene.tscn`)
+- [x] Create Settings Screen (`scenes/settings/settings_screen.tscn`: speed, walls, SFX, music)
+- [x] Create High Score Screen (`scenes/menu/high_score_screen.tscn`)
+- [x] Implement structured game-state navigation (`Splash`, `Main Menu`, `Ready`, `Playing`, `Paused`, `Game Over`)
+- [x] Implement on-screen directional buttons (>= 44px tap targets) and swipe gestures (`scripts/ui/swipe_detector.gd`)
+- [x] Optimize portrait layout, monochrome LCD theme (`scripts/ui/lcd_theme.gd`), and Android focus-loss auto-pause
 
 ### Phase 7: Audio and Polish
 - [ ] Add original retro-inspired sound effects (eat, turn/UI click, game over)

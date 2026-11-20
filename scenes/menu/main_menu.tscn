@@ -1,0 +1,91 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/main_menu.gd" id="1_main_menu"]
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_main_menu")
+
+[node name="OuterBezel" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.188235, 0.384314, 0.188235, 1)
+
+[node name="Margin" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 18
+theme_override_constants/margin_top = 36
+theme_override_constants/margin_right = 18
+theme_override_constants/margin_bottom = 36
+
+[node name="LcdFrame" type="PanelContainer" parent="Margin"]
+layout_mode = 2
+
+[node name="InnerMargin" type="MarginContainer" parent="Margin/LcdFrame"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 28
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 28
+
+[node name="Layout" type="VBoxContainer" parent="Margin/LcdFrame/InnerMargin"]
+layout_mode = 2
+theme_override_constants/separation = 18
+alignment = 1
+
+[node name="Title" type="Label" parent="Margin/LcdFrame/InnerMargin/Layout"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "SNAKE 3310"
+horizontal_alignment = 1
+
+[node name="Divider" type="ColorRect" parent="Margin/LcdFrame/InnerMargin/Layout"]
+custom_minimum_size = Vector2(0, 2)
+layout_mode = 2
+color = Color(0.0588235, 0.219608, 0.0588235, 1)
+
+[node name="BestLabel" type="Label" parent="Margin/LcdFrame/InnerMargin/Layout"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "BEST SCORE: 0000"
+horizontal_alignment = 1
+
+[node name="Spacer" type="Control" parent="Margin/LcdFrame/InnerMargin/Layout"]
+custom_minimum_size = Vector2(0, 12)
+layout_mode = 2
+
+[node name="PlayButton" type="Button" parent="Margin/LcdFrame/InnerMargin/Layout"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "PLAY"
+
+[node name="HighScoresButton" type="Button" parent="Margin/LcdFrame/InnerMargin/Layout"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "HIGH SCORES"
+
+[node name="SettingsButton" type="Button" parent="Margin/LcdFrame/InnerMargin/Layout"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "SETTINGS"

@@ -1,0 +1,98 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/high_score_screen.gd" id="1_high_score"]
+
+[node name="HighScoreScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_high_score")
+
+[node name="OuterBezel" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.188235, 0.384314, 0.188235, 1)
+
+[node name="Margin" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 18
+theme_override_constants/margin_top = 36
+theme_override_constants/margin_right = 18
+theme_override_constants/margin_bottom = 36
+
+[node name="LcdFrame" type="PanelContainer" parent="Margin"]
+layout_mode = 2
+
+[node name="InnerMargin" type="MarginContainer" parent="Margin/LcdFrame"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 24
+
+[node name="Layout" type="VBoxContainer" parent="Margin/LcdFrame/InnerMargin"]
+layout_mode = 2
+theme_override_constants/separation = 14
+alignment = 1
+
+[node name="Title" type="Label" parent="Margin/LcdFrame/InnerMargin/Layout"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "HIGH SCORES"
+horizontal_alignment = 1
+
+[node name="Divider" type="ColorRect" parent="Margin/LcdFrame/InnerMargin/Layout"]
+custom_minimum_size = Vector2(0, 2)
+layout_mode = 2
+color = Color(0.0588235, 0.219608, 0.0588235, 1)
+
+[node name="OverallLabel" type="Label" parent="Margin/LcdFrame/InnerMargin/Layout"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "OVERALL BEST: 0000"
+horizontal_alignment = 1
+
+[node name="EasyLabel" type="Label" parent="Margin/LcdFrame/InnerMargin/Layout"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "EASY:   0000"
+horizontal_alignment = 1
+
+[node name="NormalLabel" type="Label" parent="Margin/LcdFrame/InnerMargin/Layout"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "NORMAL: 0000"
+horizontal_alignment = 1
+
+[node name="HardLabel" type="Label" parent="Margin/LcdFrame/InnerMargin/Layout"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "HARD:   0000"
+horizontal_alignment = 1
+
+[node name="Spacer" type="Control" parent="Margin/LcdFrame/InnerMargin/Layout"]
+custom_minimum_size = Vector2(0, 14)
+layout_mode = 2
+
+[node name="BackButton" type="Button" parent="Margin/LcdFrame/InnerMargin/Layout"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "BACK"

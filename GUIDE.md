@@ -74,8 +74,9 @@ Restart your terminal or VS Code window once after installation so the updated u
   godot_console --path "d:\CODE\ANDROID GAME - SNAKE" --headless --script res://tests/test_phase3_movement.gd
   godot_console --path "d:\CODE\ANDROID GAME - SNAKE" --headless --script res://tests/test_phase4_gameplay.gd
   godot_console --path "d:\CODE\ANDROID GAME - SNAKE" --headless --script res://tests/test_phase5_scoring.gd
+  godot_console --path "d:\CODE\ANDROID GAME - SNAKE" --headless --script res://tests/test_phase6_ui.gd
   ```
-- **Visual / Manual Inspection:** Open the project in Godot 4.7.2 and press `F5` (or run `godot --path "d:\CODE\ANDROID GAME - SNAKE"`). Use Arrow keys or WASD to steer, `1`/`2`/`3` to test Easy/Normal/Hard speed, and `Enter`, `Space`, or `R` to restart after Game Over.
+- **Visual / Manual Inspection:** Open the project in Godot 4.7.2 and press `F5` (or run `godot --path "d:\CODE\ANDROID GAME - SNAKE"`). Navigate menus via touch/click or keyboard (`Tab`/`Enter`/`Esc`), play using Arrow keys, WASD, on-screen D-pad, or mouse/touch swipes, and pause with `P` / `Esc` / `PAUSE`.
 
 ---
 
@@ -89,15 +90,17 @@ Restart your terminal or VS Code window once after installation so the updated u
 
 ## 6. Project Architecture & File Responsibilities
 
-- `scenes/main/main.tscn` & `scripts/core/main.gd` — Root entry scene hosting the active screen.
-- `scenes/game/game_scene.tscn` & `scripts/gameplay/game_scene.gd` — Nokia-inspired monochrome LCD frame, HUD strip, and `BoardRenderer` container.
-- `scripts/core/game_config.gd` — Shared LCD color palette (`#9BBC0F`, `#8BAC0F`, `#306230`, `#0F380F`), grid dimensions (`16×20`, `18px` cells), and initial placement constants.
-- `scripts/gameplay/grid_system.gd` — Pure 2D grid coordinate system (bounds checking, wraparound math, grid-to-pixel conversion).
+- `scenes/main/main.tscn` & `scripts/core/main.gd`: Root screen router (`Splash`, `MainMenu`, `GameScene`, `Settings`, `HighScores`) applying shared `LcdTheme`.
+- `scenes/menu/` & `scenes/settings/`: Splash, Main Menu, High Score, and Settings screens with matching `scripts/ui/` controllers.
+- `scripts/ui/lcd_theme.gd` & `scripts/ui/swipe_detector.gd`: Shared monochrome LCD `Theme` factory and touch/pointer swipe detector.
+- `scenes/game/game_scene.tscn` & `scripts/gameplay/game_scene.gd`: Portrait LCD playfield, HUD strip, Ready/Pause/Game Over overlays, tactile D-pad, swipe input, and app-pause lifecycle hook.
+- `scripts/core/game_config.gd`: Shared LCD color palette (`#9BBC0F`, `#8BAC0F`, `#306230`, `#0F380F`), grid dimensions (`16x20`, `18px` cells), difficulty intervals, and initial constants.
+- `scripts/gameplay/grid_system.gd`: Pure 2D grid coordinate system (bounds checking, wraparound math, grid-to-pixel conversion).
 - `scripts/gameplay/snake_controller.gd`: Snake segment state, cardinal direction validation, 2-step turn queue, and grid stepping.
 - `scripts/gameplay/snake_game_session.gd`: Core Snake gameplay rules (random valid food spawning, growth, solid-wall/wraparound collision, self-collision, Game Over, and restart).
-- `scripts/managers/score_manager.gd`: Current score tracking, persistent local high scores (overall and per-difficulty via `ConfigFile`), and difficulty selection.
-- `scripts/gameplay/board_renderer.gd` — Custom `_draw()` monochrome pixel renderer for the playfield grid, snake (head with directional eyes, segmented body, tail), and retro diamond food.
-- `tests/test_phase2_rendering.gd` through `tests/test_phase5_scoring.gd`: Headless automated verification for rendering, movement, core gameplay, scoring, and persistence.
+- `scripts/managers/score_manager.gd`: Current score tracking, persistent local high scores (overall and per-difficulty via `ConfigFile`), and saved game settings (`difficulty`, `wrap_walls`, `sfx_enabled`, `music_enabled`).
+- `scripts/gameplay/board_renderer.gd`: Custom `_draw()` monochrome pixel renderer for the playfield grid, snake, and retro diamond food.
+- `tests/test_phase2_rendering.gd` through `tests/test_phase6_ui.gd`: Headless automated verification across rendering, movement, gameplay, scoring, and UI/navigation.
 
 ---
 

@@ -1,6 +1,6 @@
 class_name ScoreManager
 extends RefCounted
-## Tracks current score, persistent high scores (overall and per-difficulty), and difficulty selection.
+## Tracks current score, persistent high scores (overall and per-difficulty), and game settings.
 
 const SECTION_SCORES: String = "scores"
 const SECTION_SETTINGS: String = "settings"
@@ -9,6 +9,10 @@ var save_path: String
 var current_score: int = 0
 var high_score: int = 0
 var difficulty: GameConfig.Difficulty = GameConfig.Difficulty.NORMAL
+var wrap_walls: bool = false
+var sfx_enabled: bool = true
+var music_enabled: bool = true
+
 var _difficulty_high_scores: Dictionary = {
 	GameConfig.Difficulty.EASY: 0,
 	GameConfig.Difficulty.NORMAL: 0,
@@ -54,6 +58,21 @@ func set_difficulty(new_difficulty: GameConfig.Difficulty) -> void:
 	save_data()
 
 
+func set_wrap_walls(enabled: bool) -> void:
+	wrap_walls = enabled
+	save_data()
+
+
+func set_sfx_enabled(enabled: bool) -> void:
+	sfx_enabled = enabled
+	save_data()
+
+
+func set_music_enabled(enabled: bool) -> void:
+	music_enabled = enabled
+	save_data()
+
+
 func get_move_interval() -> float:
 	return GameConfig.get_move_interval(difficulty)
 
@@ -69,6 +88,9 @@ func save_data() -> Error:
 	config.set_value(SECTION_SCORES, "normal_high", get_high_score_for(GameConfig.Difficulty.NORMAL))
 	config.set_value(SECTION_SCORES, "hard_high", get_high_score_for(GameConfig.Difficulty.HARD))
 	config.set_value(SECTION_SETTINGS, "difficulty", int(difficulty))
+	config.set_value(SECTION_SETTINGS, "wrap_walls", wrap_walls)
+	config.set_value(SECTION_SETTINGS, "sfx_enabled", sfx_enabled)
+	config.set_value(SECTION_SETTINGS, "music_enabled", music_enabled)
 	return config.save(save_path)
 
 
@@ -87,3 +109,7 @@ func load_data() -> void:
 		difficulty = saved_diff as GameConfig.Difficulty
 	else:
 		difficulty = GameConfig.Difficulty.NORMAL
+
+	wrap_walls = bool(config.get_value(SECTION_SETTINGS, "wrap_walls", false))
+	sfx_enabled = bool(config.get_value(SECTION_SETTINGS, "sfx_enabled", true))
+	music_enabled = bool(config.get_value(SECTION_SETTINGS, "music_enabled", true))

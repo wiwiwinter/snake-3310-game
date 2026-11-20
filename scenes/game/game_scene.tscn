@@ -28,33 +28,29 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_left = 14
-theme_override_constants/margin_top = 18
-theme_override_constants/margin_right = 14
-theme_override_constants/margin_bottom = 18
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 14
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 14
 
 [node name="MainColumn" type="VBoxContainer" parent="SafeMargin"]
 layout_mode = 2
-theme_override_constants/separation = 12
+theme_override_constants/separation = 10
 
 [node name="LcdFrame" type="PanelContainer" parent="SafeMargin/MainColumn"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="LcdBackground" type="ColorRect" parent="SafeMargin/MainColumn/LcdFrame"]
-layout_mode = 2
-color = Color(0.607843, 0.737255, 0.0588235, 1)
-
 [node name="LcdPadding" type="MarginContainer" parent="SafeMargin/MainColumn/LcdFrame"]
 layout_mode = 2
-theme_override_constants/margin_left = 10
-theme_override_constants/margin_top = 10
-theme_override_constants/margin_right = 10
-theme_override_constants/margin_bottom = 10
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
 
 [node name="LcdLayout" type="VBoxContainer" parent="SafeMargin/MainColumn/LcdFrame/LcdPadding"]
 layout_mode = 2
-theme_override_constants/separation = 8
+theme_override_constants/separation = 6
 
 [node name="HudBar" type="HBoxContainer" parent="SafeMargin/MainColumn/LcdFrame/LcdPadding/LcdLayout"]
 layout_mode = 2
@@ -64,14 +60,12 @@ theme_override_constants/separation = 8
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_colors/font_color = Color(0.0588235, 0.219608, 0.0588235, 1)
 text = "SCR 0000"
 
 [node name="HighScoreLabel" type="Label" parent="SafeMargin/MainColumn/LcdFrame/LcdPadding/LcdLayout/HudBar"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_colors/font_color = Color(0.0588235, 0.219608, 0.0588235, 1)
 text = "HI 0000"
 horizontal_alignment = 1
 
@@ -79,7 +73,6 @@ horizontal_alignment = 1
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_colors/font_color = Color(0.0588235, 0.219608, 0.0588235, 1)
 text = "NORMAL"
 horizontal_alignment = 2
 
@@ -88,23 +81,226 @@ custom_minimum_size = Vector2(0, 2)
 layout_mode = 2
 color = Color(0.0588235, 0.219608, 0.0588235, 1)
 
-[node name="BoardCenter" type="CenterContainer" parent="SafeMargin/MainColumn/LcdFrame/LcdPadding/LcdLayout"]
+[node name="BoardStage" type="Control" parent="SafeMargin/MainColumn/LcdFrame/LcdPadding/LcdLayout"]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="BoardRenderer" type="Control" parent="SafeMargin/MainColumn/LcdFrame/LcdPadding/LcdLayout/BoardCenter"]
+[node name="BoardCenter" type="CenterContainer" parent="SafeMargin/MainColumn/LcdFrame/LcdPadding/LcdLayout/BoardStage"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BoardRenderer" type="Control" parent="SafeMargin/MainColumn/LcdFrame/LcdPadding/LcdLayout/BoardStage/BoardCenter"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(288, 360)
 layout_mode = 2
 script = ExtResource("2_board_renderer")
 
-[node name="ControlsPlaceholder" type="CenterContainer" parent="SafeMargin/MainColumn"]
-custom_minimum_size = Vector2(0, 140)
+[node name="ReadyOverlay" type="CenterContainer" parent="SafeMargin/MainColumn/LcdFrame/LcdPadding/LcdLayout/BoardStage"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ReadyPanel" type="PanelContainer" parent="SafeMargin/MainColumn/LcdFrame/LcdPadding/LcdLayout/BoardStage/ReadyOverlay"]
 layout_mode = 2
 
-[node name="PlaceholderLabel" type="Label" parent="SafeMargin/MainColumn/ControlsPlaceholder"]
+[node name="ReadyMargin" type="MarginContainer" parent="SafeMargin/MainColumn/LcdFrame/LcdPadding/LcdLayout/BoardStage/ReadyOverlay/ReadyPanel"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.607843, 0.737255, 0.0588235, 1)
-text = "[ TOUCH CONTROLS: PHASE 6 ]"
+theme_override_constants/margin_left = 14
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 14
+theme_override_constants/margin_bottom = 10
+
+[node name="ReadyLabel" type="Label" parent="SafeMargin/MainColumn/LcdFrame/LcdPadding/LcdLayout/BoardStage/ReadyOverlay/ReadyPanel/ReadyMargin"]
+layout_mode = 2
+text = "READY
+SWIPE OR TAP DIR"
 horizontal_alignment = 1
-vertical_alignment = 1
+
+[node name="PauseOverlay" type="CenterContainer" parent="SafeMargin/MainColumn/LcdFrame/LcdPadding/LcdLayout/BoardStage"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PausePanel" type="PanelContainer" parent="SafeMargin/MainColumn/LcdFrame/LcdPadding/LcdLayout/BoardStage/PauseOverlay"]
+custom_minimum_size = Vector2(220, 0)
+layout_mode = 2
+
+[node name="PauseMargin" type="MarginContainer" parent="SafeMargin/MainColumn/LcdFrame/LcdPadding/LcdLayout/BoardStage/PauseOverlay/PausePanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 14
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 14
+
+[node name="PauseBox" type="VBoxContainer" parent="SafeMargin/MainColumn/LcdFrame/LcdPadding/LcdLayout/BoardStage/PauseOverlay/PausePanel/PauseMargin"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="PauseTitle" type="Label" parent="SafeMargin/MainColumn/LcdFrame/LcdPadding/LcdLayout/BoardStage/PauseOverlay/PausePanel/PauseMargin/PauseBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "PAUSED"
+horizontal_alignment = 1
+
+[node name="ResumeButton" type="Button" parent="SafeMargin/MainColumn/LcdFrame/LcdPadding/LcdLayout/BoardStage/PauseOverlay/PausePanel/PauseMargin/PauseBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+text = "RESUME"
+
+[node name="PauseRestartButton" type="Button" parent="SafeMargin/MainColumn/LcdFrame/LcdPadding/LcdLayout/BoardStage/PauseOverlay/PausePanel/PauseMargin/PauseBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+text = "RESTART"
+
+[node name="PauseMenuButton" type="Button" parent="SafeMargin/MainColumn/LcdFrame/LcdPadding/LcdLayout/BoardStage/PauseOverlay/PausePanel/PauseMargin/PauseBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+text = "MAIN MENU"
+
+[node name="GameOverOverlay" type="CenterContainer" parent="SafeMargin/MainColumn/LcdFrame/LcdPadding/LcdLayout/BoardStage"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="GameOverPanel" type="PanelContainer" parent="SafeMargin/MainColumn/LcdFrame/LcdPadding/LcdLayout/BoardStage/GameOverOverlay"]
+custom_minimum_size = Vector2(230, 0)
+layout_mode = 2
+
+[node name="GameOverMargin" type="MarginContainer" parent="SafeMargin/MainColumn/LcdFrame/LcdPadding/LcdLayout/BoardStage/GameOverOverlay/GameOverPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 14
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 14
+
+[node name="GameOverBox" type="VBoxContainer" parent="SafeMargin/MainColumn/LcdFrame/LcdPadding/LcdLayout/BoardStage/GameOverOverlay/GameOverPanel/GameOverMargin"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="GameOverTitle" type="Label" parent="SafeMargin/MainColumn/LcdFrame/LcdPadding/LcdLayout/BoardStage/GameOverOverlay/GameOverPanel/GameOverMargin/GameOverBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "GAME OVER"
+horizontal_alignment = 1
+
+[node name="GameOverStats" type="Label" parent="SafeMargin/MainColumn/LcdFrame/LcdPadding/LcdLayout/BoardStage/GameOverOverlay/GameOverPanel/GameOverMargin/GameOverBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "SCORE: 0000
+BEST:  0000"
+horizontal_alignment = 1
+
+[node name="NewRecordLabel" type="Label" parent="SafeMargin/MainColumn/LcdFrame/LcdPadding/LcdLayout/BoardStage/GameOverOverlay/GameOverPanel/GameOverMargin/GameOverBox"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+text = "NEW HIGH SCORE!"
+horizontal_alignment = 1
+
+[node name="PlayAgainButton" type="Button" parent="SafeMargin/MainColumn/LcdFrame/LcdPadding/LcdLayout/BoardStage/GameOverOverlay/GameOverPanel/GameOverMargin/GameOverBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+text = "PLAY AGAIN"
+
+[node name="GameOverMenuButton" type="Button" parent="SafeMargin/MainColumn/LcdFrame/LcdPadding/LcdLayout/BoardStage/GameOverOverlay/GameOverPanel/GameOverMargin/GameOverBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+text = "MAIN MENU"
+
+[node name="KeypadDeck" type="HBoxContainer" parent="SafeMargin/MainColumn"]
+custom_minimum_size = Vector2(0, 152)
+layout_mode = 2
+theme_override_constants/separation = 12
+alignment = 1
+
+[node name="ActionColumn" type="VBoxContainer" parent="SafeMargin/MainColumn/KeypadDeck"]
+layout_mode = 2
+theme_override_constants/separation = 12
+alignment = 1
+
+[node name="PauseButton" type="Button" parent="SafeMargin/MainColumn/KeypadDeck/ActionColumn"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(96, 48)
+layout_mode = 2
+text = "PAUSE"
+
+[node name="RestartButton" type="Button" parent="SafeMargin/MainColumn/KeypadDeck/ActionColumn"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(96, 48)
+layout_mode = 2
+text = "RESTART"
+
+[node name="DpadGrid" type="GridContainer" parent="SafeMargin/MainColumn/KeypadDeck"]
+layout_mode = 2
+theme_override_constants/h_separation = 6
+theme_override_constants/v_separation = 6
+columns = 3
+
+[node name="PadTL" type="Control" parent="SafeMargin/MainColumn/KeypadDeck/DpadGrid"]
+custom_minimum_size = Vector2(58, 46)
+layout_mode = 2
+
+[node name="UpButton" type="Button" parent="SafeMargin/MainColumn/KeypadDeck/DpadGrid"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(58, 46)
+layout_mode = 2
+text = "UP"
+
+[node name="PadTR" type="Control" parent="SafeMargin/MainColumn/KeypadDeck/DpadGrid"]
+custom_minimum_size = Vector2(58, 46)
+layout_mode = 2
+
+[node name="LeftButton" type="Button" parent="SafeMargin/MainColumn/KeypadDeck/DpadGrid"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(58, 46)
+layout_mode = 2
+text = "LEFT"
+
+[node name="PadCenter" type="Control" parent="SafeMargin/MainColumn/KeypadDeck/DpadGrid"]
+custom_minimum_size = Vector2(58, 46)
+layout_mode = 2
+
+[node name="RightButton" type="Button" parent="SafeMargin/MainColumn/KeypadDeck/DpadGrid"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(58, 46)
+layout_mode = 2
+text = "RIGHT"
+
+[node name="PadBL" type="Control" parent="SafeMargin/MainColumn/KeypadDeck/DpadGrid"]
+custom_minimum_size = Vector2(58, 46)
+layout_mode = 2
+
+[node name="DownButton" type="Button" parent="SafeMargin/MainColumn/KeypadDeck/DpadGrid"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(58, 46)
+layout_mode = 2
+text = "DOWN"
+
+[node name="PadBR" type="Control" parent="SafeMargin/MainColumn/KeypadDeck/DpadGrid"]
+custom_minimum_size = Vector2(58, 46)
+layout_mode = 2

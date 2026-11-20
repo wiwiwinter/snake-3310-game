@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 
 ### Added
+- **Phase 6: UI/UX Implementation**
+  - Added shared monochrome LCD theme (`scripts/ui/lcd_theme.gd`) and cardinal swipe detector (`scripts/ui/swipe_detector.gd`).
+  - Added Splash Screen (`scenes/menu/splash_screen.tscn`), Main Menu (`scenes/menu/main_menu.tscn`), Settings Screen (`scenes/settings/settings_screen.tscn`), and High Score Screen (`scenes/menu/high_score_screen.tscn`).
+  - Added Ready, Pause, and Game Over LCD overlays, tactile on-screen D-pad (>= 44px tap targets), swipe gestures, and Android focus-loss auto-pause to `scenes/game/game_scene.tscn` and `scripts/gameplay/game_scene.gd`.
+  - Wired root screen navigation in `scenes/main/main.tscn` and `scripts/core/main.gd`.
+  - Extended `scripts/managers/score_manager.gd` to persist `wrap_walls`, `sfx_enabled`, and `music_enabled`.
+  - Added `tests/test_phase6_ui.gd` automated UI, swipe, tap-target, and navigation test suite.
 - **Phase 5: Scoring and Difficulty**
   - Added `GameConfig.Difficulty` (`EASY`: `0.22s`, `NORMAL`: `0.15s`, `HARD`: `0.095s`), `POINTS_PER_FOOD` (`10`), and `SAVE_FILE_PATH` to `scripts/core/game_config.gd`.
   - Added `scripts/managers/score_manager.gd` for score tracking, overall and per-difficulty high-score persistence (`ConfigFile`), and safe fallback on corrupt/missing saves.

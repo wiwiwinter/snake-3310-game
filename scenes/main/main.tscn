@@ -1,7 +1,11 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene load_steps=7 format=3]
 
 [ext_resource type="Script" path="res://scripts/core/main.gd" id="1_main"]
-[ext_resource type="PackedScene" path="res://scenes/game/game_scene.tscn" id="2_game_scene"]
+[ext_resource type="PackedScene" path="res://scenes/menu/splash_screen.tscn" id="2_splash"]
+[ext_resource type="PackedScene" path="res://scenes/menu/main_menu.tscn" id="3_main_menu"]
+[ext_resource type="PackedScene" path="res://scenes/game/game_scene.tscn" id="4_game_scene"]
+[ext_resource type="PackedScene" path="res://scenes/settings/settings_screen.tscn" id="5_settings"]
+[ext_resource type="PackedScene" path="res://scenes/menu/high_score_screen.tscn" id="6_high_scores"]
 
 [node name="Main" type="Control"]
 layout_mode = 3
@@ -12,5 +16,26 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_main")
 
-[node name="GameScene" parent="." instance=ExtResource("2_game_scene")]
+[node name="SplashScreen" parent="." instance=ExtResource("2_splash")]
+unique_name_in_owner = true
+layout_mode = 1
+
+[node name="MainMenu" parent="." instance=ExtResource("3_main_menu")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+
+[node name="GameScene" parent="." instance=ExtResource("4_game_scene")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+
+[node name="SettingsScreen" parent="." instance=ExtResource("5_settings")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+
+[node name="HighScoreScreen" parent="." instance=ExtResource("6_high_scores")]
+unique_name_in_owner = true
+visible = false
 layout_mode = 1
