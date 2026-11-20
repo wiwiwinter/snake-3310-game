@@ -20,6 +20,8 @@ func _ready() -> void:
 
 
 func _process(delta: float) -> void:
+	if not is_visible_in_tree():
+		return
 	var needs_redraw: bool = false
 	if _flash_timer > 0.0:
 		_flash_timer = maxf(0.0, _flash_timer - delta)
@@ -118,15 +120,11 @@ func _draw_food(cell: Vector2i) -> void:
 	var cs: float = float(_grid.cell_size)
 	var px: float = floor(cs / 6.0) # 3px sub-pixel unit for 18px cells
 
-	# Classic 3310-style 4-dot diamond food pattern
-	var rects: Array[Rect2] = [
-		Rect2(origin + Vector2(px * 2.0, px * 1.0), Vector2(px * 2.0, px * 1.0)), # Top
-		Rect2(origin + Vector2(px * 2.0, px * 4.0), Vector2(px * 2.0, px * 1.0)), # Bottom
-		Rect2(origin + Vector2(px * 1.0, px * 2.0), Vector2(px * 1.0, px * 2.0)), # Left
-		Rect2(origin + Vector2(px * 4.0, px * 2.0), Vector2(px * 1.0, px * 2.0)), # Right
-	]
-	for r in rects:
-		draw_rect(r, GameConfig.COLOR_LCD_DEEP, true)
+	# Classic 3310-style 4-dot diamond food pattern (direct draws, zero per-frame allocation)
+	draw_rect(Rect2(origin + Vector2(px * 2.0, px * 1.0), Vector2(px * 2.0, px * 1.0)), GameConfig.COLOR_LCD_DEEP, true)
+	draw_rect(Rect2(origin + Vector2(px * 2.0, px * 4.0), Vector2(px * 2.0, px * 1.0)), GameConfig.COLOR_LCD_DEEP, true)
+	draw_rect(Rect2(origin + Vector2(px * 1.0, px * 2.0), Vector2(px * 1.0, px * 2.0)), GameConfig.COLOR_LCD_DEEP, true)
+	draw_rect(Rect2(origin + Vector2(px * 4.0, px * 2.0), Vector2(px * 1.0, px * 2.0)), GameConfig.COLOR_LCD_DEEP, true)
 
 	# Subtle 2-state retro center pixel pulse
 	var center_color: Color = GameConfig.COLOR_LCD_DEEP if _pulse_on else GameConfig.COLOR_LCD_DARK

@@ -49,8 +49,13 @@ func _test_audio_manager(audio: AudioManager) -> void:
 	_assert_true(audio._clip_click != null and audio._clip_click.data.size() > 0, "Click SFX WAV must have audio samples")
 	_assert_true(audio._clip_game_over != null and audio._clip_game_over.data.size() > 0, "Game Over SFX WAV must have audio samples")
 	_assert_true(audio._clip_win != null and audio._clip_win.data.size() > 0, "Win SFX WAV must have audio samples")
-	_assert_true(audio._clip_music != null and audio._clip_music.data.size() > 0, "Music WAV must have audio samples")
+	audio.apply_settings(true, true)
+	_assert_true(audio._clip_music != null and audio._clip_music.data.size() > 0, "Music WAV must synthesize lazily when enabled")
 	_assert_true(audio._clip_music.loop_mode == AudioStreamWAV.LOOP_FORWARD, "Music clip must be looping")
+	audio.set_paused(true)
+	_assert_true(audio._music_player.stream_paused == true, "set_paused(true) must pause music playback")
+	audio.set_paused(false)
+	_assert_true(audio._music_player.stream_paused == false, "set_paused(false) must resume music playback")
 
 	# Verify settings gating works cleanly without errors
 	audio.apply_settings(false, false)

@@ -141,6 +141,12 @@ func _exit_tree() -> void:
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_WM_GO_BACK_REQUEST:
 		handle_android_back()
+	elif what == NOTIFICATION_APPLICATION_PAUSED or what == NOTIFICATION_APPLICATION_FOCUS_OUT:
+		if audio_manager != null:
+			audio_manager.set_paused(true)
+	elif what == NOTIFICATION_APPLICATION_RESUMED or what == NOTIFICATION_APPLICATION_FOCUS_IN:
+		if audio_manager != null and score_manager != null and score_manager.music_enabled:
+			audio_manager.set_paused(false)
 
 
 func handle_android_back() -> void:

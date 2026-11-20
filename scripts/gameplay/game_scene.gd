@@ -4,6 +4,7 @@ extends Control
 
 signal menu_requested
 
+@onready var board_stage: Control = %BoardStage
 @onready var board_renderer: BoardRenderer = %BoardRenderer
 @onready var score_label: Label = %ScoreLabel
 @onready var high_score_label: Label = %HighScoreLabel
@@ -53,7 +54,37 @@ func _ready() -> void:
 
 	_connect_controls()
 	_style_keypad()
+	board_stage.resized.connect(_on_board_stage_resized)
 	start_new_game(false)
+
+
+static func compute_adaptive_grid_params(stage_size: Vector2) -> Vector3i:
+	# Returns Vector3i(columns, rows, cell_size) that fills BoardStage cleanly with crisp integer cells.
+	var cols: int = GameConfig.GRID_COLUMNS
+	if stage_size.x < 100.0 or stage_size.y < 100.0:
+		return Vector3i(cols, GameConfig.GRID_ROWS, GameConfig.CELL_SIZE)
+	var cell_px: int = clampi(int(floor(stage_size.x / float(cols))), 16, 28)
+	var rows: int = clampi(int(floor(stage_size.y / float(cell_px))), 16, 32)
+	return Vector3i(cols, rows, cell_px)
+
+
+func _on_board_stage_resized() -> void:
+	if session != null and session.state == SnakeGameSession.State.READY:
+		_adapt_grid_to_stage(true)
+
+
+func _adapt_grid_to_stage(reset_session: bool = false) -> void:
+	if board_stage == null or grid == null:
+		return
+	var params: Vector3i = compute_adaptive_grid_params(board_stage.size)
+	if grid.columns == params.x and grid.rows == params.y and grid.cell_size == params.z:
+		return
+	grid = GridSystem.new(params.x, params.y, params.z)
+	session.grid = grid
+	board_renderer.set_grid(grid)
+	if reset_session:
+		session.reset(score_manager.wrap_walls, false)
+	_sync_view()
 
 
 func configure(p_score_manager: ScoreManager, p_audio_manager: AudioManager = null) -> void:
@@ -65,6 +96,7 @@ func configure(p_score_manager: ScoreManager, p_audio_manager: AudioManager = nu
 func start_new_game(start_immediately: bool = false) -> void:
 	if score_manager == null or session == null:
 		return
+	_adapt_grid_to_stage(false)
 	_move_accumulator = 0.0
 	_achieved_new_record = false
 	score_manager.reset_score()
@@ -122,10 +154,6 @@ func _input(event: InputEvent) -> void:
 	if session.state == SnakeGameSession.State.PAUSED or session.state == SnakeGameSession.State.GAME_OVER:
 		_swipe_detector.end_drag()
 		return
-	# Skip board swipe tracking when the touch is handled by the circular D-pad.
-	if circular_dpad != null and (event is InputEventScreenTouch or event is InputEventScreenDrag or event is InputEventMouseButton or event is InputEventMouseMotion):
-		if circular_dpad.get_global_rect().has_point(event.position):
-			return
 	_handle_swipe_input(event)
 
 
@@ -190,12 +218,17 @@ func _process(delta: float) -> void:
 			break
 
 
+func _is_point_on_board(pos: Vector2) -> bool:
+	return board_stage != null and board_stage.get_global_rect().has_point(pos)
+
+
 func _handle_swipe_input(event: InputEvent) -> void:
 	if event is InputEventScreenTouch:
 		if event.index != 0:
 			return
 		if event.pressed:
-			_swipe_detector.begin_drag(event.position)
+			if _is_point_on_board(event.position):
+				_swipe_detector.begin_drag(event.position)
 		else:
 			_swipe_detector.end_drag()
 	elif event is InputEventScreenDrag:
@@ -208,7 +241,8 @@ func _handle_swipe_input(event: InputEvent) -> void:
 		# Desktop mouse-drag fallback (skipped on Android to avoid duplicate emulate_mouse_from_touch events).
 		if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
 			if event.pressed:
-				_swipe_detector.begin_drag(event.position)
+				if _is_point_on_board(event.position):
+					_swipe_detector.begin_drag(event.position)
 			else:
 				_swipe_detector.end_drag()
 		elif event is InputEventMouseMotion and (event.button_mask & MOUSE_BUTTON_MASK_LEFT) != 0:
@@ -237,16 +271,16 @@ func _style_keypad() -> void:
 	_icon_restart = LcdTheme.make_restart_icon()
 
 	# Match Pause & Restart icon buttons to the dark-green handheld deck for a cohesive controller look.
-	LcdTheme.apply_pixel_button(pause_button, LcdTheme.ButtonVariant.CYAN)
-	LcdTheme.apply_pixel_button(restart_button, LcdTheme.ButtonVariant.CYAN)
+	LcdTheme.apply_pixel_button(pause_button, LcdTheme.ButtonVariant.HANDHELD_DARK)
+	LcdTheme.apply_pixel_button(restart_button, LcdTheme.ButtonVariant.HANDHELD_DARK)
 	pause_button.icon = _icon_pause
 	restart_button.icon = _icon_restart
 
-	LcdTheme.apply_pixel_button(resume_button, LcdTheme.ButtonVariant.GREEN)
-	LcdTheme.apply_pixel_button(pause_restart_button, LcdTheme.ButtonVariant.AMBER)
-	LcdTheme.apply_pixel_button(pause_menu_button, LcdTheme.ButtonVariant.RED)
-	LcdTheme.apply_pixel_button(play_again_button, LcdTheme.ButtonVariant.GREEN)
-	LcdTheme.apply_pixel_button(game_over_menu_button, LcdTheme.ButtonVariant.RED)
+	LcdTheme.apply_pixel_button(resume_button, LcdTheme.ButtonVariant.LCD_PRIMARY)
+	LcdTheme.apply_pixel_button(pause_restart_button, LcdTheme.ButtonVariant.LCD_PRIMARY)
+	LcdTheme.apply_pixel_button(pause_menu_button, LcdTheme.ButtonVariant.LCD_SECONDARY)
+	LcdTheme.apply_pixel_button(play_again_button, LcdTheme.ButtonVariant.LCD_PRIMARY)
+	LcdTheme.apply_pixel_button(game_over_menu_button, LcdTheme.ButtonVariant.LCD_SECONDARY)
 
 
 func _sync_view(last_result: SnakeGameSession.TickResult = SnakeGameSession.TickResult.NONE) -> void:

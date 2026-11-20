@@ -45,7 +45,17 @@ func _init(
 
 func reset(p_wrap_walls: bool = wrap_walls, start_immediately: bool = true) -> void:
 	wrap_walls = p_wrap_walls
-	snake.reset(GameConfig.INITIAL_SNAKE_CELLS, GameConfig.INITIAL_DIRECTION)
+	var start_cells: Array[Vector2i] = GameConfig.INITIAL_SNAKE_CELLS
+	if grid != null and (grid.rows != GameConfig.GRID_ROWS or grid.columns != GameConfig.GRID_COLUMNS):
+		var cy: int = grid.rows / 2
+		var head_x: int = clampi(grid.columns / 2 - 2, 3, grid.columns - 2)
+		start_cells = [
+			Vector2i(head_x, cy),
+			Vector2i(head_x - 1, cy),
+			Vector2i(head_x - 2, cy),
+			Vector2i(head_x - 3, cy),
+		]
+	snake.reset(start_cells, GameConfig.INITIAL_DIRECTION)
 	food_eaten = 0
 	state = State.PLAYING if start_immediately else State.READY
 	spawn_food()

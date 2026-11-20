@@ -24,6 +24,7 @@ func _process(_delta: float) -> bool:
 
 	if _main_node != null:
 		_test_portrait_resolutions(_main_node)
+		_test_adaptive_grid_sizing()
 		_test_android_safe_area_inset()
 		_test_android_lifecycle_and_back_button(_main_node)
 		_test_end_to_end_scoring_and_wraparound(_main_node)
@@ -68,6 +69,16 @@ func _test_portrait_resolutions(main_node: Main) -> void:
 		var min_sz: Vector2 = main_node.game_scene.get_combined_minimum_size()
 		_assert_true(min_sz.x <= vp.x, "GameScene min width %.1f must fit viewport width %.1f" % [min_sz.x, vp.x])
 		_assert_true(min_sz.y <= vp.y, "GameScene min height %.1f must fit viewport height %.1f" % [min_sz.y, vp.y])
+
+
+func _test_adaptive_grid_sizing() -> void:
+	# Standard 16:9 stage (~316x360) vs tall 20:9 Nothing 3a Lite stage (~316x490)
+	var std_params: Vector3i = GameScene.compute_adaptive_grid_params(Vector2(316, 360))
+	var tall_params: Vector3i = GameScene.compute_adaptive_grid_params(Vector2(316, 490))
+	_assert_true(std_params.x == 16 and tall_params.x == 16, "Columns should stay 16 across portrait screens")
+	_assert_true(std_params.z == 19 and tall_params.z == 19, "Cell size should scale to 19px on 316px stage")
+	_assert_true(tall_params.y > std_params.y, "Tall 20:9 phone must expand grid rows (%d > %d)" % [tall_params.y, std_params.y])
+	_assert_true(tall_params.y * tall_params.z <= 490, "Expanded grid pixel height must fit stage height")
 
 
 func _test_android_safe_area_inset() -> void:

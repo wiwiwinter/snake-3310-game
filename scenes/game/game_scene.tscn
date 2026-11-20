@@ -40,6 +40,7 @@ theme_override_constants/separation = 8
 
 [node name="LcdFrame" type="PanelContainer" parent="SafeMargin/MainColumn"]
 layout_mode = 2
+size_flags_vertical = 3
 
 [node name="LcdPadding" type="MarginContainer" parent="SafeMargin/MainColumn/LcdFrame"]
 layout_mode = 2
@@ -82,8 +83,10 @@ layout_mode = 2
 color = Color(0.0588235, 0.219608, 0.0588235, 1)
 
 [node name="BoardStage" type="Control" parent="SafeMargin/MainColumn/LcdFrame/LcdPadding/LcdLayout"]
-custom_minimum_size = Vector2(288, 360)
+unique_name_in_owner = true
+custom_minimum_size = Vector2(288, 324)
 layout_mode = 2
+size_flags_vertical = 3
 
 [node name="BoardCenter" type="CenterContainer" parent="SafeMargin/MainColumn/LcdFrame/LcdPadding/LcdLayout/BoardStage"]
 layout_mode = 1
@@ -233,8 +236,8 @@ layout_mode = 2
 text = "MAIN MENU"
 
 [node name="KeypadDeck" type="HBoxContainer" parent="SafeMargin/MainColumn"]
+custom_minimum_size = Vector2(0, 192)
 layout_mode = 2
-size_flags_vertical = 3
 theme_override_constants/separation = 16
 alignment = 1
 

@@ -14,7 +14,7 @@ var _done: bool = false
 
 
 func _process(delta: float) -> void:
-	if _done:
+	if _done or not visible:
 		return
 	_elapsed += delta
 	var ratio: float = clampf(_elapsed / SPLASH_DURATION, 0.0, 1.0)

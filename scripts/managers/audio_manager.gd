@@ -40,17 +40,26 @@ func _ready() -> void:
 		Vector2(1046.50, 0.16),
 	], 0.35)
 
-	# Original 8-note retro chiptune loop (C-major pentatonic pulse).
-	_clip_music = _build_sequence([
-		Vector2(261.63, 0.18), Vector2(0.0, 0.04),
-		Vector2(329.63, 0.18), Vector2(0.0, 0.04),
-		Vector2(392.00, 0.18), Vector2(0.0, 0.04),
-		Vector2(329.63, 0.18), Vector2(0.0, 0.04),
-		Vector2(293.66, 0.18), Vector2(0.0, 0.04),
-		Vector2(349.23, 0.18), Vector2(0.0, 0.04),
-		Vector2(392.00, 0.18), Vector2(0.0, 0.04),
-		Vector2(293.66, 0.22), Vector2(0.0, 0.08),
-	], 0.18, true)
+
+func _ensure_music_clip() -> AudioStreamWAV:
+	if _clip_music == null:
+		# Original 8-note retro chiptune loop (C-major pentatonic pulse), built lazily when enabled.
+		_clip_music = _build_sequence([
+			Vector2(261.63, 0.18), Vector2(0.0, 0.04),
+			Vector2(329.63, 0.18), Vector2(0.0, 0.04),
+			Vector2(392.00, 0.18), Vector2(0.0, 0.04),
+			Vector2(329.63, 0.18), Vector2(0.0, 0.04),
+			Vector2(293.66, 0.18), Vector2(0.0, 0.04),
+			Vector2(349.23, 0.18), Vector2(0.0, 0.04),
+			Vector2(392.00, 0.18), Vector2(0.0, 0.04),
+			Vector2(293.66, 0.22), Vector2(0.0, 0.08),
+		], 0.18, true)
+	return _clip_music
+
+
+func set_paused(paused: bool) -> void:
+	if _music_player != null:
+		_music_player.stream_paused = paused
 
 
 func _exit_tree() -> void:
@@ -68,8 +77,9 @@ func apply_settings(p_sfx_enabled: bool, p_music_enabled: bool) -> void:
 	if _music_player == null:
 		return
 	if music_enabled:
-		if not _music_player.playing and _clip_music != null:
-			_music_player.stream = _clip_music
+		if not _music_player.playing:
+			_music_player.stream = _ensure_music_clip()
+			_music_player.stream_paused = false
 			_music_player.play()
 	else:
 		_music_player.stop()

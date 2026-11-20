@@ -21,11 +21,11 @@ func _ready() -> void:
 	music_button.pressed.connect(_on_toggle_music)
 	back_button.pressed.connect(func() -> void: back_requested.emit())
 
-	LcdTheme.apply_pixel_button(difficulty_button, LcdTheme.ButtonVariant.GREEN)
-	LcdTheme.apply_pixel_button(walls_button, LcdTheme.ButtonVariant.GREEN)
-	LcdTheme.apply_pixel_button(sfx_button, LcdTheme.ButtonVariant.GREEN)
-	LcdTheme.apply_pixel_button(music_button, LcdTheme.ButtonVariant.GREEN)
-	LcdTheme.apply_pixel_button(back_button, LcdTheme.ButtonVariant.RED)
+	LcdTheme.apply_pixel_button(difficulty_button, LcdTheme.ButtonVariant.LCD_PRIMARY)
+	LcdTheme.apply_pixel_button(walls_button, LcdTheme.ButtonVariant.LCD_PRIMARY)
+	LcdTheme.apply_pixel_button(sfx_button, LcdTheme.ButtonVariant.LCD_PRIMARY)
+	LcdTheme.apply_pixel_button(music_button, LcdTheme.ButtonVariant.LCD_PRIMARY)
+	LcdTheme.apply_pixel_button(back_button, LcdTheme.ButtonVariant.LCD_SECONDARY)
 
 
 func _unhandled_input(event: InputEvent) -> void:
