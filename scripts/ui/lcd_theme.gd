@@ -76,6 +76,80 @@ static func create_theme() -> Theme:
 	return theme
 
 
+static func make_pause_icon() -> ImageTexture:
+	return _build_pixel_icon([
+		"................",
+		"................",
+		"....###..###....",
+		"....###..###....",
+		"....###..###....",
+		"....###..###....",
+		"....###..###....",
+		"....###..###....",
+		"....###..###....",
+		"....###..###....",
+		"....###..###....",
+		"....###..###....",
+		"....###..###....",
+		"....###..###....",
+		"................",
+		"................",
+	])
+
+
+static func make_play_icon() -> ImageTexture:
+	return _build_pixel_icon([
+		"................",
+		"................",
+		"....##..........",
+		"....####........",
+		"....######......",
+		"....########....",
+		"....##########..",
+		"....###########.",
+		"....###########.",
+		"....##########..",
+		"....########....",
+		"....######......",
+		"....####........",
+		"....##..........",
+		"................",
+		"................",
+	])
+
+
+static func make_restart_icon() -> ImageTexture:
+	return _build_pixel_icon([
+		"................",
+		"......######....",
+		"....##......##..",
+		"...##........##.",
+		"..##......#...#.",
+		"..##.......##.#.",
+		"..##......#####.",
+		"..##............",
+		"..##............",
+		"..##..........#.",
+		"..##.........##.",
+		"...##.......##..",
+		"....##.....##...",
+		"......#####.....",
+		"................",
+		"................",
+	])
+
+
+static func _build_pixel_icon(rows: Array[String]) -> ImageTexture:
+	var img := Image.create(16, 16, false, Image.FORMAT_RGBA8)
+	img.fill(Color(0, 0, 0, 0))
+	for y in range(mini(16, rows.size())):
+		var line: String = rows[y]
+		for x in range(mini(16, line.length())):
+			if line[x] == "#":
+				img.set_pixel(x, y, GameConfig.COLOR_LCD_BG)
+	return ImageTexture.create_from_image(img)
+
+
 static func _make_lcd_frame_stylebox() -> StyleBoxTexture:
 	var img := Image.create(16, 16, false, Image.FORMAT_RGBA8)
 	img.fill(GameConfig.COLOR_LCD_BG)

@@ -35,6 +35,9 @@ var move_interval: float = GameConfig.DEFAULT_MOVE_INTERVAL
 var _swipe_detector: SwipeDetector = SwipeDetector.new()
 var _move_accumulator: float = 0.0
 var _achieved_new_record: bool = false
+var _icon_pause: Texture2D
+var _icon_play: Texture2D
+var _icon_restart: Texture2D
 
 
 func _ready() -> void:
@@ -229,8 +232,16 @@ func _connect_controls() -> void:
 
 
 func _style_keypad() -> void:
-	LcdTheme.apply_pixel_button(pause_button, LcdTheme.ButtonVariant.AMBER)
-	LcdTheme.apply_pixel_button(restart_button, LcdTheme.ButtonVariant.RED)
+	_icon_pause = LcdTheme.make_pause_icon()
+	_icon_play = LcdTheme.make_play_icon()
+	_icon_restart = LcdTheme.make_restart_icon()
+
+	# Match Pause & Restart icon buttons to the dark-green handheld deck for a cohesive controller look.
+	LcdTheme.apply_pixel_button(pause_button, LcdTheme.ButtonVariant.CYAN)
+	LcdTheme.apply_pixel_button(restart_button, LcdTheme.ButtonVariant.CYAN)
+	pause_button.icon = _icon_pause
+	restart_button.icon = _icon_restart
+
 	LcdTheme.apply_pixel_button(resume_button, LcdTheme.ButtonVariant.GREEN)
 	LcdTheme.apply_pixel_button(pause_restart_button, LcdTheme.ButtonVariant.AMBER)
 	LcdTheme.apply_pixel_button(pause_menu_button, LcdTheme.ButtonVariant.RED)
@@ -252,7 +263,7 @@ func _sync_view(last_result: SnakeGameSession.TickResult = SnakeGameSession.Tick
 	ready_overlay.visible = (session.state == SnakeGameSession.State.READY)
 	pause_overlay.visible = (session.state == SnakeGameSession.State.PAUSED)
 	game_over_overlay.visible = (session.state == SnakeGameSession.State.GAME_OVER)
-	pause_button.text = "RESUME" if session.state == SnakeGameSession.State.PAUSED else "PAUSE"
+	pause_button.icon = _icon_play if session.state == SnakeGameSession.State.PAUSED else _icon_pause
 
 	if session.state == SnakeGameSession.State.GAME_OVER:
 		game_over_title.text = "BOARD CLEARED!" if last_result == SnakeGameSession.TickResult.BOARD_CLEARED else "GAME OVER"

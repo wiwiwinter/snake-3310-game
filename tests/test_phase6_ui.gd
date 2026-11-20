@@ -146,10 +146,10 @@ func _test_screen_navigation_and_tap_targets(main_node: Main) -> void:
 	var d_down := InputEventScreenTouch.new()
 	d_down.index = 0
 	d_down.pressed = true
-	d_down.position = Vector2(82, 20) # UP
+	d_down.position = Vector2(92, 20) # UP
 	dpad._gui_input(d_down)
 
-	for drag_pt in [Vector2(144, 82), Vector2(82, 144), Vector2(20, 82), Vector2(82, 20)]:
+	for drag_pt in [Vector2(164, 92), Vector2(92, 164), Vector2(20, 92), Vector2(92, 20)]:
 		var d_drag := InputEventScreenDrag.new()
 		d_drag.index = 0
 		d_drag.position = drag_pt
@@ -158,7 +158,7 @@ func _test_screen_navigation_and_tap_targets(main_node: Main) -> void:
 	var d_up := InputEventScreenTouch.new()
 	d_up.index = 0
 	d_up.pressed = false
-	d_up.position = Vector2(82, 20)
+	d_up.position = Vector2(92, 20)
 	dpad._gui_input(d_up)
 	dpad.direction_changed.disconnect(cb)
 
@@ -178,6 +178,8 @@ func _test_screen_navigation_and_tap_targets(main_node: Main) -> void:
 		main_node.settings_screen.music_button,
 		main_node.settings_screen.back_button,
 		main_node.high_score_screen.back_button,
+		main_node.game_scene.pause_button,
+		main_node.game_scene.restart_button,
 		main_node.game_scene.resume_button,
 		main_node.game_scene.pause_restart_button,
 		main_node.game_scene.pause_menu_button,
@@ -186,5 +188,5 @@ func _test_screen_navigation_and_tap_targets(main_node: Main) -> void:
 	]
 	for btn in buttons_to_check:
 		_assert_true(btn.custom_minimum_size.y >= 44.0, "Button %s must meet >=44px tap target height" % btn.name)
-	for compact_btn in [main_node.game_scene.pause_button, main_node.game_scene.restart_button]:
-		_assert_true(compact_btn.custom_minimum_size.y >= 32.0, "Compact button %s must be >=32px tall" % compact_btn.name)
+	_assert_true(main_node.game_scene.pause_button.icon != null, "PauseButton must have a pixel icon")
+	_assert_true(main_node.game_scene.restart_button.icon != null, "RestartButton must have a pixel icon")
