@@ -1,0 +1,99 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/gameplay/game_scene.gd" id="1_game_scene"]
+[ext_resource type="Script" path="res://scripts/gameplay/board_renderer.gd" id="2_board_renderer"]
+
+[node name="GameScene" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_game_scene")
+
+[node name="OuterBezel" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.188235, 0.384314, 0.188235, 1)
+
+[node name="SafeMargin" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 14
+theme_override_constants/margin_top = 18
+theme_override_constants/margin_right = 14
+theme_override_constants/margin_bottom = 18
+
+[node name="MainColumn" type="VBoxContainer" parent="SafeMargin"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="LcdFrame" type="PanelContainer" parent="SafeMargin/MainColumn"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="LcdBackground" type="ColorRect" parent="SafeMargin/MainColumn/LcdFrame"]
+layout_mode = 2
+color = Color(0.607843, 0.737255, 0.0588235, 1)
+
+[node name="LcdPadding" type="MarginContainer" parent="SafeMargin/MainColumn/LcdFrame"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="LcdLayout" type="VBoxContainer" parent="SafeMargin/MainColumn/LcdFrame/LcdPadding"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="HudBar" type="HBoxContainer" parent="SafeMargin/MainColumn/LcdFrame/LcdPadding/LcdLayout"]
+layout_mode = 2
+
+[node name="TitleLabel" type="Label" parent="SafeMargin/MainColumn/LcdFrame/LcdPadding/LcdLayout/HudBar"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.0588235, 0.219608, 0.0588235, 1)
+text = "SNAKE 3310"
+
+[node name="ScoreLabel" type="Label" parent="SafeMargin/MainColumn/LcdFrame/LcdPadding/LcdLayout/HudBar"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.0588235, 0.219608, 0.0588235, 1)
+text = "SCORE: 0000"
+horizontal_alignment = 2
+
+[node name="HudDivider" type="ColorRect" parent="SafeMargin/MainColumn/LcdFrame/LcdPadding/LcdLayout"]
+custom_minimum_size = Vector2(0, 2)
+layout_mode = 2
+color = Color(0.0588235, 0.219608, 0.0588235, 1)
+
+[node name="BoardCenter" type="CenterContainer" parent="SafeMargin/MainColumn/LcdFrame/LcdPadding/LcdLayout"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="BoardRenderer" type="Control" parent="SafeMargin/MainColumn/LcdFrame/LcdPadding/LcdLayout/BoardCenter"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(288, 360)
+layout_mode = 2
+script = ExtResource("2_board_renderer")
+
+[node name="ControlsPlaceholder" type="CenterContainer" parent="SafeMargin/MainColumn"]
+custom_minimum_size = Vector2(0, 140)
+layout_mode = 2
+
+[node name="PlaceholderLabel" type="Label" parent="SafeMargin/MainColumn/ControlsPlaceholder"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.607843, 0.737255, 0.0588235, 1)
+text = "[ TOUCH CONTROLS — PHASE 6 ]"
+horizontal_alignment = 1
+vertical_alignment = 1

@@ -2,8 +2,8 @@
 
 ## Current Status
 
-- **Active Phase:** Phase 1 Complete — Ready for Phase 2 (Core Game Rendering)
-- **Overall Progress:** 1 / 9 Phases Complete
+- **Active Phase:** Phase 2 Complete — Ready for Phase 3 (Snake Movement)
+- **Overall Progress:** 2 / 9 Phases Complete
 
 ---
 
@@ -21,12 +21,12 @@
 - [x] Verify initial project launch (`scenes/main/main.tscn` executed cleanly via Godot 4.7.2)
 
 ### Phase 2: Core Game Rendering
-- [ ] Create main game scene
-- [ ] Implement grid system and coordinate mapping
-- [ ] Configure monochrome LCD-inspired background and framing
-- [ ] Create snake visual representation
-- [ ] Create food visual representation
-- [ ] Verify basic rendering
+- [x] Create main game scene (`scenes/game/game_scene.tscn` & `scripts/gameplay/game_scene.gd`)
+- [x] Implement grid system and coordinate mapping (`scripts/gameplay/grid_system.gd`, 16×20 @ 18px)
+- [x] Configure monochrome LCD-inspired background and framing (`scripts/core/game_config.gd`)
+- [x] Create snake visual representation (head with directional eyes, segmented body, tapered tail)
+- [x] Create food visual representation (classic 3310-style monochrome pixel diamond)
+- [x] Verify basic rendering (headless launch + `tests/test_phase2_rendering.gd` passed)
 
 ### Phase 3: Snake Movement
 - [ ] Implement grid-based movement loop and step timer

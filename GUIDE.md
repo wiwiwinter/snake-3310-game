@@ -68,10 +68,11 @@ Restart your terminal or VS Code window once after installation so the updated u
 
 ## 4. Testing the Game
 
-*(To be updated as gameplay logic and automated tests are added in Phases 2–8.)*
-
-- Manual testing in Godot desktop runner (portrait viewport emulation) and on physical Android devices via `adb`.
-- Automated GDScript tests located in `tests/`.
+- **Automated Headless Tests:**
+  ```powershell
+  godot_console --path "d:\CODE\ANDROID GAME - SNAKE" --headless --script res://tests/test_phase2_rendering.gd
+  ```
+- **Visual / Manual Inspection:** Open the project in Godot 4.7.2 and press `F5` (or run `godot --path "d:\CODE\ANDROID GAME - SNAKE"`).
 
 ---
 
@@ -85,15 +86,12 @@ Restart your terminal or VS Code window once after installation so the updated u
 
 ## 6. Project Architecture & File Responsibilities
 
-*(Will be populated as modules are created in Phases 1–7.)*
-
-- `scenes/` — Godot scene files (`.tscn`) separated by domain (`main`, `menu`, `game`, `settings`, `ui`).
-- `scripts/core/` — Game state machine, constants, configuration, and shared types.
-- `scripts/gameplay/` — Grid model, snake logic, food spawning, collision detection.
-- `scripts/managers/` — Score/high-score persistence, audio manager, settings manager.
-- `scripts/ui/` — HUD, menus, touch controls, and swipe gesture handling.
-- `scripts/utilities/` — Pure helper utilities.
-- `tests/` — Automated tests for core gameplay and persistence logic.
+- `scenes/main/main.tscn` & `scripts/core/main.gd` — Root entry scene hosting the active screen.
+- `scenes/game/game_scene.tscn` & `scripts/gameplay/game_scene.gd` — Nokia-inspired monochrome LCD frame, HUD strip, and `BoardRenderer` container.
+- `scripts/core/game_config.gd` — Shared LCD color palette (`#9BBC0F`, `#8BAC0F`, `#306230`, `#0F380F`), grid dimensions (`16×20`, `18px` cells), and initial placement constants.
+- `scripts/gameplay/grid_system.gd` — Pure 2D grid coordinate system (bounds checking, wraparound math, grid-to-pixel conversion).
+- `scripts/gameplay/board_renderer.gd` — Custom `_draw()` monochrome pixel renderer for the playfield grid, snake (head with directional eyes, segmented body, tail), and retro diamond food.
+- `tests/test_phase2_rendering.gd` — Headless automated verification for `GridSystem` and `GameScene`/`BoardRenderer`.
 
 ---
 
