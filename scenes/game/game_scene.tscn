@@ -28,14 +28,14 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_left = 12
-theme_override_constants/margin_top = 14
-theme_override_constants/margin_right = 12
-theme_override_constants/margin_bottom = 14
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
 
 [node name="MainColumn" type="VBoxContainer" parent="SafeMargin"]
 layout_mode = 2
-theme_override_constants/separation = 10
+theme_override_constants/separation = 8
 
 [node name="LcdFrame" type="PanelContainer" parent="SafeMargin/MainColumn"]
 layout_mode = 2
@@ -232,75 +232,83 @@ custom_minimum_size = Vector2(0, 44)
 layout_mode = 2
 text = "MAIN MENU"
 
-[node name="KeypadDeck" type="HBoxContainer" parent="SafeMargin/MainColumn"]
-custom_minimum_size = Vector2(0, 152)
+[node name="KeypadDeck" type="VBoxContainer" parent="SafeMargin/MainColumn"]
 layout_mode = 2
-theme_override_constants/separation = 12
+theme_override_constants/separation = 8
 alignment = 1
 
-[node name="ActionColumn" type="VBoxContainer" parent="SafeMargin/MainColumn/KeypadDeck"]
+[node name="DpadCenter" type="CenterContainer" parent="SafeMargin/MainColumn/KeypadDeck"]
 layout_mode = 2
-theme_override_constants/separation = 12
-alignment = 1
 
-[node name="PauseButton" type="Button" parent="SafeMargin/MainColumn/KeypadDeck/ActionColumn"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(96, 48)
-layout_mode = 2
-text = "PAUSE"
-
-[node name="RestartButton" type="Button" parent="SafeMargin/MainColumn/KeypadDeck/ActionColumn"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(96, 48)
-layout_mode = 2
-text = "RESTART"
-
-[node name="DpadGrid" type="GridContainer" parent="SafeMargin/MainColumn/KeypadDeck"]
+[node name="DpadGrid" type="GridContainer" parent="SafeMargin/MainColumn/KeypadDeck/DpadCenter"]
 layout_mode = 2
 theme_override_constants/h_separation = 6
-theme_override_constants/v_separation = 6
+theme_override_constants/v_separation = 4
 columns = 3
 
-[node name="PadTL" type="Control" parent="SafeMargin/MainColumn/KeypadDeck/DpadGrid"]
-custom_minimum_size = Vector2(58, 46)
+[node name="PadTL" type="Control" parent="SafeMargin/MainColumn/KeypadDeck/DpadCenter/DpadGrid"]
+custom_minimum_size = Vector2(58, 44)
 layout_mode = 2
 
-[node name="UpButton" type="Button" parent="SafeMargin/MainColumn/KeypadDeck/DpadGrid"]
+[node name="UpButton" type="Button" parent="SafeMargin/MainColumn/KeypadDeck/DpadCenter/DpadGrid"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(58, 46)
+custom_minimum_size = Vector2(58, 44)
 layout_mode = 2
-text = "UP"
+theme_override_font_sizes/font_size = 20
+text = "▲"
 
-[node name="PadTR" type="Control" parent="SafeMargin/MainColumn/KeypadDeck/DpadGrid"]
-custom_minimum_size = Vector2(58, 46)
+[node name="PadTR" type="Control" parent="SafeMargin/MainColumn/KeypadDeck/DpadCenter/DpadGrid"]
+custom_minimum_size = Vector2(58, 44)
 layout_mode = 2
 
-[node name="LeftButton" type="Button" parent="SafeMargin/MainColumn/KeypadDeck/DpadGrid"]
+[node name="LeftButton" type="Button" parent="SafeMargin/MainColumn/KeypadDeck/DpadCenter/DpadGrid"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(58, 46)
+custom_minimum_size = Vector2(58, 44)
 layout_mode = 2
-text = "LEFT"
+theme_override_font_sizes/font_size = 20
+text = "◀"
 
-[node name="PadCenter" type="Control" parent="SafeMargin/MainColumn/KeypadDeck/DpadGrid"]
-custom_minimum_size = Vector2(58, 46)
+[node name="PadCenter" type="Control" parent="SafeMargin/MainColumn/KeypadDeck/DpadCenter/DpadGrid"]
+custom_minimum_size = Vector2(58, 44)
 layout_mode = 2
 
-[node name="RightButton" type="Button" parent="SafeMargin/MainColumn/KeypadDeck/DpadGrid"]
+[node name="RightButton" type="Button" parent="SafeMargin/MainColumn/KeypadDeck/DpadCenter/DpadGrid"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(58, 46)
+custom_minimum_size = Vector2(58, 44)
 layout_mode = 2
-text = "RIGHT"
+theme_override_font_sizes/font_size = 20
+text = "▶"
 
-[node name="PadBL" type="Control" parent="SafeMargin/MainColumn/KeypadDeck/DpadGrid"]
-custom_minimum_size = Vector2(58, 46)
+[node name="PadBL" type="Control" parent="SafeMargin/MainColumn/KeypadDeck/DpadCenter/DpadGrid"]
+custom_minimum_size = Vector2(58, 44)
 layout_mode = 2
 
-[node name="DownButton" type="Button" parent="SafeMargin/MainColumn/KeypadDeck/DpadGrid"]
+[node name="DownButton" type="Button" parent="SafeMargin/MainColumn/KeypadDeck/DpadCenter/DpadGrid"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(58, 46)
+custom_minimum_size = Vector2(58, 44)
 layout_mode = 2
-text = "DOWN"
+theme_override_font_sizes/font_size = 20
+text = "▼"
 
-[node name="PadBR" type="Control" parent="SafeMargin/MainColumn/KeypadDeck/DpadGrid"]
-custom_minimum_size = Vector2(58, 46)
+[node name="PadBR" type="Control" parent="SafeMargin/MainColumn/KeypadDeck/DpadCenter/DpadGrid"]
+custom_minimum_size = Vector2(58, 44)
 layout_mode = 2
+
+[node name="ActionRow" type="HBoxContainer" parent="SafeMargin/MainColumn/KeypadDeck"]
+layout_mode = 2
+theme_override_constants/separation = 16
+alignment = 1
+
+[node name="PauseButton" type="Button" parent="SafeMargin/MainColumn/KeypadDeck/ActionRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(88, 34)
+layout_mode = 2
+theme_override_font_sizes/font_size = 13
+text = "PAUSE"
+
+[node name="RestartButton" type="Button" parent="SafeMargin/MainColumn/KeypadDeck/ActionRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(88, 34)
+layout_mode = 2
+theme_override_font_sizes/font_size = 13
+text = "RESTART"

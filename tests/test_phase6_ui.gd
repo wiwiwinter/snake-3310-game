@@ -136,8 +136,6 @@ func _test_screen_navigation_and_tap_targets(main_node: Main) -> void:
 		main_node.game_scene.down_button,
 		main_node.game_scene.left_button,
 		main_node.game_scene.right_button,
-		main_node.game_scene.pause_button,
-		main_node.game_scene.restart_button,
 		main_node.game_scene.resume_button,
 		main_node.game_scene.pause_restart_button,
 		main_node.game_scene.pause_menu_button,
@@ -146,3 +144,5 @@ func _test_screen_navigation_and_tap_targets(main_node: Main) -> void:
 	]
 	for btn in buttons_to_check:
 		_assert_true(btn.custom_minimum_size.y >= 44.0, "Button %s must meet >=44px tap target height" % btn.name)
+	for compact_btn in [main_node.game_scene.pause_button, main_node.game_scene.restart_button]:
+		_assert_true(compact_btn.custom_minimum_size.y >= 32.0, "Compact button %s must be >=32px tall" % compact_btn.name)

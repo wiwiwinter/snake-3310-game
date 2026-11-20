@@ -2,8 +2,8 @@
 
 ## Current Status
 
-- **Active Phase:** Phase 7 Complete, ready for Phase 8 (Testing and Optimization)
-- **Overall Progress:** 7 / 9 Phases Complete
+- **Active Phase:** Phase 8 Complete (Desktop/Headless Verified), ready for Phase 9 (Android Packaging & Google Play Preparation)
+- **Overall Progress:** 8 / 9 Phases Complete
 
 ---
 
@@ -66,13 +66,13 @@
 - [x] Add subtle transitions (`Main` 120ms LCD fade) and visual feedback (`BoardRenderer` eat/collision flash)
 
 ### Phase 8: Testing and Optimization
-- [ ] Test gameplay mechanics and edge cases
-- [ ] Test collision detection (solid walls, wraparound, self-collision, full grid)
-- [ ] Test score and settings persistence
-- [ ] Test multiple portrait screen resolutions and aspect ratios
-- [ ] Test touchscreen buttons and swipe gestures
-- [ ] Test pause, resume, and Android app backgrounding behavior
-- [ ] Profile performance and fix any issues
+- [x] Test gameplay mechanics and edge cases (`test_phase3_movement.gd`, `test_phase4_gameplay.gd`)
+- [x] Test collision detection (solid walls, wraparound, self-collision, vacating tail, full grid)
+- [x] Test score and settings persistence (`test_phase5_scoring.gd`, `test_phase6_ui.gd`)
+- [x] Test multiple portrait screen resolutions and aspect ratios (`360x640`, `360x780`, `360x800`, `412x915` in `test_phase8_integration.gd`)
+- [x] Test touchscreen controls (D-pad >= 44px tap targets + `SwipeDetector`)
+- [x] Test pause, resume, Android Back button (`NOTIFICATION_WM_GO_BACK_REQUEST`), and app-background auto-pause
+- [x] Profile performance (`10,000` ticks in `33.84 ms` = `0.0034 ms/tick`) and verify zero script errors
 
 ### Phase 9: Android Packaging and Google Play Preparation
 - [ ] Configure Android export presets (package ID, app name, version code/name)
@@ -88,4 +88,5 @@
 
 ## Known Limitations & Notes (Current)
 
-1. **Godot 4.7.2 Export Templates:** Not yet downloaded; will be installed when preparing Android exports in Phase 9 (or earlier if testing on-device in Phase 8).
+1. **Godot 4.7.2 Export Templates:** Not yet downloaded; will be installed in Phase 9 to generate APK and signed AAB builds.
+2. **Physical Android Device Testing:** `adb devices` reported no connected device/emulator during Phase 8; on-device touch and performance validation should be run once the Phase 9 APK is built and installed on an Android phone.

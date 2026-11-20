@@ -17,6 +17,10 @@ func _ready() -> void:
 	high_scores_button.pressed.connect(func() -> void: high_scores_requested.emit())
 	settings_button.pressed.connect(func() -> void: settings_requested.emit())
 
+	LcdTheme.apply_pixel_button(play_button, LcdTheme.ButtonVariant.GREEN)
+	LcdTheme.apply_pixel_button(high_scores_button, LcdTheme.ButtonVariant.GREEN)
+	LcdTheme.apply_pixel_button(settings_button, LcdTheme.ButtonVariant.GREEN)
+
 
 func refresh(score_manager: ScoreManager) -> void:
 	if score_manager != null and best_label != null:

@@ -13,6 +13,7 @@ signal back_requested
 
 func _ready() -> void:
 	back_button.pressed.connect(func() -> void: back_requested.emit())
+	LcdTheme.apply_pixel_button(back_button, LcdTheme.ButtonVariant.RED)
 
 
 func _unhandled_input(event: InputEvent) -> void:

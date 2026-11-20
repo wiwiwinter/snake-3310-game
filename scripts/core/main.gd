@@ -99,6 +99,29 @@ func _exit_tree() -> void:
 		_screen_tween.kill()
 
 
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_WM_GO_BACK_REQUEST:
+		handle_android_back()
+
+
+func handle_android_back() -> void:
+	match current_screen:
+		Screen.SPLASH:
+			show_main_menu()
+		Screen.SETTINGS, Screen.HIGH_SCORES:
+			_on_back_to_menu()
+		Screen.GAME:
+			if game_scene.session != null and (
+				game_scene.session.state == SnakeGameSession.State.PLAYING
+				or game_scene.session.state == SnakeGameSession.State.PAUSED
+			):
+				game_scene.toggle_pause()
+			else:
+				_on_back_to_menu()
+		Screen.MAIN_MENU:
+			pass
+
+
 func _switch_screen(target: Screen) -> void:
 	current_screen = target
 	splash_screen.visible = (target == Screen.SPLASH)

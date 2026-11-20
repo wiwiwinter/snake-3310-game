@@ -5,6 +5,11 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 
 ### Added
+- **Phase 8: Testing and Optimization**
+  - Added Android system Back button (`NOTIFICATION_WM_GO_BACK_REQUEST`) handling in `scripts/core/main.gd`.
+  - Added `tests/test_phase8_integration.gd` covering multi-resolution portrait bounds (`360x640`, `360x780`, `360x800`, `412x915`), Android lifecycle pause/back notifications, end-to-end saved-settings integration, and a 10,000-tick performance benchmark (`33.84 ms`).
+  - Executed and verified all 7 automated test suites (`test_phase2_rendering.gd` through `test_phase8_integration.gd`).
+  - Upgraded UI buttons in `scripts/ui/lcd_theme.gd` to procedural 9-slice monochrome Game Boy pixel-bevel buttons (stepped corners, top shine, chunky 3D bottom lip, press-down shift, tonal monochrome green hierarchy, and `▲/▼/◀/▶` D-pad glyphs).
 - **Phase 7: Audio and Polish**
   - Added `scripts/managers/audio_manager.gd` synthesizing original 16-bit PCM `AudioStreamWAV` piezo SFX (`eat`, `click`, `game_over`, `win`) and an optional looping chiptune background melody.
   - Wired live `SFX` and `MUSIC` settings toggles from `SettingsScreen` to `AudioManager`.

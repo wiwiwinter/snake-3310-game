@@ -218,8 +218,15 @@ func _connect_controls() -> void:
 
 
 func _style_keypad() -> void:
-	for btn in [up_button, down_button, left_button, right_button, pause_button, restart_button]:
-		LcdTheme.style_keypad_button(btn)
+	for btn in [up_button, down_button, left_button, right_button]:
+		LcdTheme.apply_pixel_button(btn, LcdTheme.ButtonVariant.CYAN)
+	LcdTheme.apply_pixel_button(pause_button, LcdTheme.ButtonVariant.AMBER)
+	LcdTheme.apply_pixel_button(restart_button, LcdTheme.ButtonVariant.RED)
+	LcdTheme.apply_pixel_button(resume_button, LcdTheme.ButtonVariant.GREEN)
+	LcdTheme.apply_pixel_button(pause_restart_button, LcdTheme.ButtonVariant.AMBER)
+	LcdTheme.apply_pixel_button(pause_menu_button, LcdTheme.ButtonVariant.RED)
+	LcdTheme.apply_pixel_button(play_again_button, LcdTheme.ButtonVariant.GREEN)
+	LcdTheme.apply_pixel_button(game_over_menu_button, LcdTheme.ButtonVariant.RED)
 
 
 func _sync_view(last_result: SnakeGameSession.TickResult = SnakeGameSession.TickResult.NONE) -> void:

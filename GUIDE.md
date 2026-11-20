@@ -76,6 +76,7 @@ Restart your terminal or VS Code window once after installation so the updated u
   godot_console --path "d:\CODE\ANDROID GAME - SNAKE" --headless --script res://tests/test_phase5_scoring.gd
   godot_console --path "d:\CODE\ANDROID GAME - SNAKE" --headless --script res://tests/test_phase6_ui.gd
   godot_console --path "d:\CODE\ANDROID GAME - SNAKE" --headless --script res://tests/test_phase7_audio.gd
+  godot_console --path "d:\CODE\ANDROID GAME - SNAKE" --headless --script res://tests/test_phase8_integration.gd
   ```
 - **Visual / Manual Inspection:** Open the project in Godot 4.7.2 and press `F5` (or run `godot --path "d:\CODE\ANDROID GAME - SNAKE"`). Navigate menus via touch/click or keyboard (`Tab`/`Enter`/`Esc`), play using Arrow keys, WASD, on-screen D-pad, or mouse/touch swipes, and pause with `P` / `Esc` / `PAUSE`.
 
