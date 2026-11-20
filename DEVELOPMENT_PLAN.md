@@ -2,8 +2,8 @@
 
 ## Current Status
 
-- **Active Phase:** Phase 3 Complete, ready for Phase 4 (Food and Collision Detection)
-- **Overall Progress:** 3 / 9 Phases Complete
+- **Active Phase:** Phase 4 Complete, ready for Phase 5 (Scoring and Difficulty)
+- **Overall Progress:** 4 / 9 Phases Complete
 
 ---
 
@@ -35,12 +35,12 @@
 - [x] Verify movement consistency (`tests/test_phase3_movement.gd` + `tests/test_phase2_rendering.gd` passed)
 
 ### Phase 4: Food and Collision Detection
-- [ ] Implement random food spawning on valid unoccupied cells
-- [ ] Detect food consumption and grow snake
-- [ ] Implement wall collision and configurable wraparound mode
-- [ ] Implement self-collision detection
-- [ ] Trigger Game Over state and restart flow
-- [ ] Add automated tests for core gameplay logic
+- [x] Implement random food spawning on valid unoccupied cells (`scripts/gameplay/snake_game_session.gd`)
+- [x] Detect food consumption and grow snake
+- [x] Implement wall collision and configurable wraparound mode (`wrap_walls`)
+- [x] Implement self-collision detection (including vacating-tail edge case)
+- [x] Trigger Game Over state, board-cleared handling, and restart flow (`Enter` / `Space` / `R`)
+- [x] Add automated tests for core gameplay logic (`tests/test_phase4_gameplay.gd`)
 
 ### Phase 5: Scoring and Difficulty
 - [ ] Implement current score tracking and reset on new game

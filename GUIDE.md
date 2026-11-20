@@ -72,8 +72,9 @@ Restart your terminal or VS Code window once after installation so the updated u
   ```powershell
   godot_console --path "d:\CODE\ANDROID GAME - SNAKE" --headless --script res://tests/test_phase2_rendering.gd
   godot_console --path "d:\CODE\ANDROID GAME - SNAKE" --headless --script res://tests/test_phase3_movement.gd
+  godot_console --path "d:\CODE\ANDROID GAME - SNAKE" --headless --script res://tests/test_phase4_gameplay.gd
   ```
-- **Visual / Manual Inspection:** Open the project in Godot 4.7.2 and press `F5` (or run `godot --path "d:\CODE\ANDROID GAME - SNAKE"`). Use Arrow keys or WASD to steer the snake.
+- **Visual / Manual Inspection:** Open the project in Godot 4.7.2 and press `F5` (or run `godot --path "d:\CODE\ANDROID GAME - SNAKE"`). Use Arrow keys or WASD to steer, and `Enter`, `Space`, or `R` to restart after Game Over.
 
 ---
 
@@ -92,8 +93,9 @@ Restart your terminal or VS Code window once after installation so the updated u
 - `scripts/core/game_config.gd` — Shared LCD color palette (`#9BBC0F`, `#8BAC0F`, `#306230`, `#0F380F`), grid dimensions (`16×20`, `18px` cells), and initial placement constants.
 - `scripts/gameplay/grid_system.gd` — Pure 2D grid coordinate system (bounds checking, wraparound math, grid-to-pixel conversion).
 - `scripts/gameplay/snake_controller.gd`: Snake segment state, cardinal direction validation, 2-step turn queue, and grid stepping.
+- `scripts/gameplay/snake_game_session.gd`: Core Snake gameplay rules (random valid food spawning, growth, solid-wall/wraparound collision, self-collision, Game Over, and restart).
 - `scripts/gameplay/board_renderer.gd` — Custom `_draw()` monochrome pixel renderer for the playfield grid, snake (head with directional eyes, segmented body, tail), and retro diamond food.
-- `tests/test_phase2_rendering.gd` & `tests/test_phase3_movement.gd`: Headless automated verification for rendering, grid math, and snake movement.
+- `tests/test_phase2_rendering.gd`, `tests/test_phase3_movement.gd`, & `tests/test_phase4_gameplay.gd`: Headless automated verification for rendering, movement, and core gameplay rules.
 
 ---
 

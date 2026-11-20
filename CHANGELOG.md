@@ -5,6 +5,10 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 
 ### Added
+- **Phase 4: Food and Collision Detection**
+  - Added `scripts/gameplay/snake_game_session.gd` implementing random unoccupied food spawning, food consumption and snake growth, solid-wall and configurable wraparound modes, self-collision (with vacating-tail edge case), board-cleared handling, Game Over state, and reset.
+  - Updated `scripts/gameplay/game_scene.gd` to run `SnakeGameSession` ticks, display Game Over / Win feedback, and restart via `Enter`, `Space`, or `R`.
+  - Added `tests/test_phase4_gameplay.gd` automated gameplay test suite.
 - **Phase 3: Snake Movement**
   - Added `scripts/gameplay/snake_controller.gd` managing snake segments, cardinal direction checks, 2-step turn input buffering, and 180-degree reversal prevention.
   - Added fixed-step movement timing and Arrow/WASD directional handling (`request_direction`) to `scripts/gameplay/game_scene.gd`.

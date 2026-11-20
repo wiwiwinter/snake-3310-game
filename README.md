@@ -4,8 +4,8 @@ A lightweight, offline-first Android mobile game inspired by the classic Nokia 3
 
 ## Project Status
 
-- **Current Phase:** Phase 3 Complete, next: Phase 4 (Food and Collision Detection)
-- **Version:** `0.1.0` (Phase 3: Snake Movement Complete)
+- **Current Phase:** Phase 4 Complete, next: Phase 5 (Scoring and Difficulty)
+- **Version:** `0.1.0` (Phase 4: Food and Collision Detection Complete)
 
 ## Planned Features
 
