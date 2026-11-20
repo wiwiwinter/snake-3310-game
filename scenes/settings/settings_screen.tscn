@@ -72,6 +72,13 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 16
 text = "WALLS: SOLID"
 
+[node name="DpadButton" type="Button" parent="Margin/LcdFrame/InnerMargin/Layout"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "D-PAD: CIRCLE"
+
 [node name="SfxButton" type="Button" parent="Margin/LcdFrame/InnerMargin/Layout"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 48)

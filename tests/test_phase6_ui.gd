@@ -79,11 +79,13 @@ func _test_settings_persistence() -> void:
 	mgr.set_wrap_walls(true)
 	mgr.set_sfx_enabled(false)
 	mgr.set_music_enabled(false)
+	mgr.set_classic_dpad(true)
 
 	var reloaded := ScoreManager.new(TEST_SAVE_PATH)
 	_assert_true(reloaded.wrap_walls == true, "wrap_walls=true must persist")
 	_assert_true(reloaded.sfx_enabled == false, "sfx_enabled=false must persist")
 	_assert_true(reloaded.music_enabled == false, "music_enabled=false must persist")
+	_assert_true(reloaded.classic_dpad == true, "classic_dpad=true must persist")
 
 
 func _test_screen_navigation_and_tap_targets(main_node: Main) -> void:
@@ -174,6 +176,7 @@ func _test_screen_navigation_and_tap_targets(main_node: Main) -> void:
 		main_node.main_menu.settings_button,
 		main_node.settings_screen.difficulty_button,
 		main_node.settings_screen.walls_button,
+		main_node.settings_screen.dpad_button,
 		main_node.settings_screen.sfx_button,
 		main_node.settings_screen.music_button,
 		main_node.settings_screen.back_button,

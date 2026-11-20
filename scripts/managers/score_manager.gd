@@ -12,6 +12,7 @@ var difficulty: GameConfig.Difficulty = GameConfig.Difficulty.NORMAL
 var wrap_walls: bool = false
 var sfx_enabled: bool = true
 var music_enabled: bool = true
+var classic_dpad: bool = false
 
 var _difficulty_high_scores: Dictionary = {
 	GameConfig.Difficulty.EASY: 0,
@@ -73,6 +74,11 @@ func set_music_enabled(enabled: bool) -> void:
 	save_data()
 
 
+func set_classic_dpad(enabled: bool) -> void:
+	classic_dpad = enabled
+	save_data()
+
+
 func get_move_interval() -> float:
 	return GameConfig.get_move_interval(difficulty)
 
@@ -91,6 +97,7 @@ func save_data() -> Error:
 	config.set_value(SECTION_SETTINGS, "wrap_walls", wrap_walls)
 	config.set_value(SECTION_SETTINGS, "sfx_enabled", sfx_enabled)
 	config.set_value(SECTION_SETTINGS, "music_enabled", music_enabled)
+	config.set_value(SECTION_SETTINGS, "classic_dpad", classic_dpad)
 	return config.save(save_path)
 
 
@@ -113,3 +120,4 @@ func load_data() -> void:
 	wrap_walls = bool(config.get_value(SECTION_SETTINGS, "wrap_walls", false))
 	sfx_enabled = bool(config.get_value(SECTION_SETTINGS, "sfx_enabled", true))
 	music_enabled = bool(config.get_value(SECTION_SETTINGS, "music_enabled", true))
+	classic_dpad = bool(config.get_value(SECTION_SETTINGS, "classic_dpad", false))

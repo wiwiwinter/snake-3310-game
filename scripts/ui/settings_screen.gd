@@ -7,6 +7,7 @@ signal audio_settings_changed
 
 @onready var difficulty_button: Button = %DifficultyButton
 @onready var walls_button: Button = %WallsButton
+@onready var dpad_button: Button = %DpadButton
 @onready var sfx_button: Button = %SfxButton
 @onready var music_button: Button = %MusicButton
 @onready var back_button: Button = %BackButton
@@ -17,12 +18,14 @@ var _score_manager: ScoreManager
 func _ready() -> void:
 	difficulty_button.pressed.connect(_on_cycle_difficulty)
 	walls_button.pressed.connect(_on_toggle_walls)
+	dpad_button.pressed.connect(_on_toggle_dpad)
 	sfx_button.pressed.connect(_on_toggle_sfx)
 	music_button.pressed.connect(_on_toggle_music)
 	back_button.pressed.connect(func() -> void: back_requested.emit())
 
 	LcdTheme.apply_pixel_button(difficulty_button, LcdTheme.ButtonVariant.LCD_PRIMARY)
 	LcdTheme.apply_pixel_button(walls_button, LcdTheme.ButtonVariant.LCD_PRIMARY)
+	LcdTheme.apply_pixel_button(dpad_button, LcdTheme.ButtonVariant.LCD_PRIMARY)
 	LcdTheme.apply_pixel_button(sfx_button, LcdTheme.ButtonVariant.LCD_PRIMARY)
 	LcdTheme.apply_pixel_button(music_button, LcdTheme.ButtonVariant.LCD_PRIMARY)
 	LcdTheme.apply_pixel_button(back_button, LcdTheme.ButtonVariant.LCD_SECONDARY)
@@ -56,6 +59,13 @@ func _on_toggle_walls() -> void:
 	_update_labels()
 
 
+func _on_toggle_dpad() -> void:
+	if _score_manager == null:
+		return
+	_score_manager.set_classic_dpad(not _score_manager.classic_dpad)
+	_update_labels()
+
+
 func _on_toggle_sfx() -> void:
 	if _score_manager == null:
 		return
@@ -77,5 +87,6 @@ func _update_labels() -> void:
 		return
 	difficulty_button.text = "SPEED: %s" % GameConfig.get_difficulty_name(_score_manager.difficulty)
 	walls_button.text = "WALLS: %s" % ("WRAP" if _score_manager.wrap_walls else "SOLID")
+	dpad_button.text = "D-PAD: %s" % ("CLASSIC" if _score_manager.classic_dpad else "CIRCLE")
 	sfx_button.text = "SFX: %s" % ("ON" if _score_manager.sfx_enabled else "OFF")
 	music_button.text = "MUSIC: %s" % ("ON" if _score_manager.music_enabled else "OFF")

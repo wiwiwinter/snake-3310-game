@@ -293,6 +293,8 @@ func _sync_view(last_result: SnakeGameSession.TickResult = SnakeGameSession.Tick
 	score_label.text = "SCR %04d" % score_manager.current_score
 	high_score_label.text = "HI %04d" % score_manager.high_score
 	difficulty_label.text = GameConfig.get_difficulty_name(score_manager.difficulty)
+	if circular_dpad != null:
+		circular_dpad.set_classic_style(score_manager.classic_dpad)
 
 	ready_overlay.visible = (session.state == SnakeGameSession.State.READY)
 	pause_overlay.visible = (session.state == SnakeGameSession.State.PAUSED)
