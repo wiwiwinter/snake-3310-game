@@ -1,6 +1,8 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=4 format=3]
 
 [ext_resource type="Script" path="res://scripts/ui/splash_screen.gd" id="1_splash"]
+[ext_resource type="Texture2D" path="res://assets/sprites/app_icon.svg" id="2_icon"]
+[ext_resource type="Script" path="res://scripts/ui/menu_snake_banner.gd" id="3_banner"]
 
 [node name="SplashScreen" type="Control"]
 layout_mode = 3
@@ -28,34 +30,74 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/margin_left = 18
-theme_override_constants/margin_top = 48
+theme_override_constants/margin_top = 44
 theme_override_constants/margin_right = 18
-theme_override_constants/margin_bottom = 48
+theme_override_constants/margin_bottom = 44
 
 [node name="LcdFrame" type="PanelContainer" parent="Margin"]
 layout_mode = 2
 
-[node name="Center" type="CenterContainer" parent="Margin/LcdFrame"]
+[node name="Inner" type="MarginContainer" parent="Margin/LcdFrame"]
 layout_mode = 2
+theme_override_constants/margin_left = 22
+theme_override_constants/margin_top = 28
+theme_override_constants/margin_right = 22
+theme_override_constants/margin_bottom = 28
 
-[node name="Box" type="VBoxContainer" parent="Margin/LcdFrame/Center"]
+[node name="Box" type="VBoxContainer" parent="Margin/LcdFrame/Inner"]
 layout_mode = 2
 theme_override_constants/separation = 16
+alignment = 1
 
-[node name="Title" type="Label" parent="Margin/LcdFrame/Center/Box"]
+[node name="TopTag" type="Label" parent="Margin/LcdFrame/Inner/Box"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 32
+theme_override_font_sizes/font_size = 12
+text = "DOT MATRIX · MONO LCD"
+horizontal_alignment = 1
+
+[node name="IconWrap" type="CenterContainer" parent="Margin/LcdFrame/Inner/Box"]
+layout_mode = 2
+
+[node name="Emblem" type="TextureRect" parent="Margin/LcdFrame/Inner/Box/IconWrap"]
+custom_minimum_size = Vector2(112, 112)
+layout_mode = 2
+texture = ExtResource("2_icon")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Title" type="Label" parent="Margin/LcdFrame/Inner/Box"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 36
 text = "SNAKE 3310"
 horizontal_alignment = 1
 
-[node name="Subtitle" type="Label" parent="Margin/LcdFrame/Center/Box"]
+[node name="Subtitle" type="Label" parent="Margin/LcdFrame/Inner/Box"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 14
-text = "CLASSIC LCD EDITION"
+text = "CLASSIC RETRO EDITION"
 horizontal_alignment = 1
 
-[node name="Hint" type="Label" parent="Margin/LcdFrame/Center/Box"]
+[node name="SnakeBanner" type="Control" parent="Margin/LcdFrame/Inner/Box"]
+custom_minimum_size = Vector2(240, 28)
 layout_mode = 2
-theme_override_font_sizes/font_size = 12
-text = "TAP TO CONTINUE"
+script = ExtResource("3_banner")
+
+[node name="LoadingTrack" type="ColorRect" parent="Margin/LcdFrame/Inner/Box"]
+custom_minimum_size = Vector2(0, 12)
+layout_mode = 2
+color = Color(0.545098, 0.67451, 0.0588235, 1)
+
+[node name="ProgressFill" type="ColorRect" parent="Margin/LcdFrame/Inner/Box/LoadingTrack"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+grow_vertical = 2
+color = Color(0.0588235, 0.219608, 0.0588235, 1)
+
+[node name="HintLabel" type="Label" parent="Margin/LcdFrame/Inner/Box"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 13
+text = "TAP TO START"
 horizontal_alignment = 1

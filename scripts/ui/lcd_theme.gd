@@ -66,15 +66,44 @@ static func create_theme() -> Theme:
 	theme.set_color("font_focus_color", "Button", green_ink)
 	theme.set_color("font_pressed_color", "Button", green_ink)
 	theme.set_color("font_color", "Label", GameConfig.COLOR_LCD_DEEP)
+	theme.set_color("font_shadow_color", "Label", GameConfig.COLOR_LCD_LIGHT)
+	theme.set_constant("shadow_offset_x", "Label", 1)
+	theme.set_constant("shadow_offset_y", "Label", 1)
 
-	# Keep the core LCD frame strictly classic monochrome Nokia green.
-	var panel_box := StyleBoxFlat.new()
-	panel_box.bg_color = GameConfig.COLOR_LCD_BG
-	panel_box.border_color = GameConfig.COLOR_LCD_DEEP
-	panel_box.set_border_width_all(3)
-	theme.set_stylebox("panel", "PanelContainer", panel_box)
+	# Recessed retro handheld LCD screen panel (stepped dark frame + inner top shadow).
+	theme.set_stylebox("panel", "PanelContainer", _make_lcd_frame_stylebox())
 
 	return theme
+
+
+static func _make_lcd_frame_stylebox() -> StyleBoxTexture:
+	var img := Image.create(16, 16, false, Image.FORMAT_RGBA8)
+	img.fill(GameConfig.COLOR_LCD_BG)
+
+	for y in range(16):
+		for x in range(16):
+			var is_corner: bool = (x == 0 or x == 15) and (y == 0 or y == 15)
+			if is_corner:
+				img.set_pixel(x, y, Color(0, 0, 0, 0))
+			elif x == 0 or x == 15 or y == 0 or y == 15:
+				img.set_pixel(x, y, GameConfig.COLOR_LCD_DEEP)
+			elif x == 1 or x == 14 or y == 1 or y == 14:
+				# Recessed inner rim: darker on top/left, lighter on bottom/right
+				if y == 1 or x == 1:
+					img.set_pixel(x, y, GameConfig.COLOR_LCD_DARK)
+				else:
+					img.set_pixel(x, y, GameConfig.COLOR_LCD_LIGHT)
+			elif y == 2 or x == 2:
+				img.set_pixel(x, y, GameConfig.COLOR_LCD_LIGHT)
+
+	var tex := ImageTexture.create_from_image(img)
+	var box := StyleBoxTexture.new()
+	box.texture = tex
+	box.texture_margin_left = 4.0
+	box.texture_margin_right = 4.0
+	box.texture_margin_top = 4.0
+	box.texture_margin_bottom = 4.0
+	return box
 
 
 static func apply_pixel_button(button: Button, variant: ButtonVariant) -> void:
@@ -101,7 +130,7 @@ static func _get_variant_boxes(variant: ButtonVariant) -> Dictionary:
 	var boxes: Dictionary = {
 		"normal": _make_pixel_stylebox(p["fill"], p["highlight"], p["shadow"], p["outline"], false, false),
 		"hover": _make_pixel_stylebox(p["hover"], p["highlight"], p["shadow"], p["outline"], false, false),
-		"focus": _make_pixel_stylebox(p["hover"], Color.WHITE, p["shadow"], p["outline"], false, true),
+		"focus": _make_pixel_stylebox(p["hover"], p["highlight"], p["shadow"], p["outline"], false, true),
 		"pressed": _make_pixel_stylebox(p["fill"], p["shadow"], p["shadow"], p["outline"], true, false),
 	}
 	_cached_styleboxes[variant] = boxes

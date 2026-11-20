@@ -1,10 +1,14 @@
 class_name SplashScreen
 extends Control
-## Brief retro LCD boot screen that advances automatically or on tap/key press.
+## Eye-catching retro LCD boot screen with animated progress bar and tap/key skip.
 
 signal finished
 
-const SPLASH_DURATION: float = 1.2
+const SPLASH_DURATION: float = 1.6
+
+@onready var progress_fill: ColorRect = %ProgressFill
+@onready var hint_label: Label = %HintLabel
+
 var _elapsed: float = 0.0
 var _done: bool = false
 
@@ -13,6 +17,11 @@ func _process(delta: float) -> void:
 	if _done:
 		return
 	_elapsed += delta
+	var ratio: float = clampf(_elapsed / SPLASH_DURATION, 0.0, 1.0)
+	if progress_fill != null:
+		progress_fill.anchor_right = ratio
+	if hint_label != null:
+		hint_label.modulate.a = 1.0 if int(_elapsed * 3.5) % 2 == 0 else 0.35
 	if _elapsed >= SPLASH_DURATION:
 		_complete()
 

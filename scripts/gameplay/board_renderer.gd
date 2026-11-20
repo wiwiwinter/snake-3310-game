@@ -10,6 +10,8 @@ var _snake_direction: Vector2i = GameConfig.INITIAL_DIRECTION
 var _food_cell: Vector2i = Vector2i(-1, -1)
 var _flash_timer: float = 0.0
 var _flash_is_collision: bool = false
+var _pulse_time: float = 0.0
+var _pulse_on: bool = false
 
 
 func _ready() -> void:
@@ -18,8 +20,19 @@ func _ready() -> void:
 
 
 func _process(delta: float) -> void:
+	var needs_redraw: bool = false
 	if _flash_timer > 0.0:
 		_flash_timer = maxf(0.0, _flash_timer - delta)
+		needs_redraw = true
+
+	# Restrained 2-state retro LCD food pulse so the target stands out cleanly.
+	_pulse_time += delta
+	if _pulse_time >= 0.45:
+		_pulse_time = 0.0
+		_pulse_on = not _pulse_on
+		needs_redraw = true
+
+	if needs_redraw:
 		queue_redraw()
 
 
@@ -115,8 +128,9 @@ func _draw_food(cell: Vector2i) -> void:
 	for r in rects:
 		draw_rect(r, GameConfig.COLOR_LCD_DEEP, true)
 
-	# Subtle center pixel accent
-	draw_rect(Rect2(origin + Vector2(px * 2.5, px * 2.5), Vector2(px, px)), GameConfig.COLOR_LCD_DARK, true)
+	# Subtle 2-state retro center pixel pulse
+	var center_color: Color = GameConfig.COLOR_LCD_DEEP if _pulse_on else GameConfig.COLOR_LCD_DARK
+	draw_rect(Rect2(origin + Vector2(px * 2.5, px * 2.5), Vector2(px, px)), center_color, true)
 
 
 func _draw_snake() -> void:

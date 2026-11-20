@@ -2,8 +2,8 @@
 
 ## Current Status
 
-- **Active Phase:** Phase 8 Complete (Desktop/Headless Verified), ready for Phase 9 (Android Packaging & Google Play Preparation)
-- **Overall Progress:** 8 / 9 Phases Complete
+- **Active Phase:** Phase 9 Ready for Device Install & Release AAB Signing (Verified Debug APK Built)
+- **Overall Progress:** 9 / 9 Phases Implemented (Final Release Keystore & Play Console Upload Pending User Action)
 
 ---
 
@@ -75,14 +75,14 @@
 - [x] Profile performance (`10,000` ticks in `33.84 ms` = `0.0034 ms/tick`) and verify zero script errors
 
 ### Phase 9: Android Packaging and Google Play Preparation
-- [ ] Configure Android export presets (package ID, app name, version code/name)
-- [ ] Prepare original app icon and adaptive icon assets
-- [ ] Configure release signing keystore securely (outside Git)
-- [ ] Build and verify debug/release APK locally
-- [ ] Build and verify signed AAB for Google Play
-- [ ] Prepare store listing assets (screenshots, feature graphic, description)
-- [ ] Review current Google Play target API, Privacy Policy, and Data Safety requirements
-- [ ] Prepare internal/closed testing track
+- [x] Configure Android export presets (`export_presets.cfg`, gitignored: `Android APK` & `Android AAB (Google Play)`, `com.wiwiwinter.snake3310`, `v1.0.0`, API 35)
+- [x] Prepare original monochrome pixel app icon (`assets/sprites/app_icon.svg`)
+- [x] Configure local debug keystore (`%USERPROFILE%\.android\debug.keystore`) and Godot 4.7 Android SDK / JDK 17 editor settings
+- [x] Finish downloading Godot 4.7.2 Export Templates (`%APPDATA%\Godot\export_templates\4.7.2.stable`)
+- [x] Build and verify debug APK (`android/build/snake3310-debug.apk`, 54.9 MB, APK Signature Scheme v2 & v3 verified via `apksigner`)
+- [ ] Generate private release keystore (outside Git) and export signed AAB (`android/build/snake3310-release.aab`)
+- [x] Prepare store listing copy, asset checklist, Data Safety summary (`android/PLAY_STORE_LISTING.md`), and Privacy Policy (`android/PRIVACY_POLICY.md`)
+- [ ] Capture store screenshots / feature graphic and upload to Google Play Console internal/closed testing
 
 ---
 

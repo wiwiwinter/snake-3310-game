@@ -24,6 +24,7 @@ func _process(_delta: float) -> bool:
 
 	if _main_node != null:
 		_test_portrait_resolutions(_main_node)
+		_test_android_safe_area_inset()
 		_test_android_lifecycle_and_back_button(_main_node)
 		_test_end_to_end_scoring_and_wraparound(_main_node)
 		_test_performance_benchmark()
@@ -67,6 +68,18 @@ func _test_portrait_resolutions(main_node: Main) -> void:
 		var min_sz: Vector2 = main_node.game_scene.get_combined_minimum_size()
 		_assert_true(min_sz.x <= vp.x, "GameScene min width %.1f must fit viewport width %.1f" % [min_sz.x, vp.x])
 		_assert_true(min_sz.y <= vp.y, "GameScene min height %.1f must fit viewport height %.1f" % [min_sz.y, vp.y])
+
+
+func _test_android_safe_area_inset() -> void:
+	# Desktop without cutout -> 0
+	var desktop_inset: int = Main.compute_top_safe_inset(Rect2i(0, 0, 360, 640), Vector2i(360, 640), 640.0, false)
+	_assert_true(desktop_inset == 0, "Desktop without cutout should have 0 top inset")
+	# Android immersive mode reporting 0 -> falls back to 42px punch-hole clearance
+	var android_min: int = Main.compute_top_safe_inset(Rect2i(0, 0, 1080, 2392), Vector2i(1080, 2392), 797.0, true)
+	_assert_true(android_min >= 42, "Android immersive mode must reserve >=42px for camera punch-hole")
+	# Android reporting 135px status/cutout on 2400px screen (~45px at 800px viewport)
+	var android_cutout: int = Main.compute_top_safe_inset(Rect2i(0, 135, 1080, 2200), Vector2i(1080, 2400), 800.0, true)
+	_assert_true(android_cutout >= 45, "Android reported cutout inset must scale accurately to viewport")
 
 
 func _test_android_lifecycle_and_back_button(main_node: Main) -> void:

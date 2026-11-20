@@ -84,9 +84,23 @@ Restart your terminal or VS Code window once after installation so the updated u
 
 ## 5. Exporting Android Builds
 
-*(Detailed export steps, debug APK generation, and signed release AAB configuration will be documented in Phase 9.)*
+Godot 4.7.2 editor settings are configured with `C:\Android\Sdk`, OpenJDK 17, and `C:\Users\meepo\.android\debug.keystore`. Local export presets live in gitignored `export_presets.cfg` (`com.wiwiwinter.snake3310`, `v1.0.0`, target API `35`, `arm64-v8a` + `armeabi-v7a`).
 
-**Security Rule:** Never commit `.keystore`, `.jks`, signing passwords, or `export_presets.cfg` containing secrets to Git.
+- **Build local test APK (CLI):**
+  ```powershell
+  New-Item -ItemType Directory -Force -Path "d:\CODE\ANDROID GAME - SNAKE\android\build" | Out-Null
+  godot_console --path "d:\CODE\ANDROID GAME - SNAKE" --headless --export-debug "Android APK" "android/build/snake3310-debug.apk"
+  ```
+- **Install on connected Android phone (USB Debugging enabled):**
+  ```powershell
+  adb install -r "d:\CODE\ANDROID GAME - SNAKE\android\build\snake3310-debug.apk"
+  ```
+- **Build signed Google Play AAB:**
+  1. Generate a private release keystore outside this Git repo (see `android/PLAY_STORE_LISTING.md`).
+  2. In Godot (`Project -> Export -> Android AAB (Google Play) -> Keystore`), set your release keystore path, user alias, and password.
+  3. Export `android/build/snake3310-release.aab` (Gradle build enabled).
+
+**Security Rule:** Never commit `.keystore`, `.jks`, signing passwords, or `export_presets.cfg` to Git (all are excluded by `.gitignore`).
 
 ---
 

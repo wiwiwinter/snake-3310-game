@@ -42,7 +42,46 @@ func _ready() -> void:
 	game_scene.menu_requested.connect(_on_back_to_menu)
 
 	show_splash()
+	_apply_display_safe_area()
+	get_viewport().size_changed.connect(_apply_display_safe_area)
 	print("Snake 3310 initialized (Phase 7: Audio & Polish).")
+
+
+static func compute_top_safe_inset(safe_rect: Rect2i, window_size: Vector2i, viewport_height: float, is_android: bool) -> int:
+	var inset_px: float = 0.0
+	if window_size.y > 0 and safe_rect.position.y > 0:
+		inset_px = float(safe_rect.position.y) * (viewport_height / float(window_size.y))
+	if is_android:
+		# Ensure punch-hole camera clearance even when Android immersive mode reports 0 safe-area inset.
+		inset_px = maxf(inset_px, 42.0)
+	return int(ceil(inset_px))
+
+
+func _apply_display_safe_area() -> void:
+	var vp_h: float = get_viewport_rect().size.y
+	if vp_h <= 0.0:
+		vp_h = 640.0
+	var top_inset: int = compute_top_safe_inset(
+		DisplayServer.get_display_safe_area(),
+		DisplayServer.window_get_size(),
+		vp_h,
+		OS.has_feature("android")
+	)
+	if top_inset <= 0:
+		return
+
+	var targets: Array[Array] = [
+		[game_scene.get_node_or_null("SafeMargin"), 10],
+		[main_menu.get_node_or_null("Margin"), 28],
+		[splash_screen.get_node_or_null("Margin"), 44],
+		[settings_screen.get_node_or_null("Margin"), 36],
+		[high_score_screen.get_node_or_null("Margin"), 36],
+	]
+	for entry in targets:
+		var margin: MarginContainer = entry[0] as MarginContainer
+		var base_top: int = int(entry[1])
+		if margin != null:
+			margin.add_theme_constant_override("margin_top", maxi(base_top, top_inset))
 
 
 func show_splash() -> void:

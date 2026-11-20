@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 
 ### Added
+- **Phase 9: Android Packaging & Modern-Retro UI Polish**
+  - Enabled `textures/vram_compression/import_etc2_astc=true` in `project.godot` for Android export compatibility and bumped version to `1.0.0`.
+  - Installed Godot `4.7.2.stable` Export Templates, generated and verified `android/build/snake3310-debug.apk` (`54.9 MB`, APK Signature Scheme v2 & v3 verified via `apksigner`).
+  - Tuned tall-phone Android layout (Nothing Phone 3a Lite): compact LCD frame, larger `74x52` D-pad (`26px` arrows, `24x24` center pivot), `108x38` Pause/Restart buttons, `56-60px` menu buttons, detailed 32x32 pixel-art snake icon (`app_icon.svg`), animated `MenuSnakeBanner`, Splash loading bar, and dynamic Android camera-cutout safe-area top inset (`>= 42px`).
+  - Added recessed 9-slice handheld LCD frame styling and crisp pixel label shadows in `scripts/ui/lcd_theme.gd`.
+  - Added original monochrome pixel-art snake emblem (`assets/sprites/app_icon.svg`) to `project.godot`, Splash Screen, and Main Menu (`DOT MATRIX · MONO LCD` header).
+  - Added central D-pad pivot block in `scenes/game/game_scene.tscn` and a 2-state retro LCD food pulse in `scripts/gameplay/board_renderer.gd`.
+  - Configured Godot 4.7 Android SDK / JDK 17 / debug keystore settings and gitignored `export_presets.cfg` (`com.wiwiwinter.snake3310`, `v1.0.0`, API 35).
+  - Added `android/PLAY_STORE_LISTING.md` and `android/PRIVACY_POLICY.md`.
 - **Phase 8: Testing and Optimization**
   - Added Android system Back button (`NOTIFICATION_WM_GO_BACK_REQUEST`) handling in `scripts/core/main.gd`.
   - Added `tests/test_phase8_integration.gd` covering multi-resolution portrait bounds (`360x640`, `360x780`, `360x800`, `412x915`), Android lifecycle pause/back notifications, end-to-end saved-settings integration, and a 10,000-tick performance benchmark (`33.84 ms`).

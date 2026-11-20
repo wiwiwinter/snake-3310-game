@@ -4,8 +4,8 @@ A lightweight, offline-first Android mobile game inspired by the classic Nokia 3
 
 ## Project Status
 
-- **Current Phase:** Phase 8 Complete, next: Phase 9 (Android Packaging & Google Play Preparation)
-- **Version:** `0.1.0` (Phase 8: Testing & Optimization Complete)
+- **Current Phase:** Phase 9 Complete (Verified Android Debug APK Built; Ready for Release AAB & Play Console)
+- **Version:** `1.0.0`
 
 ## Planned Features
 
