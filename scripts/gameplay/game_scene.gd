@@ -23,6 +23,7 @@ signal menu_requested
 @onready var play_again_button: Button = %PlayAgainButton
 @onready var game_over_menu_button: Button = %GameOverMenuButton
 
+@onready var keypad_deck: HBoxContainer = %KeypadDeck
 @onready var pause_button: Button = %PauseButton
 @onready var restart_button: Button = %RestartButton
 @onready var circular_dpad: CircularDpad = %CircularDpad
@@ -313,6 +314,10 @@ func _sync_view(last_result: SnakeGameSession.TickResult = SnakeGameSession.Tick
 	high_score_label.text = "HI %04d" % score_manager.high_score
 	difficulty_label.text = GameConfig.get_difficulty_name(score_manager.difficulty)
 	if circular_dpad != null:
+		var pad_px: int = GameConfig.get_dpad_pixels(score_manager.dpad_size)
+		circular_dpad.custom_minimum_size = Vector2(pad_px, pad_px)
+		if keypad_deck != null:
+			keypad_deck.custom_minimum_size = Vector2(0, pad_px + 8)
 		circular_dpad.set_classic_style(score_manager.classic_dpad)
 
 	ready_overlay.visible = (session.state == SnakeGameSession.State.READY)

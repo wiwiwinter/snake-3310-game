@@ -63,12 +63,16 @@ func _test_portrait_resolutions(main_node: Main) -> void:
 		Vector2(412, 915),  # Modern tall Android
 	]
 	main_node.show_game()
-	for vp in viewports:
-		main_node.size = vp
-		main_node.game_scene.size = vp
-		var min_sz: Vector2 = main_node.game_scene.get_combined_minimum_size()
-		_assert_true(min_sz.x <= vp.x, "GameScene min width %.1f must fit viewport width %.1f" % [min_sz.x, vp.x])
-		_assert_true(min_sz.y <= vp.y, "GameScene min height %.1f must fit viewport height %.1f" % [min_sz.y, vp.y])
+	for pad_sz in [GameConfig.DpadSize.SMALL, GameConfig.DpadSize.MEDIUM, GameConfig.DpadSize.LARGE]:
+		main_node.score_manager.set_dpad_size(pad_sz)
+		main_node.game_scene.start_new_game(false)
+		for vp in viewports:
+			main_node.size = vp
+			main_node.game_scene.size = vp
+			var min_sz: Vector2 = main_node.game_scene.get_combined_minimum_size()
+			_assert_true(min_sz.x <= vp.x, "GameScene min width %.1f must fit viewport width %.1f (pad=%d)" % [min_sz.x, vp.x, pad_sz])
+			_assert_true(min_sz.y <= vp.y, "GameScene min height %.1f must fit viewport height %.1f (pad=%d)" % [min_sz.y, vp.y, pad_sz])
+	main_node.score_manager.set_dpad_size(GameConfig.DpadSize.MEDIUM)
 
 
 func _test_adaptive_grid_sizing() -> void:

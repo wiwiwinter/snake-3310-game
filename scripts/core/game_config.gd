@@ -104,6 +104,24 @@ const DIFFICULTY_NAMES: Dictionary = {
 	Difficulty.HARD: "HARD",
 }
 
+enum DpadSize {
+	SMALL,
+	MEDIUM,
+	LARGE,
+}
+
+const DPAD_SIZES: Dictionary = {
+	DpadSize.SMALL: 148,
+	DpadSize.MEDIUM: 184,
+	DpadSize.LARGE: 216,
+}
+
+const DPAD_SIZE_NAMES: Dictionary = {
+	DpadSize.SMALL: "SMALL",
+	DpadSize.MEDIUM: "MEDIUM",
+	DpadSize.LARGE: "LARGE",
+}
+
 # Default initial placement for Phase 2 rendering & new game resets
 const INITIAL_SNAKE_CELLS: Array[Vector2i] = [
 	Vector2i(6, 10),
@@ -121,3 +139,11 @@ static func get_move_interval(difficulty: Difficulty) -> float:
 
 static func get_difficulty_name(difficulty: Difficulty) -> String:
 	return str(DIFFICULTY_NAMES.get(difficulty, "NORMAL"))
+
+
+static func get_dpad_pixels(dpad_size: DpadSize) -> int:
+	return int(DPAD_SIZES.get(dpad_size, 184))
+
+
+static func get_dpad_size_name(dpad_size: DpadSize) -> String:
+	return str(DPAD_SIZE_NAMES.get(dpad_size, "MEDIUM"))

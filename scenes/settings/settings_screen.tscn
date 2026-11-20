@@ -44,7 +44,7 @@ theme_override_constants/margin_bottom = 24
 
 [node name="Layout" type="VBoxContainer" parent="Margin/LcdFrame/InnerMargin"]
 layout_mode = 2
-theme_override_constants/separation = 14
+theme_override_constants/separation = 10
 alignment = 1
 
 [node name="Title" type="Label" parent="Margin/LcdFrame/InnerMargin/Layout"]
@@ -60,53 +60,60 @@ color = Color(0.0588235, 0.219608, 0.0588235, 1)
 
 [node name="DifficultyButton" type="Button" parent="Margin/LcdFrame/InnerMargin/Layout"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 48)
+custom_minimum_size = Vector2(0, 44)
 layout_mode = 2
-theme_override_font_sizes/font_size = 16
+theme_override_font_sizes/font_size = 15
 text = "SPEED: NORMAL"
 
 [node name="WallsButton" type="Button" parent="Margin/LcdFrame/InnerMargin/Layout"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 48)
+custom_minimum_size = Vector2(0, 44)
 layout_mode = 2
-theme_override_font_sizes/font_size = 16
+theme_override_font_sizes/font_size = 15
 text = "WALLS: SOLID"
 
 [node name="DpadButton" type="Button" parent="Margin/LcdFrame/InnerMargin/Layout"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 48)
+custom_minimum_size = Vector2(0, 44)
 layout_mode = 2
-theme_override_font_sizes/font_size = 16
+theme_override_font_sizes/font_size = 15
 text = "D-PAD: CIRCLE"
+
+[node name="DpadSizeButton" type="Button" parent="Margin/LcdFrame/InnerMargin/Layout"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+theme_override_font_sizes/font_size = 15
+text = "PAD SIZE: MEDIUM"
 
 [node name="ThemeButton" type="Button" parent="Margin/LcdFrame/InnerMargin/Layout"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 48)
+custom_minimum_size = Vector2(0, 44)
 layout_mode = 2
-theme_override_font_sizes/font_size = 16
+theme_override_font_sizes/font_size = 15
 text = "THEME: NOKIA GREEN"
 
 [node name="SfxButton" type="Button" parent="Margin/LcdFrame/InnerMargin/Layout"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 48)
+custom_minimum_size = Vector2(0, 44)
 layout_mode = 2
-theme_override_font_sizes/font_size = 16
+theme_override_font_sizes/font_size = 15
 text = "SFX: ON"
 
 [node name="MusicButton" type="Button" parent="Margin/LcdFrame/InnerMargin/Layout"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 48)
+custom_minimum_size = Vector2(0, 44)
 layout_mode = 2
-theme_override_font_sizes/font_size = 16
+theme_override_font_sizes/font_size = 15
 text = "MUSIC: ON"
 
 [node name="Spacer" type="Control" parent="Margin/LcdFrame/InnerMargin/Layout"]
-custom_minimum_size = Vector2(0, 8)
+custom_minimum_size = Vector2(0, 4)
 layout_mode = 2
 
 [node name="BackButton" type="Button" parent="Margin/LcdFrame/InnerMargin/Layout"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 48)
+custom_minimum_size = Vector2(0, 44)
 layout_mode = 2
-theme_override_font_sizes/font_size = 16
+theme_override_font_sizes/font_size = 15
 text = "BACK"

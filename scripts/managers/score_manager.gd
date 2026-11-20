@@ -13,6 +13,7 @@ var wrap_walls: bool = false
 var sfx_enabled: bool = true
 var music_enabled: bool = true
 var classic_dpad: bool = false
+var dpad_size: GameConfig.DpadSize = GameConfig.DpadSize.MEDIUM
 var color_theme: GameConfig.ColorTheme = GameConfig.ColorTheme.NOKIA_GREEN
 
 var _difficulty_high_scores: Dictionary = {
@@ -80,6 +81,13 @@ func set_classic_dpad(enabled: bool) -> void:
 	save_data()
 
 
+func set_dpad_size(new_size: GameConfig.DpadSize) -> void:
+	if new_size not in GameConfig.DPAD_SIZES:
+		return
+	dpad_size = new_size
+	save_data()
+
+
 func set_color_theme(new_theme: GameConfig.ColorTheme) -> void:
 	if new_theme not in GameConfig.COLOR_THEMES:
 		return
@@ -106,6 +114,7 @@ func save_data() -> Error:
 	config.set_value(SECTION_SETTINGS, "sfx_enabled", sfx_enabled)
 	config.set_value(SECTION_SETTINGS, "music_enabled", music_enabled)
 	config.set_value(SECTION_SETTINGS, "classic_dpad", classic_dpad)
+	config.set_value(SECTION_SETTINGS, "dpad_size", int(dpad_size))
 	config.set_value(SECTION_SETTINGS, "color_theme", int(color_theme))
 	return config.save(save_path)
 
@@ -130,6 +139,11 @@ func load_data() -> void:
 	sfx_enabled = bool(config.get_value(SECTION_SETTINGS, "sfx_enabled", true))
 	music_enabled = bool(config.get_value(SECTION_SETTINGS, "music_enabled", true))
 	classic_dpad = bool(config.get_value(SECTION_SETTINGS, "classic_dpad", false))
+	var saved_pad_size: int = int(config.get_value(SECTION_SETTINGS, "dpad_size", int(GameConfig.DpadSize.MEDIUM)))
+	if saved_pad_size in GameConfig.DPAD_SIZES:
+		dpad_size = saved_pad_size as GameConfig.DpadSize
+	else:
+		dpad_size = GameConfig.DpadSize.MEDIUM
 	var saved_theme: int = int(config.get_value(SECTION_SETTINGS, "color_theme", int(GameConfig.ColorTheme.NOKIA_GREEN)))
 	if saved_theme in GameConfig.COLOR_THEMES:
 		color_theme = saved_theme as GameConfig.ColorTheme
