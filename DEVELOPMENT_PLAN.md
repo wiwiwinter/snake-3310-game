@@ -2,8 +2,8 @@
 
 ## Current Status
 
-- **Active Phase:** Phase 4 Complete, ready for Phase 5 (Scoring and Difficulty)
-- **Overall Progress:** 4 / 9 Phases Complete
+- **Active Phase:** Phase 5 Complete, ready for Phase 6 (UI/UX Implementation)
+- **Overall Progress:** 5 / 9 Phases Complete
 
 ---
 
@@ -43,10 +43,10 @@
 - [x] Add automated tests for core gameplay logic (`tests/test_phase4_gameplay.gd`)
 
 ### Phase 5: Scoring and Difficulty
-- [ ] Implement current score tracking and reset on new game
-- [ ] Implement persistent local high-score storage
-- [ ] Implement Easy / Normal / Hard difficulty levels affecting speed
-- [ ] Display score and high score in HUD
+- [x] Implement current score tracking and reset on new game (`scripts/managers/score_manager.gd`)
+- [x] Implement persistent local high-score storage (`ConfigFile` at `user://snake3310_save.cfg`, overall + per-difficulty)
+- [x] Implement Easy / Normal / Hard difficulty levels affecting speed (`0.22s`, `0.15s`, `0.095s`)
+- [x] Display score, high score, and difficulty in HUD (`scenes/game/game_scene.tscn`)
 
 ### Phase 6: UI/UX Implementation
 - [ ] Create Splash Screen

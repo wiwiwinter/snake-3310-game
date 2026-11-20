@@ -14,8 +14,30 @@ const GRID_ROWS: int = 20
 const CELL_SIZE: int = 18
 
 # Movement timing and input buffering
-const DEFAULT_MOVE_INTERVAL: float = 0.16
+const DEFAULT_MOVE_INTERVAL: float = 0.15
 const MAX_INPUT_QUEUE_SIZE: int = 2
+
+# Scoring & difficulty settings
+enum Difficulty {
+	EASY,
+	NORMAL,
+	HARD,
+}
+
+const POINTS_PER_FOOD: int = 10
+const SAVE_FILE_PATH: String = "user://snake3310_save.cfg"
+
+const DIFFICULTY_INTERVALS: Dictionary = {
+	Difficulty.EASY: 0.22,
+	Difficulty.NORMAL: 0.15,
+	Difficulty.HARD: 0.095,
+}
+
+const DIFFICULTY_NAMES: Dictionary = {
+	Difficulty.EASY: "EASY",
+	Difficulty.NORMAL: "NORMAL",
+	Difficulty.HARD: "HARD",
+}
 
 # Default initial placement for Phase 2 rendering & new game resets
 const INITIAL_SNAKE_CELLS: Array[Vector2i] = [
@@ -26,3 +48,11 @@ const INITIAL_SNAKE_CELLS: Array[Vector2i] = [
 ]
 const INITIAL_DIRECTION := Vector2i.RIGHT
 const INITIAL_FOOD_CELL := Vector2i(11, 10)
+
+
+static func get_move_interval(difficulty: Difficulty) -> float:
+	return float(DIFFICULTY_INTERVALS.get(difficulty, DEFAULT_MOVE_INTERVAL))
+
+
+static func get_difficulty_name(difficulty: Difficulty) -> String:
+	return str(DIFFICULTY_NAMES.get(difficulty, "NORMAL"))

@@ -58,18 +58,29 @@ theme_override_constants/separation = 8
 
 [node name="HudBar" type="HBoxContainer" parent="SafeMargin/MainColumn/LcdFrame/LcdPadding/LcdLayout"]
 layout_mode = 2
-
-[node name="TitleLabel" type="Label" parent="SafeMargin/MainColumn/LcdFrame/LcdPadding/LcdLayout/HudBar"]
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_colors/font_color = Color(0.0588235, 0.219608, 0.0588235, 1)
-text = "SNAKE 3310"
+theme_override_constants/separation = 8
 
 [node name="ScoreLabel" type="Label" parent="SafeMargin/MainColumn/LcdFrame/LcdPadding/LcdLayout/HudBar"]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0.0588235, 0.219608, 0.0588235, 1)
-text = "SCORE: 0000"
+text = "SCR 0000"
+
+[node name="HighScoreLabel" type="Label" parent="SafeMargin/MainColumn/LcdFrame/LcdPadding/LcdLayout/HudBar"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.0588235, 0.219608, 0.0588235, 1)
+text = "HI 0000"
+horizontal_alignment = 1
+
+[node name="DifficultyLabel" type="Label" parent="SafeMargin/MainColumn/LcdFrame/LcdPadding/LcdLayout/HudBar"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.0588235, 0.219608, 0.0588235, 1)
+text = "NORMAL"
 horizontal_alignment = 2
 
 [node name="HudDivider" type="ColorRect" parent="SafeMargin/MainColumn/LcdFrame/LcdPadding/LcdLayout"]

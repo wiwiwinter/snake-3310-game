@@ -5,6 +5,11 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 
 ### Added
+- **Phase 5: Scoring and Difficulty**
+  - Added `GameConfig.Difficulty` (`EASY`: `0.22s`, `NORMAL`: `0.15s`, `HARD`: `0.095s`), `POINTS_PER_FOOD` (`10`), and `SAVE_FILE_PATH` to `scripts/core/game_config.gd`.
+  - Added `scripts/managers/score_manager.gd` for score tracking, overall and per-difficulty high-score persistence (`ConfigFile`), and safe fallback on corrupt/missing saves.
+  - Updated `scenes/game/game_scene.tscn` and `scripts/gameplay/game_scene.gd` HUD to display `SCR`, `HI`, and active difficulty, with `1`/`2`/`3` desktop shortcuts for testing speeds.
+  - Added `tests/test_phase5_scoring.gd` automated scoring, persistence, and difficulty test suite.
 - **Phase 4: Food and Collision Detection**
   - Added `scripts/gameplay/snake_game_session.gd` implementing random unoccupied food spawning, food consumption and snake growth, solid-wall and configurable wraparound modes, self-collision (with vacating-tail edge case), board-cleared handling, Game Over state, and reset.
   - Updated `scripts/gameplay/game_scene.gd` to run `SnakeGameSession` ticks, display Game Over / Win feedback, and restart via `Enter`, `Space`, or `R`.
