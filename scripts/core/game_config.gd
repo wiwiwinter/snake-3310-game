@@ -13,6 +13,10 @@ const GRID_COLUMNS: int = 16
 const GRID_ROWS: int = 20
 const CELL_SIZE: int = 18
 
+# Movement timing and input buffering
+const DEFAULT_MOVE_INTERVAL: float = 0.16
+const MAX_INPUT_QUEUE_SIZE: int = 2
+
 # Default initial placement for Phase 2 rendering & new game resets
 const INITIAL_SNAKE_CELLS: Array[Vector2i] = [
 	Vector2i(6, 10),

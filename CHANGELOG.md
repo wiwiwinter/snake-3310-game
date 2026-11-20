@@ -5,6 +5,11 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 
 ### Added
+- **Phase 3: Snake Movement**
+  - Added `scripts/gameplay/snake_controller.gd` managing snake segments, cardinal direction checks, 2-step turn input buffering, and 180-degree reversal prevention.
+  - Added fixed-step movement timing and Arrow/WASD directional handling (`request_direction`) to `scripts/gameplay/game_scene.gd`.
+  - Added `DEFAULT_MOVE_INTERVAL` and `MAX_INPUT_QUEUE_SIZE` constants to `scripts/core/game_config.gd`.
+  - Added `tests/test_phase3_movement.gd` automated movement test suite.
 - **Phase 2: Core Game Rendering**
   - Added `scripts/core/game_config.gd` centralizing the Nokia 3310 monochrome LCD palette and 16×20 (`18px` cell) grid constants.
   - Added `scripts/gameplay/grid_system.gd` for discrete grid bounds checking, wraparound, and local pixel coordinate mapping.

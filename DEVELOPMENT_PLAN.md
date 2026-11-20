@@ -2,8 +2,8 @@
 
 ## Current Status
 
-- **Active Phase:** Phase 2 Complete — Ready for Phase 3 (Snake Movement)
-- **Overall Progress:** 2 / 9 Phases Complete
+- **Active Phase:** Phase 3 Complete, ready for Phase 4 (Food and Collision Detection)
+- **Overall Progress:** 3 / 9 Phases Complete
 
 ---
 
@@ -29,10 +29,10 @@
 - [x] Verify basic rendering (headless launch + `tests/test_phase2_rendering.gd` passed)
 
 ### Phase 3: Snake Movement
-- [ ] Implement grid-based movement loop and step timer
-- [ ] Implement directional controls (keyboard + control interface)
-- [ ] Implement input buffering and prevent immediate 180-degree reversals
-- [ ] Verify movement consistency
+- [x] Implement grid-based movement loop and step timer (`scripts/gameplay/game_scene.gd`, fixed-step accumulator)
+- [x] Implement directional controls (Arrow/WASD input actions + public `request_direction()` API)
+- [x] Implement input buffering and prevent immediate 180-degree reversals (`scripts/gameplay/snake_controller.gd`)
+- [x] Verify movement consistency (`tests/test_phase3_movement.gd` + `tests/test_phase2_rendering.gd` passed)
 
 ### Phase 4: Food and Collision Detection
 - [ ] Implement random food spawning on valid unoccupied cells
