@@ -105,6 +105,11 @@ func _test_android_safe_area_inset() -> void:
 	# Android reporting 90px bottom gesture bar on 2400px screen (~30px at 800px viewport)
 	var bottom_inset: int = Main.compute_bottom_safe_inset(Rect2i(0, 135, 1080, 2175), Vector2i(1080, 2400), 800.0)
 	_assert_true(bottom_inset == 30, "Android bottom nav inset must scale accurately to 30px (got %d)" % bottom_inset)
+	# Wide desktop/itch.io browser (960x640) must center into a portrait handheld silhouette
+	var wide_side: int = Main.compute_landscape_side_margin(Vector2(960, 640))
+	_assert_true(wide_side > 200, "Landscape web embed 960x640 must add symmetric side margins (got %d)" % wide_side)
+	var phone_side: int = Main.compute_landscape_side_margin(Vector2(360, 800))
+	_assert_true(phone_side == 0, "Portrait phone 360x800 must keep 0 extra side margin")
 
 
 func _test_android_lifecycle_and_back_button(main_node: Main) -> void:

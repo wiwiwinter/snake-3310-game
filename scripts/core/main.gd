@@ -79,33 +79,40 @@ static func compute_bottom_safe_inset(safe_rect: Rect2i, window_size: Vector2i, 
 	return int(ceil(float(raw_bottom) * (viewport_height / float(window_size.y))))
 
 
+static func compute_landscape_side_margin(viewport_size: Vector2) -> int:
+	# Keep a crisp portrait handheld silhouette on wide desktop/itch.io fullscreen browsers.
+	if viewport_size.y <= 0.0 or viewport_size.x <= viewport_size.y * 0.78:
+		return 0
+	var target_w: float = minf(viewport_size.x, viewport_size.y * 0.62)
+	return int(floor((viewport_size.x - target_w) * 0.5))
+
+
 func _apply_display_safe_area() -> void:
-	var vp_h: float = get_viewport_rect().size.y
-	if vp_h <= 0.0:
-		vp_h = 640.0
+	var vp_size: Vector2 = get_viewport_rect().size
+	var vp_h: float = vp_size.y if vp_size.y > 0.0 else 640.0
 	var safe_rect: Rect2i = DisplayServer.get_display_safe_area()
 	var win_size: Vector2i = DisplayServer.window_get_size()
 	var top_inset: int = compute_top_safe_inset(safe_rect, win_size, vp_h, OS.has_feature("android"))
 	var bottom_inset: int = compute_bottom_safe_inset(safe_rect, win_size, vp_h)
-	if top_inset <= 0 and bottom_inset <= 0:
-		return
+	var side_inset: int = compute_landscape_side_margin(vp_size)
 
 	var targets: Array[Array] = [
-		[game_scene.get_node_or_null("SafeMargin"), 10, 10],
-		[main_menu.get_node_or_null("Margin"), 28, 28],
-		[splash_screen.get_node_or_null("Margin"), 44, 44],
-		[settings_screen.get_node_or_null("Margin"), 24, 24],
-		[high_score_screen.get_node_or_null("Margin"), 36, 36],
+		[game_scene.get_node_or_null("SafeMargin"), 10, 10, 10],
+		[main_menu.get_node_or_null("Margin"), 28, 28, 16],
+		[splash_screen.get_node_or_null("Margin"), 44, 44, 18],
+		[settings_screen.get_node_or_null("Margin"), 24, 24, 18],
+		[high_score_screen.get_node_or_null("Margin"), 36, 36, 18],
 	]
 	for entry in targets:
 		var margin: MarginContainer = entry[0] as MarginContainer
 		var base_top: int = int(entry[1])
 		var base_bottom: int = int(entry[2])
+		var base_side: int = int(entry[3])
 		if margin != null:
-			if top_inset > 0:
-				margin.add_theme_constant_override("margin_top", maxi(base_top, top_inset))
-			if bottom_inset > 0:
-				margin.add_theme_constant_override("margin_bottom", maxi(base_bottom, bottom_inset))
+			margin.add_theme_constant_override("margin_top", maxi(base_top, top_inset))
+			margin.add_theme_constant_override("margin_bottom", maxi(base_bottom, bottom_inset))
+			margin.add_theme_constant_override("margin_left", maxi(base_side, side_inset))
+			margin.add_theme_constant_override("margin_right", maxi(base_side, side_inset))
 
 
 func show_splash() -> void:
@@ -133,16 +140,19 @@ func show_high_scores() -> void:
 
 
 func _on_play_requested() -> void:
+	audio_manager.unlock_web_audio()
 	audio_manager.play_click()
 	show_game()
 
 
 func _on_high_scores_requested() -> void:
+	audio_manager.unlock_web_audio()
 	audio_manager.play_click()
 	show_high_scores()
 
 
 func _on_settings_requested() -> void:
+	audio_manager.unlock_web_audio()
 	audio_manager.play_click()
 	show_settings()
 

@@ -90,6 +90,9 @@ enum Difficulty {
 }
 
 const POINTS_PER_FOOD: int = 10
+const BONUS_FOOD_INTERVAL: int = 5
+const BONUS_FOOD_POINTS: int = 50
+const BONUS_FOOD_TICKS: int = 25
 const SAVE_FILE_PATH: String = "user://snake3310_save.cfg"
 
 const DIFFICULTY_INTERVALS: Dictionary = {

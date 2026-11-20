@@ -11,6 +11,7 @@ func _init() -> void:
 	_test_wraparound_wall_mode()
 	_test_self_collision_game_over()
 	_test_moving_into_vacating_tail_allowed()
+	_test_timed_bonus_food_spawn_consume_and_expire()
 	_test_board_cleared_and_restart()
 
 	if _failures == 0:
@@ -107,6 +108,26 @@ func _test_moving_into_vacating_tail_allowed() -> void:
 	var res := session.tick()
 	_assert_true(res == SnakeGameSession.TickResult.MOVED, "Moving into vacating tail must be allowed")
 	_assert_true(session.snake.get_head() == Vector2i(5, 5), "Head should occupy former tail cell")
+
+
+func _test_timed_bonus_food_spawn_consume_and_expire() -> void:
+	var grid := GridSystem.new(10, 10, 18)
+	var session := SnakeGameSession.new(grid, true, 55)
+	session.snake.reset([Vector2i(2, 5), Vector2i(1, 5), Vector2i(0, 5)], Vector2i.RIGHT)
+	session.food_eaten = GameConfig.BONUS_FOOD_INTERVAL - 1
+	session.food_cell = Vector2i(3, 5)
+
+	var res := session.tick()
+	_assert_true(res == SnakeGameSession.TickResult.ATE_FOOD, "5th normal food should return ATE_FOOD")
+	_assert_true(session.bonus_ticks_left == GameConfig.BONUS_FOOD_TICKS, "5th food must spawn timed bonus food")
+	_assert_true(grid.is_within_bounds(session.bonus_food_cell), "Bonus food must be within bounds")
+	_assert_true(session.bonus_food_cell != session.food_cell, "Bonus food must not overlap normal food")
+
+	# Place bonus directly ahead and consume it
+	session.bonus_food_cell = Vector2i(4, 5)
+	var bonus_res := session.tick()
+	_assert_true(bonus_res == SnakeGameSession.TickResult.ATE_BONUS, "Stepping on bonus food must return ATE_BONUS")
+	_assert_true(session.bonus_ticks_left == 0 and session.bonus_food_cell == Vector2i(-1, -1), "Consuming bonus clears it")
 
 
 func _test_board_cleared_and_restart() -> void:

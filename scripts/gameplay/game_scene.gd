@@ -227,21 +227,31 @@ func _process(delta: float) -> void:
 		_move_accumulator -= move_interval
 		var result: SnakeGameSession.TickResult = session.tick()
 		if result == SnakeGameSession.TickResult.ATE_FOOD:
-			if score_manager.add_points():
+			if score_manager.add_points(GameConfig.POINTS_PER_FOOD):
 				_achieved_new_record = true
 			board_renderer.trigger_eat_flash()
 			if audio_manager != null:
 				audio_manager.play_eat()
-		elif result == SnakeGameSession.TickResult.BOARD_CLEARED:
-			if score_manager.add_points():
+			_vibrate_if_mobile(15)
+		elif result == SnakeGameSession.TickResult.ATE_BONUS:
+			if score_manager.add_points(GameConfig.BONUS_FOOD_POINTS):
 				_achieved_new_record = true
 			board_renderer.trigger_eat_flash()
 			if audio_manager != null:
 				audio_manager.play_win()
+			_vibrate_if_mobile(25)
+		elif result == SnakeGameSession.TickResult.BOARD_CLEARED:
+			if score_manager.add_points(GameConfig.POINTS_PER_FOOD):
+				_achieved_new_record = true
+			board_renderer.trigger_eat_flash()
+			if audio_manager != null:
+				audio_manager.play_win()
+			_vibrate_if_mobile(35)
 		elif result == SnakeGameSession.TickResult.GAME_OVER_WALL or result == SnakeGameSession.TickResult.GAME_OVER_SELF:
 			board_renderer.trigger_collision_flash()
 			if audio_manager != null:
 				audio_manager.play_game_over()
+			_vibrate_if_mobile(45)
 		_sync_view(result)
 		if session.state != SnakeGameSession.State.PLAYING:
 			if play_again_button != null and is_visible_in_tree():
@@ -314,16 +324,25 @@ func _style_keypad() -> void:
 	LcdTheme.apply_pixel_button(game_over_menu_button, LcdTheme.ButtonVariant.LCD_SECONDARY)
 
 
+func _vibrate_if_mobile(duration_ms: int) -> void:
+	if OS.has_feature("android"):
+		Input.vibrate_handheld(duration_ms)
+
+
 func _sync_view(last_result: SnakeGameSession.TickResult = SnakeGameSession.TickResult.NONE) -> void:
 	if session == null or score_manager == null or board_renderer == null:
 		return
 
 	board_renderer.set_snake_cells(session.snake.segments, session.snake.direction)
 	board_renderer.set_food_cell(session.food_cell)
+	board_renderer.set_bonus_food_cell(session.bonus_food_cell)
 
 	score_label.text = "SCR %04d" % score_manager.current_score
 	high_score_label.text = "HI %04d" % score_manager.high_score
-	difficulty_label.text = GameConfig.get_difficulty_name(score_manager.difficulty)
+	if session.bonus_ticks_left > 0 and session.state == SnakeGameSession.State.PLAYING:
+		difficulty_label.text = "BONUS %02d" % session.bonus_ticks_left
+	else:
+		difficulty_label.text = GameConfig.get_difficulty_name(score_manager.difficulty)
 	_apply_dpad_preferences()
 
 	ready_overlay.visible = (session.state == SnakeGameSession.State.READY)

@@ -14,6 +14,10 @@ All notable changes to this project will be documented in this file.
 - Fixed Android touch/swipe gestures and Splash tap-to-skip being swallowed by `Control` panels (`_unhandled_input` -> `_input`), filtered multi-touch to primary finger (`index == 0`), prevented duplicate `emulate_mouse_from_touch` drag events on Android, and tightened swipe threshold to `22px`.
 
 ### Added
+- **HTML5 Web Readiness & Gameplay Polish**
+  - Added browser WebAudio gesture unlock (`AudioManager.unlock_web_audio()`) so background music starts cleanly after the first click/tap on Web.
+  - Added automatic portrait handheld framing (`Main.compute_landscape_side_margin()`) so wide desktop/itch.io browsers center the handheld shell cleanly without horizontal stretching.
+  - Added classic Nokia-style timed bonus food (spawns every 5 normal foods, worth `+50` points, `25` ticks countdown in HUD, blinking pixel target) and subtle Android haptic feedback (`Input.vibrate_handheld()`).
 - **Phase 9: Android Packaging & Modern-Retro UI Polish**
   - Enabled `textures/vram_compression/import_etc2_astc=true` in `project.godot` for Android export compatibility and bumped version to `1.0.0`.
   - Installed Godot `4.7.2.stable` Export Templates, generated and verified `android/build/snake3310-debug.apk` (`54.9 MB`, APK Signature Scheme v2 & v3 verified via `apksigner`).

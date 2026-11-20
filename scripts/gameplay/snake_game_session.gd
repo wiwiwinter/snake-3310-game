@@ -13,6 +13,7 @@ enum TickResult {
 	NONE,
 	MOVED,
 	ATE_FOOD,
+	ATE_BONUS,
 	GAME_OVER_WALL,
 	GAME_OVER_SELF,
 	BOARD_CLEARED,
@@ -21,6 +22,8 @@ enum TickResult {
 var grid: GridSystem
 var snake: SnakeController
 var food_cell: Vector2i = Vector2i(-1, -1)
+var bonus_food_cell: Vector2i = Vector2i(-1, -1)
+var bonus_ticks_left: int = 0
 var wrap_walls: bool = false
 var state: State = State.PLAYING
 var food_eaten: int = 0
@@ -57,6 +60,8 @@ func reset(p_wrap_walls: bool = wrap_walls, start_immediately: bool = true) -> v
 		]
 	snake.reset(start_cells, GameConfig.INITIAL_DIRECTION)
 	food_eaten = 0
+	bonus_food_cell = Vector2i(-1, -1)
+	bonus_ticks_left = 0
 	state = State.PLAYING if start_immediately else State.READY
 	spawn_food()
 
@@ -68,9 +73,22 @@ func request_direction(new_direction: Vector2i) -> bool:
 
 
 func spawn_food() -> Vector2i:
+	food_cell = _pick_random_empty_cell(bonus_food_cell)
+	return food_cell
+
+
+func spawn_bonus_food() -> Vector2i:
+	bonus_food_cell = _pick_random_empty_cell(food_cell)
+	bonus_ticks_left = GameConfig.BONUS_FOOD_TICKS if bonus_food_cell != Vector2i(-1, -1) else 0
+	return bonus_food_cell
+
+
+func _pick_random_empty_cell(extra_excluded: Vector2i = Vector2i(-1, -1)) -> Vector2i:
 	var occupied: Dictionary = {}
 	for seg in snake.segments:
 		occupied[seg] = true
+	if extra_excluded != Vector2i(-1, -1):
+		occupied[extra_excluded] = true
 
 	var empty_cells: Array[Vector2i] = []
 	for y in range(grid.rows):
@@ -80,11 +98,9 @@ func spawn_food() -> Vector2i:
 				empty_cells.append(cell)
 
 	if empty_cells.is_empty():
-		food_cell = Vector2i(-1, -1)
-		return food_cell
+		return Vector2i(-1, -1)
 
-	food_cell = empty_cells[_rng.randi_range(0, empty_cells.size() - 1)]
-	return food_cell
+	return empty_cells[_rng.randi_range(0, empty_cells.size() - 1)]
 
 
 func tick() -> TickResult:
@@ -98,18 +114,35 @@ func tick() -> TickResult:
 		state = State.GAME_OVER
 		return TickResult.GAME_OVER_WALL
 
-	var will_grow: bool = (candidate == food_cell)
+	var ate_normal: bool = (candidate == food_cell)
+	var ate_bonus: bool = (bonus_ticks_left > 0 and candidate == bonus_food_cell)
+	var will_grow: bool = ate_normal or ate_bonus
 	if _collides_with_body(candidate, will_grow):
 		state = State.GAME_OVER
 		return TickResult.GAME_OVER_SELF
 
 	snake.step(grid, will_grow, wrap_walls)
 
-	if will_grow:
+	if ate_bonus:
+		bonus_food_cell = Vector2i(-1, -1)
+		bonus_ticks_left = 0
+		if snake.segments.size() >= grid.get_total_cells():
+			state = State.GAME_OVER
+			return TickResult.BOARD_CLEARED
+		return TickResult.ATE_BONUS
+
+	if bonus_ticks_left > 0:
+		bonus_ticks_left -= 1
+		if bonus_ticks_left <= 0:
+			bonus_food_cell = Vector2i(-1, -1)
+
+	if ate_normal:
 		food_eaten += 1
 		if spawn_food() == Vector2i(-1, -1):
 			state = State.GAME_OVER
 			return TickResult.BOARD_CLEARED
+		if food_eaten % GameConfig.BONUS_FOOD_INTERVAL == 0 and bonus_ticks_left <= 0:
+			spawn_bonus_food()
 		return TickResult.ATE_FOOD
 
 	return TickResult.MOVED

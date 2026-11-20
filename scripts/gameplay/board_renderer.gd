@@ -8,6 +8,7 @@ var _grid: GridSystem = GridSystem.new()
 var _snake_cells: Array[Vector2i] = []
 var _snake_direction: Vector2i = GameConfig.INITIAL_DIRECTION
 var _food_cell: Vector2i = Vector2i(-1, -1)
+var _bonus_food_cell: Vector2i = Vector2i(-1, -1)
 var _flash_timer: float = 0.0
 var _flash_is_collision: bool = false
 var _pulse_time: float = 0.0
@@ -67,6 +68,11 @@ func set_food_cell(cell: Vector2i) -> void:
 	queue_redraw()
 
 
+func set_bonus_food_cell(cell: Vector2i) -> void:
+	_bonus_food_cell = cell
+	queue_redraw()
+
+
 func _update_board_size() -> void:
 	if _grid == null:
 		return
@@ -94,9 +100,11 @@ func _draw() -> void:
 	if show_grid_lines:
 		_draw_grid_lines(board_size)
 
-	# 3. Food pixel sprite (classic monochrome diamond/cross pattern)
+	# 3. Food pixel sprite (classic monochrome diamond/cross pattern) & timed bonus food
 	if _grid.is_within_bounds(_food_cell):
 		_draw_food(_food_cell)
+	if _grid.is_within_bounds(_bonus_food_cell):
+		_draw_bonus_food(_bonus_food_cell)
 
 	# 4. Snake body and head segments
 	_draw_snake()
@@ -129,6 +137,15 @@ func _draw_food(cell: Vector2i) -> void:
 	# Subtle 2-state retro center pixel pulse
 	var center_color: Color = GameConfig.color_lcd_deep if _pulse_on else GameConfig.color_lcd_dark
 	draw_rect(Rect2(origin + Vector2(px * 2.5, px * 2.5), Vector2(px, px)), center_color, true)
+
+
+func _draw_bonus_food(cell: Vector2i) -> void:
+	var origin: Vector2 = _grid.grid_to_local(cell)
+	var cs: float = float(_grid.cell_size)
+	# Blinking hollow retro target frame with solid center star for timed bonus food
+	var outer_color: Color = GameConfig.color_lcd_deep if _pulse_on else GameConfig.color_lcd_dark
+	draw_rect(Rect2(origin + Vector2(1.0, 1.0), Vector2(cs - 2.0, cs - 2.0)), outer_color, false, 2.0)
+	draw_rect(Rect2(origin + Vector2(cs * 0.5 - 3.0, cs * 0.5 - 3.0), Vector2(6.0, 6.0)), GameConfig.color_lcd_deep, true)
 
 
 func _draw_snake() -> void:

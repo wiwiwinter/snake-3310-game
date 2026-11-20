@@ -62,6 +62,14 @@ func set_paused(paused: bool) -> void:
 		_music_player.stream_paused = paused
 
 
+func unlock_web_audio() -> void:
+	# Browsers suspend WebAudio until the first user gesture; start music cleanly once unlocked.
+	if music_enabled and _music_player != null and not _music_player.playing:
+		_music_player.stream = _ensure_music_clip()
+		_music_player.stream_paused = false
+		_music_player.play()
+
+
 func _exit_tree() -> void:
 	if _sfx_player != null:
 		_sfx_player.stop()
